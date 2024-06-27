@@ -14,10 +14,63 @@ datasource db {
 }
 
 model CategoryProduct {
-  id          Int      @id @default(autoincrement())
-  name        String   @db.VarChar(255)
-  description String   @db.VarChar(255)
-  image       String   @db.VarChar(255)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
+  description String @db.VarChar(255)
+  image       String @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+}
+
+model ProductDiscount {
+  id                           Int     @id @default(autoincrement())
+  product_discount_name        String  @db.VarChar(255)
+  product_discount_description String  @db.VarChar(255)
+  product_discount_percent     Int
+  product_discount_active      Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+}
+
+model Product {
+  id                        Int    @id @default(autoincrement())
+  product_sku               String @db.VarChar(255)
+  product_name              String @db.VarChar(255)
+  product_description       String @db.VarChar(255)
+  product_short_description String @db.VarChar(255)
+  product_price_original    Int
+  product_price_discount    Int
+  product_quantity          Int
+  product_weight            Int
+
+  image String @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  CategoryProduct   CategoryProduct? @relation(fields: [categoryProductId], references: [id])
+  categoryProductId Int?
+
+  ProductDiscount   ProductDiscount? @relation(fields: [productDiscountId], references: [id])
+  productDiscountId Int?
+
+  productgalleries ProductGalleries[]
+}
+
+model ProductGalleries {
+  id                         Int     @id @default(autoincrement())
+  product_galeries_image     String  @db.VarChar(255)
+  product_galeries_thumbnail Boolean
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId Int?
 }
