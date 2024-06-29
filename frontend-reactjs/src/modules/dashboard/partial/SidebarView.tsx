@@ -40,6 +40,11 @@ const SidebarView = () => {
               Category Product
             </Link>
           </MenuItem>
+          <MenuItem icon={<Category />}>
+            <Link to="/admin/manageproduct-discountproduct">
+              Discount Product
+            </Link>
+          </MenuItem>
         </SubMenu>
       </Menu>
     </Sidebar>
