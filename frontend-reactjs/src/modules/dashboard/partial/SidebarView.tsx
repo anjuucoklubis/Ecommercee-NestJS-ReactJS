@@ -6,6 +6,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import Category from "@mui/icons-material/Category";
 import Inventory from "@mui/icons-material/Inventory";
+import Discount from "@mui/icons-material/Discount";
+
 import { Link } from "react-router-dom";
 
 const SidebarView = () => {
@@ -40,7 +42,7 @@ const SidebarView = () => {
               Category Product
             </Link>
           </MenuItem>
-          <MenuItem icon={<Category />}>
+          <MenuItem icon={<Discount />}>
             <Link to="/admin/manageproduct-discountproduct">
               Discount Product
             </Link>
