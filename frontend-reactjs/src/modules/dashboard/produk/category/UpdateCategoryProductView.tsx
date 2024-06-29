@@ -39,7 +39,7 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
     if (categoryId) {
       handleShowDetailCategory(parseInt(categoryId, 10));
     }
-  }, [handleShowDetailCategory, categoryId]);
+  }, [ categoryId]);
 
   return (
     <div>
