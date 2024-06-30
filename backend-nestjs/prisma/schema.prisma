@@ -62,9 +62,9 @@ model Product {
 }
 
 model ProductGalleries {
-  id                         Int     @id @default(autoincrement())
-  product_galeries_image     String  @db.VarChar(255)
-  product_galeries_thumbnail Boolean
+  id                         Int      @id @default(autoincrement())
+  product_galeries_image     String   @db.VarChar(255)
+  product_galeries_thumbnail Boolean?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

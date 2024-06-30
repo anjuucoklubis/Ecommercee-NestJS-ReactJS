@@ -10,16 +10,30 @@ import { ValidationService } from './common/validation.service';
 import { ProductModule } from './product/product.module';
 import { ProductService } from './product/product.service';
 import { ProductController } from './product/product.controller';
+import { GaleriesproductController } from './product/galeriesproduct/galeriesproduct.controller';
+import { GaleriesproductService } from './product/galeriesproduct/galeriesproduct.service';
+import { GaleriesproductModule } from './product/galeriesproduct/galeriesproduct.module';
 
 @Module({
-  imports: [CategoryproductModule, DiscountproductModule, ProductModule],
-  controllers: [AppController, DiscountproductController, ProductController],
+  imports: [
+    CategoryproductModule,
+    DiscountproductModule,
+    ProductModule,
+    GaleriesproductModule,
+  ],
+  controllers: [
+    AppController,
+    DiscountproductController,
+    ProductController,
+    GaleriesproductController,
+  ],
   providers: [
     AppService,
     DiscountproductService,
     ProductService,
     PrismaService,
     ValidationService,
+    GaleriesproductService,
   ],
 })
 export class AppModule {}
