@@ -44,12 +44,10 @@ model Product {
   product_name              String @db.VarChar(255)
   product_description       String @db.VarChar(255)
   product_short_description String @db.VarChar(255)
-  product_price_original    Int
-  product_price_discount    Int
-  product_quantity          Int
-  product_weight            Int
-
-  image String @db.VarChar(255)
+  product_price_original    String @db.VarChar(255)
+  product_price_discount    String @db.VarChar(255)
+  product_quantity          String @db.VarChar(255)
+  product_weight            String @db.VarChar(255)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -60,7 +58,7 @@ model Product {
   ProductDiscount   ProductDiscount? @relation(fields: [productDiscountId], references: [id])
   productDiscountId Int?
 
-  productgalleries ProductGalleries[]
+  productGalleries ProductGalleries[]
 }
 
 model ProductGalleries {
@@ -71,6 +69,6 @@ model ProductGalleries {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Product   Product? @relation(fields: [productId], references: [id])
+  Product   Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId Int?
 }

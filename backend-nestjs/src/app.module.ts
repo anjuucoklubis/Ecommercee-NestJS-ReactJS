@@ -7,13 +7,17 @@ import { DiscountproductService } from './discountproduct/discountproduct.servic
 import { DiscountproductModule } from './discountproduct/discountproduct.module';
 import { PrismaService } from './Prisma/prisma.service';
 import { ValidationService } from './common/validation.service';
+import { ProductModule } from './product/product.module';
+import { ProductService } from './product/product.service';
+import { ProductController } from './product/product.controller';
 
 @Module({
-  imports: [CategoryproductModule, DiscountproductModule],
-  controllers: [AppController, DiscountproductController],
+  imports: [CategoryproductModule, DiscountproductModule, ProductModule],
+  controllers: [AppController, DiscountproductController, ProductController],
   providers: [
     AppService,
     DiscountproductService,
+    ProductService,
     PrismaService,
     ValidationService,
   ],
