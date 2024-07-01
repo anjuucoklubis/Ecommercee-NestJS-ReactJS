@@ -62,6 +62,14 @@ export class ProductService {
       where: {
         id: +id,
       },
+      include: {
+        CategoryProduct: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
   }
 

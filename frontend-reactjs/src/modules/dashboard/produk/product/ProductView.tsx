@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -18,14 +18,21 @@ import {
   Selection,
   ChipProps,
   SortDescriptor,
+  useDisclosure,
 } from "@nextui-org/react";
-import { columns, users, statusOptions } from "../../../../datadummy/dataa.ts";
+import { columns, statusOptions } from "../../../../datadummy/dataa.ts";
 import { capitalize } from "../../../../utils/utils.ts";
 import { PlusIcon } from "../../../../components/icons/PlusIcon.tsx";
 import { VerticalDotsIcon } from "../../../../components/icons/VerticalDotsIcon.tsx";
 import { ChevronDownIcon } from "../../../../components/icons/ChevronDownIcon.tsx";
 import { SearchIcon } from "../../../../components/icons/SearchIcon.tsx";
 import PartialView from "../../partial/PartialView.tsx";
+import ProductViewModelGet from "./ViewModel/ProductViewModelGet.ts";
+import AddProductView from "./AddProductView.tsx";
+import { ToastContainer } from "react-toastify";
+import DetailProductView from "./DetailProductView.tsx";
+import UpdateProductView from "./UpdateProductView.tsx";
+import ProductViewModelDelete from "./ViewModel/ProductViewModelDelete.ts";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -33,11 +40,48 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
-
-type User = (typeof users)[0];
+const INITIAL_VISIBLE_COLUMNS = [
+  "product_name",
+  "product_quantity",
+  "status",
+  "actions",
+];
 
 export default function ProductView() {
+  // ========================
+  const { products, columns } = ProductViewModelGet();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [isOpenDetailProduct, setIsOpenDetailProduct] = useState(false);
+  const [productIdToDetail, setProductIdToDetail] = useState(null);
+  const [size, setSize] = React.useState("5xl");
+
+  const handleView = (id) => {
+    setProductIdToDetail(id);
+    setSize(size);
+    setIsOpenDetailProduct(true);
+  };
+
+  const [isOpenUpdateProduct, setIsOpenUpdateProduct] = useState(false);
+  const [productIdToUpdate, setProductIdToUpdate] = useState(null);
+  const handleEdit = (id) => {
+    setProductIdToUpdate(id);
+    setSize(size);
+    setIsOpenUpdateProduct(true);
+  };
+  const closeModal = () => {
+    setIsOpenUpdateProduct(false);
+    setProductIdToUpdate(null);
+  };
+
+  const {
+    handleConfirmDelete,
+    handleCancelDelete,
+    itemToDelete,
+    setItemToDelete,
+  } = ProductViewModelDelete();
+  // ========================
+
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
     new Set([])
@@ -65,24 +109,24 @@ export default function ProductView() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredUsers = [...products];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredUsers = filteredUsers.filter((products) =>
+        products.product_name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.status)
+      filteredUsers = filteredUsers.filter((products) =>
+        Array.from(statusFilter).includes(products.product_name)
       );
     }
 
     return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+  }, [products, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -94,70 +138,93 @@ export default function ProductView() {
   }, [page, filteredItems, rowsPerPage]);
 
   const sortedItems = React.useMemo(() => {
-    return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number;
-      const second = b[sortDescriptor.column as keyof User] as number;
-      const cmp = first < second ? -1 : first > second ? 1 : 0;
+    return [...items].sort((a, b) => {
+      if (sortDescriptor.column) {
+        const first = a[sortDescriptor.column];
+        const second = b[sortDescriptor.column];
+        const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+        return sortDescriptor.direction === "descending" ? -cmp : cmp;
+      }
+      return 0; 
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
-    const cellValue = user[columnKey as keyof User];
+  const renderCell = React.useCallback(
+    (product, columnKey) => {
+      const cellValue = product[columnKey];
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-            <p className="text-bold text-tiny capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (columnKey) {
+        case "name":
+          return (
+            <User
+              avatarProps={{ radius: "lg", src: product.avatar }}
+              description={product.email}
+              name={cellValue}
+            >
+              {product.email}
+            </User>
+          );
+        case "role":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">{cellValue}</p>
+              <p className="text-bold text-tiny capitalize text-default-400">
+                {product.team}
+              </p>
+            </div>
+          );
+        case "status":
+          return (
+            <Chip
+              className="capitalize"
+              color={statusColorMap[product.status]}
+              size="sm"
+              variant="flat"
+            >
+              {cellValue}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex justify-end items-center gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <VerticalDotsIcon className="text-default-300" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Dynamic Actions"
+                  onAction={(key) => {
+                    if (key === "View") {
+                      handleView(product.id);
+                    } else if (key === "Edit") {
+                      handleEdit(product.id);
+                    } else if (key === "Delete") {
+                      setItemToDelete(product.id);
+                    }
+                  }}
+                >
+                  <DropdownItem key="View" color="primary">
+                    View
+                  </DropdownItem>
+                  <DropdownItem key="Edit" color="warning">
+                    Edit
+                  </DropdownItem>
+                  <DropdownItem key="Delete" color="danger">
+                    Delete
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [setItemToDelete]
+  );
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
@@ -255,14 +322,14 @@ export default function ProductView() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
+            <Button onPress={onOpen} color="primary" endContent={<PlusIcon />}>
               Add New
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} users
+            Total {products.length} products
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -284,7 +351,7 @@ export default function ProductView() {
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    users.length,
+    products.length,
     hasSearchFilter,
   ]);
 
@@ -329,6 +396,7 @@ export default function ProductView() {
 
   return (
     <PartialView>
+      <ToastContainer />
       <Table
         aria-label="Example table with custom cells, pagination and sorting"
         isHeaderSticky
@@ -356,7 +424,7 @@ export default function ProductView() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No users found"} items={sortedItems}>
+        <TableBody emptyContent={"No products found"} items={sortedItems}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
@@ -366,6 +434,42 @@ export default function ProductView() {
           )}
         </TableBody>
       </Table>
+      <AddProductView isOpen={isOpen} onClose={onClose} />
+      <DetailProductView
+        isOpenDetailProduct={isOpenDetailProduct}
+        onClose={closeModal}
+        productId={productIdToDetail || ""}
+      />
+      <UpdateProductView
+        isOpenUpdateProduct={isOpenUpdateProduct}
+        onClose={closeModal}
+        productId={productIdToUpdate || ""}
+      />
+      {itemToDelete && (
+        <div
+          id="popup-modal"
+          className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+        >
+          <div className="bg-white p-4 rounded-lg">
+            <h3 className="text-lg font-medium mb-4">Konfirmasi Hapus</h3>
+            <p className="mb-6">Apakah Anda yakin ingin menghapus item ini?</p>
+            <div className="flex justify-end">
+              <button
+                className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md mr-2"
+                onClick={handleConfirmDelete}
+              >
+                Ya, saya yakin
+              </button>
+              <button
+                className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md"
+                onClick={handleCancelDelete}
+              >
+                Tidak, batalkan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </PartialView>
   );
 }
