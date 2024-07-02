@@ -74,6 +74,7 @@ export default function ProductView() {
     setIsOpenUpdateProduct(false);
     setProductIdToUpdate(null);
     setIsOpenGaleriesProduct(false);
+    setIsOpenDetailProduct(false);
     setProductIdToGaleries(null);
   };
 
@@ -92,6 +93,8 @@ export default function ProductView() {
     setSize(size);
     setIsOpenGaleriesProduct(true);
   };
+
+
 
   // ========================
 
