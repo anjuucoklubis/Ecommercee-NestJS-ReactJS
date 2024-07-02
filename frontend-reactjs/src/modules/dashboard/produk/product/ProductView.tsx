@@ -33,6 +33,7 @@ import { ToastContainer } from "react-toastify";
 import DetailProductView from "./DetailProductView.tsx";
 import UpdateProductView from "./UpdateProductView.tsx";
 import ProductViewModelDelete from "./ViewModel/ProductViewModelDelete.ts";
+import GaleriesView from "./GaleriesView.tsx";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -72,6 +73,8 @@ export default function ProductView() {
   const closeModal = () => {
     setIsOpenUpdateProduct(false);
     setProductIdToUpdate(null);
+    setIsOpenGaleriesProduct(false);
+    setProductIdToGaleries(null);
   };
 
   const {
@@ -80,6 +83,16 @@ export default function ProductView() {
     itemToDelete,
     setItemToDelete,
   } = ProductViewModelDelete();
+
+  // galeries
+  const [isOpenGaleriesProduct, setIsOpenGaleriesProduct] = useState(false);
+  const [productIdToGaleries, setProductIdToGaleries] = useState(null);
+  const handleGaleries = (id) => {
+    setProductIdToGaleries(id);
+    setSize(size);
+    setIsOpenGaleriesProduct(true);
+  };
+
   // ========================
 
   const [filterValue, setFilterValue] = React.useState("");
@@ -146,7 +159,7 @@ export default function ProductView() {
 
         return sortDescriptor.direction === "descending" ? -cmp : cmp;
       }
-      return 0; 
+      return 0;
     });
   }, [sortDescriptor, items]);
 
@@ -203,10 +216,15 @@ export default function ProductView() {
                       handleEdit(product.id);
                     } else if (key === "Delete") {
                       setItemToDelete(product.id);
+                    } else if (key === "Galeries") {
+                      handleGaleries(product.id);
                     }
                   }}
                 >
-                  <DropdownItem key="View" color="primary">
+                  <DropdownItem key="Galeries" color="primary">
+                    Galery
+                  </DropdownItem>
+                  <DropdownItem key="View" color="success">
                     View
                   </DropdownItem>
                   <DropdownItem key="Edit" color="warning">
@@ -444,6 +462,11 @@ export default function ProductView() {
         isOpenUpdateProduct={isOpenUpdateProduct}
         onClose={closeModal}
         productId={productIdToUpdate || ""}
+      />
+      <GaleriesView
+        isOpenGaleriesProduct={isOpenGaleriesProduct}
+        onClose={closeModal}
+        productId={productIdToGaleries || ""}
       />
       {itemToDelete && (
         <div

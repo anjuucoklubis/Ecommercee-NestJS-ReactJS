@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/Prisma/prisma.service';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class GaleriesproductService {
@@ -41,10 +42,18 @@ export class GaleriesproductService {
   }
 
   remove(id: number) {
-    return this.prisma.productGalleries.delete({
-      where: {
-        id: +id,
-      },
-    });
+    try {
+      return this.prisma.productGalleries.delete({
+        where: { id: +id },
+      });
+    } catch (error) {
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`Record with ID ${id} not found`);
+      }
+      throw error;
+    }
   }
 }
