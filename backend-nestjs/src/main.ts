@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   dotenv.config();
@@ -16,6 +17,16 @@ async function bootstrap() {
     credentials: true,
   });
   app.useStaticAssets(path.join(__dirname, '../public/img'));
+
+  const config = new DocumentBuilder()
+    .setTitle('Ecommerce Nest JS React JS')
+    .setDescription('This is api documentation authored by anju lubis')
+    .setVersion('v1')
+    .addTag('ecommerce apps')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }
