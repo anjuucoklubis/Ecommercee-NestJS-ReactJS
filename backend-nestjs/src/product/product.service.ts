@@ -69,6 +69,7 @@ export class ProductService {
             name: true,
           },
         },
+        productGalleries: true,
       },
     });
   }
