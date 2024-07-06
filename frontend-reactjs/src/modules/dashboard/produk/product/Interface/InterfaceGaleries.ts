@@ -14,6 +14,7 @@ export interface GetProductDetailInterfaceForGaleries {
   productGalleries: {
     id: number;
     product_galeries_image: string;
+    product_galeries_thumbnail: boolean;
   }[];
   createdAt: string;
   updatedAt: string;
