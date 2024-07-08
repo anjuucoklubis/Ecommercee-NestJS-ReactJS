@@ -13,6 +13,8 @@ import { ProductController } from './product/product.controller';
 import { GaleriesproductController } from './product/galeriesproduct/galeriesproduct.controller';
 import { GaleriesproductService } from './product/galeriesproduct/galeriesproduct.service';
 import { GaleriesproductModule } from './product/galeriesproduct/galeriesproduct.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { GaleriesproductModule } from './product/galeriesproduct/galeriesproduct
     DiscountproductModule,
     ProductModule,
     GaleriesproductModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [
     AppController,
