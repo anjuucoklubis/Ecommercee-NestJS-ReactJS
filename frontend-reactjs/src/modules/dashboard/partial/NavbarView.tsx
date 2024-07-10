@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -11,8 +11,77 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { SearchIcon } from "../../../components/icons/SearchIcon.tsx";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProtectedInfo,
+  fetchUserById,
+  onLogout,
+} from "../../../api/auth.js";
+import { unauthenticateUser } from "../../../redux/slices/authSlice.js";
 
 const NavbarView = () => {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [protectedData, setProtectedData] = useState(null);
+  const [userData, setUserData] = useState({ email: "" }); // State untuk data pengguna, dengan nilai default untuk 'email'
+
+  const logout = async () => {
+    try {
+      await onLogout();
+      dispatch(unauthenticateUser());
+      localStorage.removeItem("isAuth");
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const protectedInfo = async () => {
+    try {
+      const { data } = await fetchProtectedInfo();
+      setProtectedData(data.info);
+      setLoading(false);
+    } catch (error) {
+      logout();
+    }
+  };
+
+  const loadUserData = async () => {
+    try {
+      const userId = localStorage.getItem("userId"); // Ambil userId dari localStorage atau dari mana pun Anda menyimpannya setelah login
+      if (userId) {
+        const response = await fetchUserById(userId);
+        if (response.data && response.data.user) {
+          setUserData(response.data.user); // Mengatur data pengguna setelah berhasil memuat
+        } else {
+          // Handle case when user data is not available
+          console.error("User data not found:", response.data);
+          setUserData({ email: "" }); // Set default value or handle accordingly
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+      // Handle error fetching user data
+    }
+  };
+
+  const [emaill, setEmail] = useState("");
+  // useEffect(() => {
+  //   const storedName = localStorage.getItem("email");
+  //   if (storedName) {
+  //     setEmail(storedName);
+  //   }
+  //   console.log(storedName)
+  // }, []);
+  // console.log(emaill)
+  const dispatchh = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => { 
+    protectedInfo();
+    loadUserData(); // Panggil fungsi untuk memuat data pengguna setelah komponen dimuat
+  }, []);
+
   return (
     <Navbar isBordered className="bg-light">
       <NavbarContent justify="start">
@@ -53,7 +122,7 @@ const NavbarView = () => {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">kwwwkwk={emaill}</p>
             </DropdownItem>
             <DropdownItem key="settings">My Settings</DropdownItem>
             <DropdownItem key="team_settings">Team Settings</DropdownItem>
@@ -61,7 +130,7 @@ const NavbarView = () => {
             <DropdownItem key="system">System</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem onClick={() => logout()} color="danger">
               Log Out
             </DropdownItem>
           </DropdownMenu>
