@@ -90,4 +90,14 @@ export class AuthService {
     console.log('Signing token with secret:', jwtSecret);
     return this.jwt.signAsync(payload, { secret: jwtSecret });
   }
+
+  async protected(req: Request, res: Response) {
+    try {
+      return res.status(200).json({
+        info: 'Protected info',
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 }

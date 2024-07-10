@@ -10,6 +10,7 @@ import {
   HttpStatus,
   Controller,
   HttpException,
+  // UseGuards,
 } from '@nestjs/common';
 import {
   CreateProductRequest,
@@ -20,8 +21,10 @@ import {
 import { WebResponse } from 'src/model/web.model';
 import { ProductService } from './product.service';
 import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+// import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @Controller('product')
+// @UseGuards(JwtAuthGuard)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
