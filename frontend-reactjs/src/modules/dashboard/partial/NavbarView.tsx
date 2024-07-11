@@ -11,19 +11,15 @@ import {
   Avatar,
 } from "@nextui-org/react";
 import { SearchIcon } from "../../../components/icons/SearchIcon.tsx";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProtectedInfo,
-  fetchUserById,
-  onLogout,
-} from "../../../api/auth.js";
-import { unauthenticateUser } from "../../../redux/slices/authSlice.js";
+import { useDispatch } from "react-redux";
+import { fetchProtectedInfo, onLogout } from "../../../api/auth";
+import { unauthenticateUser } from "../../../redux/slices/authSlice";
+import useAuth from "../../../hooks/useAuth.ts";
 
 const NavbarView = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  const [protectedData, setProtectedData] = useState(null);
-  const [userData, setUserData] = useState({ email: "" }); // State untuk data pengguna, dengan nilai default untuk 'email'
+  const [protectedData, setProtectedData] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true)
 
   const logout = async () => {
     try {
@@ -37,57 +33,30 @@ const NavbarView = () => {
 
   const protectedInfo = async () => {
     try {
-      const { data } = await fetchProtectedInfo();
-      setProtectedData(data.info);
-      setLoading(false);
+      const { data } = await fetchProtectedInfo()
+
+      setProtectedData(data.info)
+
+      setLoading(false)
     } catch (error) {
-      logout();
+      logout()
     }
-  };
+  }
 
-  const loadUserData = async () => {
-    try {
-      const userId = localStorage.getItem("userId"); // Ambil userId dari localStorage atau dari mana pun Anda menyimpannya setelah login
-      if (userId) {
-        const response = await fetchUserById(userId);
-        if (response.data && response.data.user) {
-          setUserData(response.data.user); // Mengatur data pengguna setelah berhasil memuat
-        } else {
-          // Handle case when user data is not available
-          console.error("User data not found:", response.data);
-          setUserData({ email: "" }); // Set default value or handle accordingly
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error.message);
-      // Handle error fetching user data
-    }
-  };
+  useEffect(() => {
+    protectedInfo()
+  }, [])
 
-  const [emaill, setEmail] = useState("");
-  // useEffect(() => {
-  //   const storedName = localStorage.getItem("email");
-  //   if (storedName) {
-  //     setEmail(storedName);
-  //   }
-  //   console.log(storedName)
-  // }, []);
-  // console.log(emaill)
-  const dispatchh = useDispatch();
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  useEffect(() => { 
-    protectedInfo();
-    loadUserData(); // Panggil fungsi untuk memuat data pengguna setelah komponen dimuat
-  }, []);
+  const user = useAuth();
+  console.log("data user", user);
 
   return (
     <Navbar isBordered className="bg-light">
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
-          {/* <AcmeLogo /> */}
           <p className="hidden sm:block font-bold text-inherit">Dashboard</p>
+          <p className="hidden sm:block font-bold text-inherit">{protectedData}</p>
+
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent as="div" className="items-center">
@@ -122,7 +91,9 @@ const NavbarView = () => {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">kwwwkwk={emaill}</p>
+              <p className="font-semibold">
+                {user ? user.email : "Loading..."}
+              </p>
             </DropdownItem>
             <DropdownItem key="settings">My Settings</DropdownItem>
             <DropdownItem key="team_settings">Team Settings</DropdownItem>
