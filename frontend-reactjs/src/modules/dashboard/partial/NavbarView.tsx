@@ -9,6 +9,7 @@ import {
   Dropdown,
   DropdownMenu,
   Avatar,
+  Link,
 } from "@nextui-org/react";
 import { SearchIcon } from "../../../components/icons/SearchIcon.tsx";
 import { useDispatch } from "react-redux";
@@ -19,7 +20,7 @@ import useAuth from "../../../hooks/useAuth.ts";
 const NavbarView = () => {
   const dispatch = useDispatch();
   const [protectedData, setProtectedData] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const logout = async () => {
     try {
@@ -33,19 +34,19 @@ const NavbarView = () => {
 
   const protectedInfo = async () => {
     try {
-      const { data } = await fetchProtectedInfo()
+      const { data } = await fetchProtectedInfo();
 
-      setProtectedData(data.info)
+      setProtectedData(data.info);
 
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      logout()
+      logout();
     }
-  }
+  };
 
   useEffect(() => {
-    protectedInfo()
-  }, [])
+    protectedInfo();
+  }, []);
 
   const user = useAuth();
   console.log("data user", user);
@@ -55,8 +56,9 @@ const NavbarView = () => {
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
           <p className="hidden sm:block font-bold text-inherit">Dashboard</p>
-          <p className="hidden sm:block font-bold text-inherit">{protectedData}</p>
-
+          <p className="hidden sm:block font-bold text-inherit">
+            {protectedData}
+          </p>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent as="div" className="items-center">
@@ -95,12 +97,17 @@ const NavbarView = () => {
                 {user ? user.email : "Loading..."}
               </p>
             </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
-            <DropdownItem key="team_settings">Team Settings</DropdownItem>
+            <DropdownItem key="settings">
+              <Link href="/admin/manageuser-myaccount">
+                <h6 style={{ color: "black", fontSize: 14 }}>My Account</h6>
+              </Link>
+            </DropdownItem>
+
+            {/* <DropdownItem key="team_settings">Team Settings</DropdownItem>
             <DropdownItem key="analytics">Analytics</DropdownItem>
             <DropdownItem key="system">System</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
-            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}
             <DropdownItem onClick={() => logout()} color="danger">
               Log Out
             </DropdownItem>

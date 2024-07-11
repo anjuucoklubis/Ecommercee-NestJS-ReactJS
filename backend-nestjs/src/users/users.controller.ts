@@ -9,6 +9,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Req() req) {
+    return this.usersService.getProfile(req);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getMyUser(@Param() params: { id: string }, @Req() req) {
     return this.usersService.getMyUser(params.id, req);

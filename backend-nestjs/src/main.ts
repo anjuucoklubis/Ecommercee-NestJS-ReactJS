@@ -7,11 +7,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-dotenv.config();
 async function bootstrap() {
+  dotenv.config();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  // app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe());
   app.use(cookieParser());
   app.enableCors({
     origin: 'http://localhost:3001',
@@ -32,5 +33,4 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
-//test
 bootstrap();

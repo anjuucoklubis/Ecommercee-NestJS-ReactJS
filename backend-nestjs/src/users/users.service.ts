@@ -33,4 +33,24 @@ export class UsersService {
       select: { id: true, email: true },
     });
   }
+
+  async getProfile(req: Request) {
+    const decodedUser = req.user as { id: string; email: string };
+
+    const user = await this.prisma.user.findUnique({
+      where: { id: decodedUser.id },
+      include: {
+        userprofile: true,
+        useraddress: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    delete user.hashedPassword;
+
+    return { user };
+  }
 }

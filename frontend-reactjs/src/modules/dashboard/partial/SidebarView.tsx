@@ -28,6 +28,10 @@ const SidebarView = () => {
           <MenuItem icon={<VerifiedUserIcon />}>
             <Link to="/admin/manageuser-role">Role</Link>
           </MenuItem>
+
+          <MenuItem icon={<VerifiedUserIcon />}>
+            <Link to="/admin/manageuser-myaccount">My Account</Link>
+          </MenuItem>
         </SubMenu>
         <SubMenu
           title="Manage Product"
