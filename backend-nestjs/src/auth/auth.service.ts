@@ -4,11 +4,11 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from 'src/Prisma/prisma.service';
-import { AuthDto } from './dto/auth.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { jwtSecret } from '../utils/constants';
 import { Request, Response } from 'express';
+import { AuthDtoModel } from 'src/model/auth.model';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
     private jwt: JwtService,
   ) {}
 
-  async signup(dto: AuthDto) {
+  async signup(dto: AuthDtoModel) {
     const { email, password } = dto;
 
     const foundUser = await this.prisma.user.findUnique({ where: { email } });
@@ -38,7 +38,7 @@ export class AuthService {
     return { message: 'signup was successful' };
   }
 
-  async signin(dto: AuthDto, req: Request, res: Response) {
+  async signin(dto: AuthDtoModel, req: Request, res: Response) {
     const { email, password } = dto;
 
     const foundUser = await this.prisma.user.findUnique({ where: { email } });

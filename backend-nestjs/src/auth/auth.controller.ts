@@ -8,20 +8,20 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto/auth.dto';
 import { JwtAuthGuard } from './jwt.guard';
+import { AuthDtoModel } from 'src/model/auth.model';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signup')
-  signup(@Body() dto: AuthDto) {
+  signup(@Body() dto: AuthDtoModel) {
     return this.authService.signup(dto);
   }
 
   @Post('signin')
-  signin(@Body() dto: AuthDto, @Req() req, @Res() res) {
+  signin(@Body() dto: AuthDtoModel, @Req() req, @Res() res) {
     return this.authService.signin(dto, req, res);
   }
 
