@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../api/api.ts";

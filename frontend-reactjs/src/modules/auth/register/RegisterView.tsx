@@ -14,8 +14,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import RegisterViewModel from "./RegisterViewModel.ts";
 import { ToastContainer } from "react-toastify";
-import { useState } from "react";
-import { onRegistration } from "../../../api/auth.js";
+// import { useState } from "react";
+// import { onRegistration } from "../../../api/auth.js";
 
 function Copyright(props: any) {
   return (
@@ -38,34 +38,34 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function RegisterView() {
-  // const { handleInputChangeRegister, handleSubmitRegister, formData } =
-  //   RegisterViewModel();
+  const { handleInputChangeRegister, handleSubmitRegister, formData } =
+    RegisterViewModel();
 
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  // const [values, setValues] = useState({
+  //   email: "",
+  //   password: "",
+  // });
+  // const [error, setError] = useState('');
+  // const [success, setSuccess] = useState('');
 
-  const onChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  // const onChange = (e) => {
+  //   setValues({ ...values, [e.target.name]: e.target.value });
+  // };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  // const onSubmit = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      const { data } = await onRegistration(values);
+  //   try {
+  //     const { data } = await onRegistration(values);
 
-      setError('');
-      setSuccess(data.message);
-      setValues({ email: "", password: "" });
-    } catch (error) {
-      setError(error.response.data.errors[0].msg);
-      setSuccess('');
-    }
-  };
+  //     setError('');
+  //     setSuccess(data.message);
+  //     setValues({ email: "", password: "" });
+  //   } catch (error) {
+  //     setError(error.response.data.errors[0].msg);
+  //     setSuccess('');
+  //   }
+  // };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -90,7 +90,8 @@ export default function RegisterView() {
             component="form"
             noValidate
             sx={{ mt: 1 }}
-            onSubmit={(e) => onSubmit(e)}
+            // onSubmit={(e) => onSubmit(e)}
+            onSubmit={handleSubmitRegister}
           >
             <TextField
               margin="normal"
@@ -101,10 +102,10 @@ export default function RegisterView() {
               name="email"
               autoComplete="email"
               autoFocus
-              // value={formData.email}
-              // onChange={handleInputChangeRegister}
-              onChange={(e) => onChange(e)}
-              value={values.email}
+              value={formData.email}
+              onChange={handleInputChangeRegister}
+              // onChange={(e) => onChange(e)}
+              // value={values.email}
             />
             <TextField
               margin="normal"
@@ -115,17 +116,17 @@ export default function RegisterView() {
               type="password"
               id="password"
               autoComplete="current-password"
-              // value={formData.password}
-              // onChange={handleInputChangeRegister}
-              onChange={(e) => onChange(e)}
-              value={values.password}
+              value={formData.password}
+              onChange={handleInputChangeRegister}
+              // onChange={(e) => onChange(e)}
+              // value={values.password}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-              <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
-              <div style={{ color: 'green', margin: '10px 0' }}>{success}</div>
+              {/* <div style={{ color: 'red', margin: '10px 0' }}>{error}</div>
+              <div style={{ color: 'green', margin: '10px 0' }}>{success}</div> */}
             <Button
               type="submit"
               fullWidth
