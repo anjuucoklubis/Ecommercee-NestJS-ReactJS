@@ -20,9 +20,10 @@ import {
 } from 'src/model/product.model';
 import { WebResponse } from 'src/model/web.model';
 import { ProductService } from './product.service';
-import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 // import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
+@ApiTags('Product')
 @Controller('product')
 // @UseGuards(JwtAuthGuard)
 export class ProductController {

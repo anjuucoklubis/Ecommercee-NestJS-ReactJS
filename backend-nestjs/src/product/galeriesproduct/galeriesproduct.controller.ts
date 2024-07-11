@@ -19,11 +19,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageUploadProduct } from 'src/utils/storage-upload';
 import { GaleriesproductService } from './galeriesproduct.service';
 import { GaleryProductResponse } from 'src/model/galeriproduct.model';
-import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UnauthorizedResponse } from 'src/model/categoryproduct.model';
 
 const MAX_SIZE_IMAGE_UPLOAD = 5 * 1024 * 1024;
 
+@ApiTags('Galeries Product')
 @Controller('galeriesproduct')
 export class GaleriesproductController {
   constructor(private galeriproductservice: GaleriesproductService) {}

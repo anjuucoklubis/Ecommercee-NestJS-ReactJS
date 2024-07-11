@@ -25,10 +25,11 @@ import { WebResponse } from 'src/model/web.model';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageUploadCategory } from 'src/utils/storage-upload';
 import { CategoryproductService } from './categoryproduct.service';
-import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 const MAX_IMAGE_UPLOAD = 5 * 1024 * 1024;
 
+@ApiTags('Category Product')
 @Controller('categoryproduct')
 export class CategoryproductController {
   constructor(

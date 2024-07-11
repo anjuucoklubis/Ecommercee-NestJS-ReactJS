@@ -19,8 +19,9 @@ import {
 } from 'src/model/discountproduct.model';
 import { WebResponse } from 'src/model/web.model';
 import { DiscountproductService } from './discountproduct.service';
-import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Discount Product')
 @Controller('discountproduct')
 export class DiscountproductController {
   constructor(

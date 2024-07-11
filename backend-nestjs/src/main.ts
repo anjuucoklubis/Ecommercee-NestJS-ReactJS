@@ -24,7 +24,7 @@ async function bootstrap() {
     .setTitle('Ecommerce Nest JS React JS')
     .setDescription('This is api documentation authored by anju lubis')
     .setVersion('v1')
-    .addTag('ecommerce apps')
+    // .addTag('ecommerce apps')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
