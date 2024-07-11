@@ -275,7 +275,15 @@
 // export default MyAccountView;
 
 import React, { useEffect, useState } from "react";
-import { Switch, Tabs, Tab, Card, CardBody, Button } from "@nextui-org/react";
+import {
+  Switch,
+  Tabs,
+  Tab,
+  Card,
+  CardBody,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 import { GetDataMyAccount } from "./ViewModel/GetDataMyAccount.ts";
 import useAuth from "../../../../hooks/useAuth.ts";
 import { User } from "./MyAccountInterface.ts";
@@ -283,6 +291,8 @@ import PartialView from "../../partial/PartialView.tsx";
 import { DataAccountIcon } from "../../../../components/icons/DataAccountIcon.jsx";
 import { DataPersonalIcon } from "../../../../components/icons/DataPersonalIcon.jsx";
 import { DataAddressIcon } from "../../../../components/icons/DataAddressIcon.jsx";
+import UserProfileCreateView from "./UserProfile/UserProfileCreateView.tsx";
+import { ToastContainer } from "react-toastify";
 
 const MyAccountView = () => {
   const { fetchUserProfile } = GetDataMyAccount();
@@ -290,7 +300,7 @@ const MyAccountView = () => {
   const user = useAuth();
   const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   useEffect(() => {
     const getUserProfile = async () => {
       try {
@@ -312,6 +322,7 @@ const MyAccountView = () => {
 
   return (
     <PartialView>
+      <ToastContainer />
       <div style={{ margin: 30 }}>
         <div className="flex flex-col px-4">
           <Switch
@@ -413,7 +424,17 @@ const MyAccountView = () => {
                           </div>
                         </div>
                       </div>
-                      <Button color="warning">Edit Data Personal</Button>
+                      <td>
+                        {profile?.userprofile ? (
+                          // Jika userprofile sudah ada, tampilkan tombol Update
+                          <Button color="primary">Update Profile</Button>
+                        ) : (
+                          // Jika userprofile belum ada, tampilkan tombol Add
+                          <Button onPress={onOpen} color="success">
+                            Add User Profile
+                          </Button>
+                        )}
+                      </td>
                     </div>
                   </CardBody>
                 </Card>
@@ -497,6 +518,7 @@ const MyAccountView = () => {
           </div>
         </div>
       </div>
+      <UserProfileCreateView isOpen={isOpen} onClose={onClose} />
     </PartialView>
   );
 };
