@@ -105,10 +105,10 @@ model Useraddress {
 }
 
 model Userprofile {
-  fistname  String?  @db.VarChar(255)
+  id        String   @id @default(uuid())
+  firstname  String?  @db.VarChar(255)
   lastname  String?  @db.VarChar(255)
   telephone String?  @db.VarChar(255)
-  createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt()
 
   userId String @unique

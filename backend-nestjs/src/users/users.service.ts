@@ -4,11 +4,18 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { ValidationService } from 'src/common/validation.service';
+import {
+  CreateUserPersonalRequest,
+  UpdateUserPersonalRequest,
+} from 'src/model/auth.model';
 import { PrismaService } from 'src/Prisma/prisma.service';
-
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private validationService: ValidationService,
+  ) {}
 
   async getMyUser(id: string, req: Request) {
     const user = await this.prisma.user.findUnique({ where: { id } });
@@ -52,5 +59,30 @@ export class UsersService {
     delete user.hashedPassword;
 
     return { user };
+  }
+
+  async createProfile(userId: string, data: CreateUserPersonalRequest) {
+    const { firstname, lastname, telephone } = data;
+
+    return this.prisma.userprofile.create({
+      data: {
+        firstname,
+        lastname,
+        telephone,
+        userId: userId,
+      },
+    });
+  }
+  async updateProfile(userId: string, data: UpdateUserPersonalRequest) {
+    const { firstname, lastname, telephone } = data;
+
+    return this.prisma.userprofile.update({
+      where: { userId },
+      data: {
+        firstname,
+        lastname,
+        telephone,
+      },
+    });
   }
 }
