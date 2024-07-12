@@ -9,6 +9,10 @@ import {
   CreateUserPersonalRequest,
   UpdateUserPersonalRequest,
 } from 'src/model/auth.model';
+import {
+  CreateUserAddressRequest,
+  UpdateUserAddressRequest,
+} from 'src/model/UserAddress.model';
 import { PrismaService } from 'src/Prisma/prisma.service';
 @Injectable()
 export class UsersService {
@@ -84,5 +88,41 @@ export class UsersService {
         telephone,
       },
     });
+  }
+
+  async createAddress(userId: string, data: CreateUserAddressRequest) {
+    const { address_line, postal_code, city, province, country } = data;
+
+    return this.prisma.useraddress.create({
+      data: {
+        address_line,
+        postal_code,
+        city,
+        province,
+        country,
+        userId: userId,
+      },
+    });
+  }
+
+  async updateAddress(addressId: string, data: UpdateUserAddressRequest) {
+    const { address_line, postal_code, city, province, country } = data;
+
+    try {
+      const updatedAddress = await this.prisma.useraddress.update({
+        where: { id: addressId },
+        data: {
+          address_line,
+          postal_code,
+          city,
+          province,
+          country,
+        },
+      });
+      return updatedAddress;
+    } catch (error) {
+      console.error('Error updating address:', error);
+      throw error;
+    }
   }
 }

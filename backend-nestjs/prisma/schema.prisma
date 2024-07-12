@@ -89,7 +89,7 @@ model User {
 }
 
 model Useraddress {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   address_line String @db.VarChar(255)
   postal_code  String @db.VarChar(255)
@@ -106,7 +106,7 @@ model Useraddress {
 
 model Userprofile {
   id        String   @id @default(uuid())
-  firstname  String?  @db.VarChar(255)
+  firstname String?  @db.VarChar(255)
   lastname  String?  @db.VarChar(255)
   telephone String?  @db.VarChar(255)
   updateAt  DateTime @updatedAt()

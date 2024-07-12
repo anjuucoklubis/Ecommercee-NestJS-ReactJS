@@ -16,6 +16,11 @@ import {
   CreateUserPersonalResponse,
   UpdateUserPersonalRequest,
 } from 'src/model/auth.model';
+import {
+  CreateUserAddressRequest,
+  CreateUserAddressResponse,
+  UpdateUserAddressRequest,
+} from 'src/model/UserAddress.model';
 
 @ApiTags('User Get All & by Id')
 @Controller('users')
@@ -66,5 +71,46 @@ export class UsersController {
   ) {
     const userId = req.user.id;
     return this.usersService.updateProfile(userId, profileData);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('address')
+  async createAddress(
+    @Req() req,
+    @Body() addressData: CreateUserAddressRequest,
+  ): Promise<CreateUserAddressResponse> {
+    const userId = req.user.id;
+    const createAddress = await this.usersService.createAddress(
+      userId,
+      addressData,
+    );
+    return {
+      id: createAddress.id,
+      address_line: createAddress.address_line,
+      postal_code: createAddress.postal_code,
+      city: createAddress.city,
+      province: createAddress.province,
+      country: createAddress.country,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('address/:id')
+  async updateAddress(
+    @Param('id') addressId: string,
+    @Body() addressData: UpdateUserAddressRequest,
+  ) {
+    const updatedAddress = await this.usersService.updateAddress(
+      addressId,
+      addressData,
+    );
+    return {
+      id: updatedAddress.id,
+      address_line: updatedAddress.address_line,
+      postal_code: updatedAddress.postal_code,
+      city: updatedAddress.city,
+      province: updatedAddress.province,
+      country: updatedAddress.country,
+    };
   }
 }
