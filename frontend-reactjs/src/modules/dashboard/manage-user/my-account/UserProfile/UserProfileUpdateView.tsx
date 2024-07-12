@@ -8,35 +8,44 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-
-import VMCreateUserProfile from "./ViewModel/VMCreateUserProfile.ts";
+import VMUpdateUserProfile from "./ViewModel/VMUpdateUserProfile.ts";
 import { MailIcon } from "../../../../../components/icons/MailIcon.tsx";
 import { LockIcon } from "../../../../../components/icons/LockIcon.tsx";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
-interface AddUserProfileViewProps {
-  isOpen: boolean;
+
+interface UpdateUserProfileViewProps {
+  isOpenUpdateDiscount: boolean;
   onClose: () => void;
 }
 
-const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
-  isOpen,
+const UserProfileUpdateView: React.FC<UpdateUserProfileViewProps> = ({
+  isOpenUpdateDiscount,
   onClose,
 }) => {
   const {
-    handleSubmitCreateUserProfile,
+    formDataUpdate,
     handleInputChange,
-    formData,
+    handleSubmitUpdateUserProfile,
+    loading,
     handlePhoneChange,
-  } = VMCreateUserProfile({ onClose });
+  } = VMUpdateUserProfile({ onClose });
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
-      <Modal isOpen={isOpen} placement="top-center" onClose={onClose}>
-        <form className="p-4 md:p-5" onSubmit={handleSubmitCreateUserProfile}>
+      <Modal
+        isOpen={isOpenUpdateDiscount}
+        placement="top-center"
+        onClose={onClose}
+      >
+        <form className="p-4 md:p-5" onSubmit={handleSubmitUpdateUserProfile}>
           <ModalContent>
             <ModalHeader className="flex flex-col gap-1">
-              Add User Profile
+              Update User Profile
             </ModalHeader>
             <ModalBody>
               <Input
@@ -49,7 +58,7 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
                 variant="bordered"
                 type="text"
                 name="firstname"
-                value={formData.firstname}
+                value={formDataUpdate.firstname}
                 onChange={handleInputChange}
               />
               <Input
@@ -61,14 +70,14 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
                 type="text"
                 variant="bordered"
                 name="lastname"
-                value={formData.lastname}
+                value={formDataUpdate.lastname}
                 onChange={handleInputChange}
               />
               <PhoneInput
                 international={false}
                 defaultCountry="ID"
                 placeholder="Enter phone number"
-                value={formData.telephone}
+                value={formDataUpdate.telephone}
                 onChange={handlePhoneChange}
                 className="custom-phone-input"
                 variant="bordered"
@@ -96,4 +105,4 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
   );
 };
 
-export default UserProfileCreateView;
+export default UserProfileUpdateView;

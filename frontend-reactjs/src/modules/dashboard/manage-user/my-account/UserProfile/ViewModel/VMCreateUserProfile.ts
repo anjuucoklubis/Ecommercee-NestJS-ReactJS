@@ -20,10 +20,10 @@ function VMCreateUserProfile({ onClose }) {
 
     if (!formData.firstname || !formData.lastname || !formData.telephone) {
       if (!formData.firstname) {
-        toast.error("Please enter name of UserProfile");
+        toast.error("Please enter firstname of UserProfile");
       }
       if (!formData.lastname) {
-        toast.error("Please enter description of UserProfile");
+        toast.error("Please enter lastname of UserProfile");
       }
       if (!formData.telephone) {
         toast.error("Please enter telephone of UserProfile");
@@ -32,15 +32,23 @@ function VMCreateUserProfile({ onClose }) {
     }
 
     try {
-      const response = await axios.post(`${API_URL_USER_PROFILE_CREATE}`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("token")}`,
+      const response = await axios.post(
+        API_URL_USER_PROFILE_CREATE,
+        {
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          telephone: formData.telephone.replace(/\D/g, ""), 
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
 
       console.log("Response received", response);
-      if (response.status === 201) { // Adjust this condition based on your API's success response code
+      if (response.status === 201) {
         setFormData({
           firstname: "",
           lastname: "",
@@ -65,7 +73,11 @@ function VMCreateUserProfile({ onClose }) {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         toast.error(error.response.data.message);
       } else {
         toast.error("Error submitting form");
@@ -81,11 +93,19 @@ function VMCreateUserProfile({ onClose }) {
       [name]: value,
     });
   };
+  const handlePhoneChange = (value) => {
+    console.log("Phone Changed:", value);
+    setFormData({
+      ...formData,
+      telephone: value,
+    });
+  };
 
   return {
     handleSubmitCreateUserProfile,
     handleInputChange,
     formData,
+    handlePhoneChange,
   };
 }
 
