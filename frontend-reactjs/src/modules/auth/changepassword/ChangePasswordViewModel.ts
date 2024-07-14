@@ -51,10 +51,12 @@ function ChangePasswordViewModel({ onClose }) {
 
         toast.success("Password updated successfully", {
           position: "top-right",
-          onClose: () => {
-            window.location.reload();
-          },
+          autoClose: 3000,
         });
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 3200);
       } else {
         const responseData = response.data;
         if (responseData && responseData.message) {
@@ -66,12 +68,13 @@ function ChangePasswordViewModel({ onClose }) {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        toast.error(error.response.data.message);
+      if (error.response && error.response.data) {
+        const responseData = error.response.data;
+        if (Array.isArray(responseData.message)) {
+          toast.error(responseData.message[0]);
+        } else {
+          toast.error(responseData.message || "Error submitting form");
+        }
       } else {
         toast.error("Error submitting form");
       }
