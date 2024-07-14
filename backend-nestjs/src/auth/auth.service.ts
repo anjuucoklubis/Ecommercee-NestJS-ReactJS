@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { jwtSecret } from '../utils/constants';
 import { Request, Response } from 'express';
-import { AuthDtoModel } from 'src/model/auth.model';
+import { AuthDtoModel, changePasswordModel } from 'src/model/auth.model';
 
 @Injectable()
 export class AuthService {
@@ -99,5 +99,35 @@ export class AuthService {
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  async changePassword(request: changePasswordModel, userId: string) {
+    const { oldPassword, newPassword } = request;
+
+    const foundUser = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!foundUser) {
+      throw new BadRequestException('User not found');
+    }
+
+    const isMatch = await this.comparePasswords({
+      password: oldPassword,
+      hash: foundUser.hashedPassword,
+    });
+
+    if (!isMatch) {
+      throw new BadRequestException('Wrong old password');
+    }
+
+    const hashedNewPassword = await this.hashPassword(newPassword);
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { hashedPassword: hashedNewPassword },
+    });
+
+    return { message: 'Password changed successfully' };
   }
 }

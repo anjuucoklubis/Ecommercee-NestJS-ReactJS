@@ -5,6 +5,8 @@ const API_FRONTEND = () => {
   /*MANAGEMENT URL API AUTH */
   const API_URL_AUTH_REGISTER = "http://localhost:3000/auth/signup";
   const API_URL_AUTH_LOGIN = "http://localhost:3000/auth/signin";
+  const API_URL_AUTH_CHANGEPASSWORD = "http://localhost:3000/auth/change-password";
+
 
   /*MANAGEMENT PRODUCT API */
   const API_URL_PRODUCT = "http://localhost:3000/product";
@@ -44,7 +46,8 @@ const API_FRONTEND = () => {
     API_URL_USER_ADDRESS_UPDATE,
     API_URL_LOC_CITY,
     API_URL_LOC_PROVINCE,
-    API_URL_USER_PROFILE_IMAGE
+    API_URL_USER_PROFILE_IMAGE,
+    API_URL_AUTH_CHANGEPASSWORD
   };
 };
 

@@ -18,3 +18,22 @@ export class AuthDtoModel {
   @Length(3, 20, { message: 'Password has to be at between 3 and 20 chars' })
   public password: string;
 }
+
+export class changePasswordModel {
+  @ApiProperty({
+    example: '123test',
+    description: 'password of the auth account signup & signin',
+  })
+  @IsNotEmpty()
+  @IsString()
+  oldPassword: string;
+
+  @ApiProperty({
+    example: '123test',
+    description: 'password of the auth account signup & signin',
+  })
+  @IsNotEmpty()
+  @IsString()
+  @Length(3, 20, { message: 'Password has to be at between 3 and 20 chars' })
+  public newPassword: string;
+}

@@ -21,6 +21,7 @@ import UserProfileUpdateView from "./UserProfile/UserProfileUpdateView.tsx";
 import UserAddressCreateView from "./UserAddress/UserAddressCreateView.tsx";
 import UserAddressUpdateView from "./UserAddress/UserAddressUpdateView.tsx";
 import VMDeleteUserAddress from "./UserAddress/ViewModel/VMDeleteUserAddress.ts";
+import ChangePasswordView from "../../../auth/changepassword/ChangePasswordView.tsx";
 
 const MyAccountView = () => {
   const { fetchUserProfile, API_URL_USER_PROFILE_IMAGE } = GetDataMyAccount();
@@ -38,6 +39,7 @@ const MyAccountView = () => {
   const [isOpenAddAddress, setIsOpenAddAddress] = useState(false);
   const [isOpenUpdateAddress, setIsOpenUpdateAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [isOpenChangePassword, setIsOpenChangePassword] = useState(false);
 
   const handleEditProfile = (id) => {
     setIsOpenUpdateUserProfile(true);
@@ -50,10 +52,15 @@ const MyAccountView = () => {
     setIsOpenUpdateUserProfile(false);
     setIsOpenAddAddress(false);
     setIsOpenUpdateAddress(false);
+    setIsOpenChangePassword(false);
   };
 
   const handleAddress = () => {
     setIsOpenAddAddress(true);
+  };
+
+  const handleChangePassword = (id) => {
+    setIsOpenChangePassword(true);
   };
 
   useEffect(() => {
@@ -124,7 +131,9 @@ const MyAccountView = () => {
                           </thead>
                         </table>
                       </div>
-                      <Button color="warning">Change Password</Button>
+                      <Button color="warning" onPress={handleChangePassword}>
+                        Change Password
+                      </Button>
                     </div>
                   </CardBody>
                 </Card>
@@ -197,7 +206,11 @@ const MyAccountView = () => {
                                     alt="Profile"
                                   />
                                 ) : (
-                                  <Badge content="Isi Profile kamu dong...." color="danger" size="lg" >
+                                  <Badge
+                                    content="Isi Profile kamu dong...."
+                                    color="danger"
+                                    size="lg"
+                                  >
                                     <img
                                       src="https://media.istockphoto.com/id/1294780139/id/foto/potret-close-up-pria-tersenyum-dengan-kacamata-dengan-kemeja-biru-ilustrasi-3d-karakter.jpg?s=612x612&w=0&k=20&c=FxcfijJ5ROSDDqu7hT6E8JE9utPq1_0wrVhThXqymb0="
                                       className="img-thumbnail"
@@ -346,6 +359,10 @@ const MyAccountView = () => {
           addressData={selectedAddress}
         />
       )}
+      <ChangePasswordView
+        isOpenChangePassword={isOpenChangePassword}
+        onClose={closeModal}
+      />
       {itemToDelete && (
         <div
           id="popup-modal"
