@@ -4,13 +4,24 @@ import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../../api/api.ts";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { DateValue } from "@nextui-org/react";
 
 function VMCreateUserProfile({ onClose }) {
   const { API_URL_USER_PROFILE_CREATE } = API_FRONTEND();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    firstname: string;
+    lastname: string;
+    gender: string;
+    birthday: DateValue | null;
+    telephone: string;
+    image: File | null;
+  }>({
     firstname: "",
     lastname: "",
+    gender: "",
+    birthday: null,
     telephone: "",
+    image: null,
   });
 
   const handleSubmitCreateUserProfile = async (event) => {
@@ -18,41 +29,64 @@ function VMCreateUserProfile({ onClose }) {
     console.log("Form Submitted");
     console.log("Form Data:", formData);
 
-    if (!formData.firstname || !formData.lastname || !formData.telephone) {
+    if (
+      !formData.firstname ||
+      !formData.lastname ||
+      !formData.gender ||
+      !formData.birthday ||
+      !formData.telephone ||
+      !formData.image
+    ) {
       if (!formData.firstname) {
-        toast.error("Please enter firstname of UserProfile");
+        toast.error("Please enter First Name");
       }
       if (!formData.lastname) {
-        toast.error("Please enter lastname of UserProfile");
+        toast.error("Please enter Last Name");
+      }
+      if (!formData.gender) {
+        toast.error("Please enter Gender");
+      }
+      if (!formData.birthday) {
+        toast.error("Please enter Birthday");
       }
       if (!formData.telephone) {
-        toast.error("Please enter telephone of UserProfile");
+        toast.error("Please enter Telephone");
+      }
+      if (!formData.image) {
+        toast.error("Please enter Image");
       }
       return;
     }
 
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append("firstname", formData.firstname);
+      formDataToSend.append("lastname", formData.lastname);
+      formDataToSend.append("gender", formData.gender);
+      formDataToSend.append("birthday", formData.birthday?.toString() || "");
+      formDataToSend.append("telephone", formData.telephone.replace(/\D/g, ""));
+      formDataToSend.append("image", formData.image);
+
       const response = await axios.post(
         API_URL_USER_PROFILE_CREATE,
-        {
-          firstname: formData.firstname,
-          lastname: formData.lastname,
-          telephone: formData.telephone.replace(/\D/g, ""), 
-        },
+        formDataToSend,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         }
       );
 
       console.log("Response received", response);
-      if (response.status === 201) {
+      if (response.status === 200) {
         setFormData({
           firstname: "",
           lastname: "",
+          gender: "",
+          birthday: null,
           telephone: "",
+          image: null,
         });
         onClose();
 
@@ -93,6 +127,7 @@ function VMCreateUserProfile({ onClose }) {
       [name]: value,
     });
   };
+
   const handlePhoneChange = (value) => {
     console.log("Phone Changed:", value);
     setFormData({
@@ -101,11 +136,24 @@ function VMCreateUserProfile({ onClose }) {
     });
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    console.log("Image Changed:", file);
+    setFormData({ ...formData, image: file ?? null });
+  };
+
+  const handleGenderChange = (value: string) => {
+    setFormData({ ...formData, gender: value });
+  };
+
   return {
     handleSubmitCreateUserProfile,
     handleInputChange,
     formData,
     handlePhoneChange,
+    handleImageChange,
+    handleGenderChange,
+    setFormData,
   };
 }
 

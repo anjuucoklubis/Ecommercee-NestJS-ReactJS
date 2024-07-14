@@ -15,6 +15,9 @@ import { GaleriesproductService } from './product/galeriesproduct/galeriesproduc
 import { GaleriesproductModule } from './product/galeriesproduct/galeriesproduct.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { MasterlocationModule } from './masterlocation/masterlocation.module';
+import { UserprofileModule } from './userprofile/userprofile.module';
+import { UseraddressModule } from './useraddress/useraddress.module';
 
 @Module({
   imports: [
@@ -24,6 +27,9 @@ import { UsersModule } from './users/users.module';
     GaleriesproductModule,
     AuthModule,
     UsersModule,
+    MasterlocationModule,
+    UserprofileModule,
+    UseraddressModule,
   ],
   controllers: [
     AppController,

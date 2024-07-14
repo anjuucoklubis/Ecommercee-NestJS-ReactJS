@@ -8,7 +8,6 @@ import {
   DropdownTrigger,
   Dropdown,
   DropdownMenu,
-  Avatar,
   Link,
 } from "@nextui-org/react";
 import { SearchIcon } from "../../../components/icons/SearchIcon.tsx";
@@ -16,11 +15,37 @@ import { useDispatch } from "react-redux";
 import { fetchProtectedInfo, onLogout } from "../../../api/auth";
 import { unauthenticateUser } from "../../../redux/slices/authSlice";
 import useAuth from "../../../hooks/useAuth.ts";
+import { GetDataMyAccount } from "../manage-user/my-account/ViewModel/GetDataMyAccount.ts";
+import { User } from "../manage-user/my-account/MyAccountInterface.ts";
 
 const NavbarView = () => {
   const dispatch = useDispatch();
+  const { fetchUserProfile, API_URL_USER_PROFILE_IMAGE } = GetDataMyAccount();
+
   const [protectedData, setProtectedData] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<User | null>(null);
+  useEffect(() => {
+    const getUserProfile = async () => {
+      try {
+        const userProfile = await fetchUserProfile();
+        console.log("Fetched User Profile:", userProfile); // Debugging line
+
+        setProfile(userProfile);
+        setLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch user profile:", error);
+        setLoading(false);
+      }
+    };
+
+    getUserProfile();
+  }, []);
+
+  const avatarUrl = profile?.userprofile
+    ? `${API_URL_USER_PROFILE_IMAGE}/${profile.userprofile.image}`
+    : "";
+  console.log("Avatar URL:", avatarUrl); // Debugging line
 
   const logout = async () => {
     try {
@@ -50,6 +75,9 @@ const NavbarView = () => {
 
   const user = useAuth();
   console.log("data user", user);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Navbar isBordered className="bg-light">
@@ -80,15 +108,47 @@ const NavbarView = () => {
       <NavbarContent as="div" className="items-center" justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              color="secondary"
-              name="Jason Hughes"
-              size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
+            {profile?.userprofile ? (
+              <div style={{ position: "relative", display: "inline-block" }}>
+                <img
+                  src={avatarUrl || "fallback-image-url"}
+                  alt="User Avatar"
+                  style={{ borderRadius: "50%", width: "40px", height: "40px" }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    right: "0",
+                    width: "15px",
+                    height: "15px",
+                    borderRadius: "50%",
+                    backgroundColor: "green",
+                    border: "2px solid white",
+                  }}
+                />
+              </div>
+            ) : (
+              <div style={{ position: "relative", display: "inline-block" }}>
+                <img
+                  style={{ borderRadius: "50%", width: "40px", height: "40px" }}
+                  alt="User Avatar"
+                  src="https://media.istockphoto.com/id/1294780139/id/foto/potret-close-up-pria-tersenyum-dengan-kacamata-dengan-kemeja-biru-ilustrasi-3d-karakter.jpg?s=612x612&w=0&k=20&c=FxcfijJ5ROSDDqu7hT6E8JE9utPq1_0wrVhThXqymb0="
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    right: "0",
+                    width: "15px",
+                    height: "15px",
+                    borderRadius: "50%",
+                    backgroundColor: "green",
+                    border: "2px solid white",
+                  }}
+                />
+              </div>
+            )}
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -73,10 +67,8 @@ model ProductGalleries {
   productId Int?
 }
 
-// Management User
 model User {
   id String @unique @default(uuid())
-  //id Int @id @default(autoincrement())
 
   email          String @unique
   hashedPassword String
@@ -91,11 +83,13 @@ model User {
 model Useraddress {
   id String @id @default(uuid())
 
-  address_line String @db.VarChar(255)
-  postal_code  String @db.VarChar(255)
-  city         String @db.VarChar(255)
-  province     String @db.VarChar(255)
-  country      String @db.VarChar(255)
+  full_name     String? @db.VarChar(255)
+  number_phone  String? @db.VarChar(255)
+  province      String? @db.VarChar(255)
+  city          String? @db.VarChar(255)
+  postal_code   String? @db.VarChar(255)
+  address_line  String? @db.VarChar(255)
+  houseOroffice String? @db.VarChar(255)
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt()
@@ -105,12 +99,36 @@ model Useraddress {
 }
 
 model Userprofile {
-  id        String   @id @default(uuid())
-  firstname String?  @db.VarChar(255)
-  lastname  String?  @db.VarChar(255)
-  telephone String?  @db.VarChar(255)
-  updateAt  DateTime @updatedAt()
+  id        String  @id @default(uuid())
+  firstname String? @db.VarChar(255)
+  lastname  String? @db.VarChar(255)
+  gender    String? @db.VarChar(255)
+  birthday  String? @db.VarChar(255)
+  telephone String? @db.VarChar(255)
+  image     String? @db.VarChar(255)
+
+  updateAt DateTime @updatedAt()
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
+}
+
+model mastercity {
+  id          Int            @id @default(autoincrement())
+  province_id Int
+  province    masterprovince @relation(fields: [province_id], references: [id])
+
+  type        String
+  city_name   String
+  postal_code String   @db.VarChar(10)
+  createdAt   DateTime @default(now())
+  updateAt    DateTime
+}
+
+model masterprovince {
+  id        Int          @id @default(autoincrement())
+  province  String
+  createdAt DateTime     @default(now())
+  updateAt  DateTime
+  cities    mastercity[]
 }

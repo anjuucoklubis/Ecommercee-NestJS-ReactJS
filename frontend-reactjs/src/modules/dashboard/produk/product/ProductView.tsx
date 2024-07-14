@@ -20,7 +20,7 @@ import {
   SortDescriptor,
   useDisclosure,
 } from "@nextui-org/react";
-import { columns, statusOptions } from "../../../../datadummy/dataa.ts";
+import { statusOptions } from "../../../../datadummy/dataa.ts";
 import { capitalize } from "../../../../utils/utils.ts";
 import { PlusIcon } from "../../../../components/icons/PlusIcon.tsx";
 import { VerticalDotsIcon } from "../../../../components/icons/VerticalDotsIcon.tsx";
@@ -93,8 +93,6 @@ export default function ProductView() {
     setSize(size);
     setIsOpenGaleriesProduct(true);
   };
-
-
 
   // ========================
 

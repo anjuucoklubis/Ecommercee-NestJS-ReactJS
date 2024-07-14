@@ -7,6 +7,7 @@ import {
   CardBody,
   Button,
   useDisclosure,
+  Badge,
 } from "@nextui-org/react";
 import { GetDataMyAccount } from "./ViewModel/GetDataMyAccount.ts";
 import { User } from "./MyAccountInterface.ts";
@@ -17,20 +18,44 @@ import { DataAddressIcon } from "../../../../components/icons/DataAddressIcon.js
 import UserProfileCreateView from "./UserProfile/UserProfileCreateView.tsx";
 import { ToastContainer } from "react-toastify";
 import UserProfileUpdateView from "./UserProfile/UserProfileUpdateView.tsx";
+import UserAddressCreateView from "./UserAddress/UserAddressCreateView.tsx";
+import UserAddressUpdateView from "./UserAddress/UserAddressUpdateView.tsx";
+import VMDeleteUserAddress from "./UserAddress/ViewModel/VMDeleteUserAddress.ts";
 
 const MyAccountView = () => {
-  const { fetchUserProfile } = GetDataMyAccount();
+  const { fetchUserProfile, API_URL_USER_PROFILE_IMAGE } = GetDataMyAccount();
+  const {
+    handleConfirmDelete,
+    handleDeleteAddress,
+    handleCancelDelete,
+    itemToDelete,
+  } = VMDeleteUserAddress();
   const [isVertical, setIsVertical] = useState(false);
   const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isOpenUpdateDiscount, setIsOpenUpdateDiscount] = useState(false);
-  const handleEdit = (id) => {
-    setIsOpenUpdateDiscount(true);
+  const [isOpenUpdateUserProfile, setIsOpenUpdateUserProfile] = useState(false);
+  const [isOpenAddAddress, setIsOpenAddAddress] = useState(false);
+  const [isOpenUpdateAddress, setIsOpenUpdateAddress] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+
+  const handleEditProfile = (id) => {
+    setIsOpenUpdateUserProfile(true);
+  };
+  const handleEditAddress = (address) => {
+    setSelectedAddress(address);
+    setIsOpenUpdateAddress(true);
   };
   const closeModal = () => {
-    setIsOpenUpdateDiscount(false);
+    setIsOpenUpdateUserProfile(false);
+    setIsOpenAddAddress(false);
+    setIsOpenUpdateAddress(false);
   };
+
+  const handleAddress = () => {
+    setIsOpenAddAddress(true);
+  };
+
   useEffect(() => {
     const getUserProfile = async () => {
       try {
@@ -139,6 +164,18 @@ const MyAccountView = () => {
                                       </td>{" "}
                                     </tr>
                                     <tr>
+                                      <th>Gender</th>
+                                      <td>
+                                        {profile?.userprofile?.gender || "-"}
+                                      </td>{" "}
+                                    </tr>
+                                    <tr>
+                                      <th>Birthday</th>
+                                      <td>
+                                        {profile?.userprofile?.birthday || "-"}
+                                      </td>{" "}
+                                    </tr>
+                                    <tr>
                                       <th>telephone</th>
                                       <td>
                                         {profile?.userprofile?.telephone || "-"}
@@ -149,11 +186,36 @@ const MyAccountView = () => {
                               </div>
                             </div>
                           </div>
+                          <div id="grid-system2" className="col-sm-3">
+                            <div className="box box-solid">
+                              <div id="grid-system2-body" className="box-body">
+                                {profile?.userprofile ? (
+                                  <img
+                                    src={`${API_URL_USER_PROFILE_IMAGE}/${profile.userprofile.image}`}
+                                    className="img-thumbnail"
+                                    width="200"
+                                    alt="Profile"
+                                  />
+                                ) : (
+                                  <Badge content="Isi Profile kamu dong...." color="danger" size="lg" >
+                                    <img
+                                      src="https://media.istockphoto.com/id/1294780139/id/foto/potret-close-up-pria-tersenyum-dengan-kacamata-dengan-kemeja-biru-ilustrasi-3d-karakter.jpg?s=612x612&w=0&k=20&c=FxcfijJ5ROSDDqu7hT6E8JE9utPq1_0wrVhThXqymb0="
+                                      className="img-thumbnail"
+                                      width="200"
+                                      alt="Null"
+                                    />
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <td>
                         {profile?.userprofile ? (
-                          <Button onPress={handleEdit} color="warning">Update Profile</Button>
+                          <Button onPress={handleEditProfile} color="warning">
+                            Update Profile
+                          </Button>
                         ) : (
                           <Button onPress={onOpen} color="success">
                             Add User Profile
@@ -179,28 +241,22 @@ const MyAccountView = () => {
                       <div className="tab-pane active" id="data_address">
                         <table className="table table-condensed detail-view">
                           <tbody>
-                            {profile?.useraddress.map((address, index) => (
-                              <tr key={index}>
+                            {profile?.useraddress?.map((address) => (
+                              <tr key={address.id}>
                                 <td>
                                   <table>
                                     <tbody>
                                       <tr>
                                         <th style={{ paddingRight: "300px" }}>
-                                          Address Line
+                                          Full Name
                                         </th>
-                                        <td>{address.address_line || "-"}</td>
+                                        <td>{address.full_name || "-"}</td>
                                       </tr>
                                       <tr>
                                         <th style={{ paddingRight: "300px" }}>
-                                          Postal Code
+                                          Number Phone
                                         </th>
-                                        <td>{address.postal_code || "-"}</td>
-                                      </tr>
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          City
-                                        </th>
-                                        <td>{address.city || "-"}</td>
+                                        <td>{address.number_phone || "-"}</td>
                                       </tr>
                                       <tr>
                                         <th style={{ paddingRight: "300px" }}>
@@ -210,18 +266,47 @@ const MyAccountView = () => {
                                       </tr>
                                       <tr>
                                         <th style={{ paddingRight: "300px" }}>
-                                          Country
+                                          City
                                         </th>
-                                        <td>{address.country || "-"}</td>
+                                        <td>{address.city || "-"}</td>
+                                      </tr>
+                                      <tr>
+                                        <th style={{ paddingRight: "300px" }}>
+                                          Postal Code
+                                        </th>
+                                        <td>{address.postal_code || "-"}</td>
+                                      </tr>
+
+                                      <tr>
+                                        <th style={{ paddingRight: "300px" }}>
+                                          Address Line
+                                        </th>
+                                        <td>{address.address_line || "-"}</td>
+                                      </tr>
+                                      <tr>
+                                        <th style={{ paddingRight: "300px" }}>
+                                          House / Office
+                                        </th>
+                                        <td>{address.houseOroffice || "-"}</td>
                                       </tr>
                                       <tr>
                                         <td style={{ paddingTop: "10px" }}>
                                           <div>
-                                            <Button color="warning">
-                                              Edit
+                                            <Button
+                                              color="warning"
+                                              onPress={() =>
+                                                handleEditAddress(address)
+                                              }
+                                            >
+                                              Edit Address
                                             </Button>{" "}
-                                            <Button color="danger">
-                                              Delete
+                                            <Button
+                                              color="danger"
+                                              onClick={() =>
+                                                handleDeleteAddress(address.id)
+                                              }
+                                            >
+                                              Delete Address
                                             </Button>
                                           </div>
                                         </td>
@@ -234,7 +319,9 @@ const MyAccountView = () => {
                           </tbody>
                         </table>
                       </div>
-                      <Button color="success">Add Address</Button>{" "}
+                      <Button onPress={handleAddress} color="success">
+                        Add Address
+                      </Button>{" "}
                     </div>
                   </CardBody>
                 </Card>
@@ -244,10 +331,46 @@ const MyAccountView = () => {
         </div>
       </div>
       <UserProfileCreateView isOpen={isOpen} onClose={onClose} />
-      <UserProfileUpdateView
-        isOpenUpdateDiscount={isOpenUpdateDiscount}
+      <UserAddressCreateView
+        isOpenAddAddress={isOpenAddAddress}
         onClose={closeModal}
       />
+      <UserProfileUpdateView
+        isOpenUpdateUserProfile={isOpenUpdateUserProfile}
+        onClose={closeModal}
+      />
+      {selectedAddress && (
+        <UserAddressUpdateView
+          isOpenUpdateAddress={isOpenUpdateAddress}
+          onClose={closeModal}
+          addressData={selectedAddress}
+        />
+      )}
+      {itemToDelete && (
+        <div
+          id="popup-modal"
+          className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
+        >
+          <div className="bg-white p-4 rounded-lg">
+            <h3 className="text-lg font-medium mb-4">Konfirmasi Hapus</h3>
+            <p className="mb-6">Apakah Anda yakin ingin menghapus item ini?</p>
+            <div className="flex justify-end">
+              <button
+                className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md mr-2"
+                onClick={handleConfirmDelete}
+              >
+                Ya, saya yakin
+              </button>
+              <button
+                className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md"
+                onClick={handleCancelDelete}
+              >
+                Tidak, batalkan
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </PartialView>
   );
 };

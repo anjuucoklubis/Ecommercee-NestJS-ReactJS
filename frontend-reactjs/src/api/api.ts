@@ -1,10 +1,12 @@
 const API_FRONTEND = () => {
+  /*BASE API*/
   const API_URL = "http://localhost:3000";
 
-  // eslint-disable-next-line no-lone-blocks
-  {
-    /*MANAGEMENT PRODUCT API */
-  }
+  /*MANAGEMENT URL API AUTH */
+  const API_URL_AUTH_REGISTER = "http://localhost:3000/auth/signup";
+  const API_URL_AUTH_LOGIN = "http://localhost:3000/auth/signin";
+
+  /*MANAGEMENT PRODUCT API */
   const API_URL_PRODUCT = "http://localhost:3000/product";
   const API_URL_CATEGORYPRODUCT = "http://localhost:3000/categoryproduct";
   const API_URL_DISCOUNTPRODUCT = "http://localhost:3000/discountproduct";
@@ -12,20 +14,20 @@ const API_FRONTEND = () => {
   const API_URL_IMAGESRC_PRODUCT = `${API_URL}/product`;
   const API_URL_IMAGESRC = `${API_URL}/category`;
 
-  // eslint-disable-next-line no-lone-blocks
-  {
-    /*MANAGEMENT URL API AUTH */
-  }
-  const API_URL_AUTH_REGISTER = "http://localhost:3000/auth/signup";
-  const API_URL_AUTH_LOGIN = "http://localhost:3000/auth/signin";
+  /*MANAGEMENT URL USER PROFILE */
+  const API_URL_USER_PROFILE_CREATE = "http://localhost:3000/userprofile/profile";
+  const API_URL_USER_PROFILE_UPDATE = "http://localhost:3000/userprofile/profile";
+  const API_URL_USER_PROFILE_IMAGE = "http://localhost:3000/userprofile/userprofile-image";
 
-  // eslint-disable-next-line no-lone-blocks
-  {
-    /*MANAGEMENT URL USER */
-  }
+/*MANAGEMENT URL USER ADDRESS */
+  const API_URL_USER_ADDRESS_CREATE = "http://localhost:3000/useraddress/address";
+  const API_URL_USER_ADDRESS_UPDATE = "http://localhost:3000/useraddress/address";
+ 
 
-  const API_URL_USER_PROFILE_CREATE = "http://localhost:3000/users/profile";
-  const API_URL_USER_PROFILE_UPDATE = "http://localhost:3000/users/profile";
+  /*MANAGEMENT LOCATION */
+  const API_URL_LOC_CITY = "http://localhost:3000/masterlocation/city";
+  const API_URL_LOC_PROVINCE = "http://localhost:3000/masterlocation/province";
+
   return {
     API_URL,
     API_URL_CATEGORYPRODUCT,
@@ -38,6 +40,11 @@ const API_FRONTEND = () => {
     API_URL_AUTH_LOGIN,
     API_URL_USER_PROFILE_CREATE,
     API_URL_USER_PROFILE_UPDATE,
+    API_URL_USER_ADDRESS_CREATE,
+    API_URL_USER_ADDRESS_UPDATE,
+    API_URL_LOC_CITY,
+    API_URL_LOC_PROVINCE,
+    API_URL_USER_PROFILE_IMAGE
   };
 };
 

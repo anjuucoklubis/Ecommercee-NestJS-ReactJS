@@ -1,19 +1,12 @@
 import {
-  ForbiddenException,
   Injectable,
+  ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { ValidationService } from 'src/common/validation.service';
-import {
-  CreateUserPersonalRequest,
-  UpdateUserPersonalRequest,
-} from 'src/model/auth.model';
-import {
-  CreateUserAddressRequest,
-  UpdateUserAddressRequest,
-} from 'src/model/UserAddress.model';
 import { PrismaService } from 'src/Prisma/prisma.service';
+import { ValidationService } from 'src/common/validation.service';
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -63,66 +56,5 @@ export class UsersService {
     delete user.hashedPassword;
 
     return { user };
-  }
-
-  async createProfile(userId: string, data: CreateUserPersonalRequest) {
-    const { firstname, lastname, telephone } = data;
-
-    return this.prisma.userprofile.create({
-      data: {
-        firstname,
-        lastname,
-        telephone,
-        userId: userId,
-      },
-    });
-  }
-  async updateProfile(userId: string, data: UpdateUserPersonalRequest) {
-    const { firstname, lastname, telephone } = data;
-
-    return this.prisma.userprofile.update({
-      where: { userId },
-      data: {
-        firstname,
-        lastname,
-        telephone,
-      },
-    });
-  }
-
-  async createAddress(userId: string, data: CreateUserAddressRequest) {
-    const { address_line, postal_code, city, province, country } = data;
-
-    return this.prisma.useraddress.create({
-      data: {
-        address_line,
-        postal_code,
-        city,
-        province,
-        country,
-        userId: userId,
-      },
-    });
-  }
-
-  async updateAddress(addressId: string, data: UpdateUserAddressRequest) {
-    const { address_line, postal_code, city, province, country } = data;
-
-    try {
-      const updatedAddress = await this.prisma.useraddress.update({
-        where: { id: addressId },
-        data: {
-          address_line,
-          postal_code,
-          city,
-          province,
-          country,
-        },
-      });
-      return updatedAddress;
-    } catch (error) {
-      console.error('Error updating address:', error);
-      throw error;
-    }
   }
 }
