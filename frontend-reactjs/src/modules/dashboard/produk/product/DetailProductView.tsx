@@ -14,6 +14,8 @@ import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
 import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
 import ProductViewModelGet from "./ViewModel/ProductViewModelGet.ts";
 import API_FRONTEND from "../../../../api/api.ts";
+import DateComponenttt from "../../../../components/date/date.ts";
+import { FormatRupiah } from "../../../../components/rupiah/rupiahFormat.ts";
 
 interface DetailProductViewProps {
   productId: string;
@@ -29,7 +31,8 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
   size = "5xl",
 }) => {
   const { getProductByID, getproductDetail } = ProductViewModelGet();
-  const { API_URL_IMAGESRC_PRODUCT } = API_FRONTEND();
+  const { API_URL_PRODUCT_IMAGE } = API_FRONTEND();
+  const { formatDate } = DateComponenttt();
 
   useEffect(() => {
     if (productId) {
@@ -45,135 +48,245 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
       onClose={onClose}
     >
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">Detail Product</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">
+          Detail Product
+        </ModalHeader>
         <ModalBody>
-          <form className="p-4 md:p-5 flex gap-5">
+          <form className="p-0 md:p-5 flex gap-3">
             <div className="flex-1">
-              <Input
-                autoFocus
-                endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="SKU Product"
-                placeholder="Enter SKU..."
-                variant="bordered"
-                type="text"
-                name="product_sku"
-                value={getproductDetail?.product_sku || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                autoFocus
-                endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Name Product"
-                placeholder="Enter name..."
-                variant="bordered"
-                type="text"
-                name="product_name"
-                value={getproductDetail?.product_name || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                autoFocus
-                endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Description Product"
-                placeholder="Enter Description..."
-                variant="bordered"
-                type="text"
-                name="product_description"
-                value={getproductDetail?.product_description || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                autoFocus
-                endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Desc Short Product"
-                placeholder="Enter Desc Short..."
-                variant="bordered"
-                type="text"
-                name="product_short_description"
-                value={getproductDetail?.product_short_description || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                autoFocus
-                endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Price Origin Product"
-                placeholder="Enter Price Origin..."
-                variant="bordered"
-                type="text"
-                name="product_price_original"
-                value={getproductDetail?.product_price_original || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                autoFocus
-                endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Discount Origin Product"
-                placeholder="Enter Price Discount..."
-                variant="bordered"
-                type="text"
-                name="product_price_discount"
-                value={getproductDetail?.product_price_discount || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                autoFocus
-                endContent={<MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Quantity Product"
-                placeholder="Enter Quantity..."
-                variant="bordered"
-                type="text"
-                name="product_quantity"
-                value={getproductDetail?.product_quantity || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                endContent={<LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Weight Product"
-                placeholder="Enter Weight"
-                type="text"
-                variant="bordered"
-                name="product_weight"
-                value={getproductDetail?.product_weight || ""}
-                isReadOnly
-                disabled={true}
-              />
-              <Input
-                endContent={<LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                label="Category Product"
-                placeholder="Enter Weight"
-                type="text"
-                variant="bordered"
-                name="product_weight"
-                value={getproductDetail?.CategoryProduct?.name || ""}
-                isReadOnly
-                disabled={true}
-              />
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="SKU Product"
+                  placeholder="Enter SKU..."
+                  variant="bordered"
+                  type="text"
+                  name="product_sku"
+                  value={getproductDetail?.product_sku || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Name Product"
+                  placeholder="Enter name..."
+                  variant="bordered"
+                  type="text"
+                  name="product_name"
+                  value={getproductDetail?.product_name || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Description Product"
+                  placeholder="Enter Description..."
+                  variant="bordered"
+                  type="text"
+                  name="product_description"
+                  value={getproductDetail?.product_description || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Desc Short Product"
+                  placeholder="Enter Desc Short..."
+                  variant="bordered"
+                  type="text"
+                  name="product_short_description"
+                  value={getproductDetail?.product_short_description || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Price Origin Product"
+                  placeholder="Enter Price Origin..."
+                  variant="bordered"
+                  type="text"
+                  name="product_price_original"
+                  value={FormatRupiah({
+                    value: Number(
+                      getproductDetail?.product_price_original || 0
+                    ),
+                  })}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Discount Origin Product"
+                  placeholder="Enter Price Discount..."
+                  variant="bordered"
+                  type="text"
+                  name="product_price_discount"
+                  value={getproductDetail?.product_price_discount || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  autoFocus
+                  endContent={
+                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Quantity Product"
+                  placeholder="Enter Quantity..."
+                  variant="bordered"
+                  type="text"
+                  name="product_quantity"
+                  value={getproductDetail?.product_quantity || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  endContent={
+                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Weight Product"
+                  placeholder="Enter Weight"
+                  type="text"
+                  variant="bordered"
+                  name="product_weight"
+                  value={getproductDetail?.product_weight || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  endContent={
+                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Category Product"
+                  placeholder="Enter Weight"
+                  type="text"
+                  variant="bordered"
+                  name="product_weight"
+                  value={getproductDetail?.CategoryProduct?.name || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
             </div>
             <div className="flex-1">
-              {getproductDetail?.productGalleries.map((gallery, index) => (
-                <Card
-                  key={index}
-                  shadow="sm"
-                  isPressable
-                  onPress={() => console.log("item pressed")}
-                >
-                  <CardBody className="relative overflow-visible p-0">
-                    <img
-                      width="100%"
-                      alt={`Gallery ${index}`}
-                      className="w-full object-cover h-[140px]"
-                      src={`${API_URL_IMAGESRC_PRODUCT}/${gallery.product_galeries_image}`}
-                    />
-                  </CardBody>
-                </Card>
-              ))}
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  endContent={
+                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Created At"
+                  placeholder="Enter Weight"
+                  type="text"
+                  variant="bordered"
+                  name="product_weight"
+                  value={formatDate(getproductDetail?.createdAt || "")}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  endContent={
+                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Updated At"
+                  placeholder="Enter Weight"
+                  type="text"
+                  variant="bordered"
+                  name="product_weight"
+                  value={
+                    getproductDetail?.updatedAt
+                      ? formatDate(getproductDetail?.updatedAt)
+                      : "-"
+                  }
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
+              <div
+                style={{
+                  marginBottom: "10px",
+                  border: "2px solid #ccc",
+                  borderRadius: "10px",
+                  padding: "10px",
+                }}
+              >
+                <p>Image Product</p>
+                {getproductDetail?.productGalleries.length === 0 ? (
+                  <div>
+                    <Card
+                      shadow="sm"
+                      isPressable
+                      className="flex flex-1"
+                      onPress={() => console.log("item pressed")}
+                    >
+                      <CardBody className="relative overflow-visible p-0">
+                        <img
+                          width="100%"
+                          alt="Default Gallery"
+                          className="w-full object-cover h-[140px]"
+                          src="https://media.istockphoto.com/id/1342760057/vector/man-cartoon-character-people-face-profiles-avatars-and-icons-close-up-image-of-asking-man.jpg?s=612x612&w=0&k=20&c=mbpOWVRayrOpyDWvMHkC5fw6vyCvPHMdeLh9EYx6ZJk="
+                        />
+                      </CardBody>
+                      <CardBody className="relative overflow-visible p-0"></CardBody>
+                    </Card>
+                    <p style={{ fontSize: 13 }}>
+                      This product does not have an image...
+                    </p>
+                  </div>
+                ) : (
+                  getproductDetail?.productGalleries.map((gallery, index) => (
+                    <Card
+                      key={index}
+                      shadow="sm"
+                      isPressable
+                      onPress={() => console.log("item pressed")}
+                    >
+                      <CardBody className="relative overflow-visible p-0">
+                        <img
+                          width="100%"
+                          alt={`Gallery ${index}`}
+                          className="w-full object-cover h-[140px]"
+                          src={`${API_URL_PRODUCT_IMAGE}/${gallery.product_galeries_image}`}
+                        />
+                      </CardBody>
+                    </Card>
+                  ))
+                )}
+              </div>
             </div>
           </form>
         </ModalBody>

@@ -77,6 +77,8 @@ function ProductViewModelCreate({ onClose }) {
       const parsedFormData = {
         ...formData,
         categoryProductId: parseInt(formData.categoryProductId),
+        product_quantity: formData.product_quantity.toString(),
+        product_weight: formData.product_weight.toString(),
       };
 
       const response = await fetch(`${API_URL_PRODUCT_CREATE}`, {

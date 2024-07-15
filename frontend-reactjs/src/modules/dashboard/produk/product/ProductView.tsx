@@ -34,6 +34,7 @@ import DetailProductView from "./DetailProductView.tsx";
 import UpdateProductView from "./UpdateProductView.tsx";
 import ProductViewModelDelete from "./ViewModel/ProductViewModelDelete.ts";
 import GaleriesView from "./GaleriesView.tsx";
+import DateComponenttt from "../../../../components/date/date.ts";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -56,7 +57,7 @@ export default function ProductView() {
   const [isOpenDetailProduct, setIsOpenDetailProduct] = useState(false);
   const [productIdToDetail, setProductIdToDetail] = useState(null);
   const [size, setSize] = React.useState("5xl");
-
+  const { formatDate } = DateComponenttt();
   const handleView = (id) => {
     setProductIdToDetail(id);
     setSize(size);
@@ -199,6 +200,13 @@ export default function ProductView() {
               {cellValue}
             </Chip>
           );
+        case "createdAt":
+          return formatDate(cellValue || null) || "-";
+
+        case "updatedAt":
+          return cellValue && cellValue !== "1970-01-01T00:00:00.000Z"
+            ? formatDate(cellValue)
+            : "-";
         case "actions":
           return (
             <div className="relative flex justify-end items-center gap-2">

@@ -12,6 +12,8 @@ const API_FRONTEND = () => {
   const API_URL_PRODUCT_CREATE = "http://localhost:3000/product/create";
   const API_URL_PRODUCT_DELETE = "http://localhost:3000/product/delete";
   const API_URL_PRODUCT_UPDATE = "http://localhost:3000/product/update";
+  const API_URL_PRODUCT_IMAGE = "http://localhost:3000/product/product-image";
+
 
   /*MANAGEMENT CATEGORY PRODUCT API */
   const API_URL_CATEGORYPRODUCT_CREATE = "http://localhost:3000/categoryproduct/create";
@@ -31,7 +33,6 @@ const API_FRONTEND = () => {
   const API_URL_GALERIESPRODUCT_DELETE = "http://localhost:3000/galeriesproduct/delete";
 
 
-  const API_URL_IMAGESRC_PRODUCT = `${API_URL}/product`;
   const API_URL_IMAGESRC = `${API_URL}/category`;
 
   /*MANAGEMENT URL USER PROFILE */
@@ -55,7 +56,6 @@ const API_FRONTEND = () => {
     API_URL_DISCOUNTPRODUCT_UPDATE,
     API_URL_DISCOUNTPRODUCT_DELETE,
     API_URL_IMAGESRC,
-    API_URL_IMAGESRC_PRODUCT,
     API_URL_GALERIESPRODUCT_CREATE,
     API_URL_GALERIESPRODUCT_DELETE,
     API_URL_AUTH_REGISTER,
@@ -77,7 +77,8 @@ const API_FRONTEND = () => {
     API_URL_CATEGORYPRODUCT_CREATE,
     API_URL_CATEGORYPRODUCT_DELETE,
     API_URL_CATEGORYPRODUCT_UPDATE,
-    API_URL_CATEGORYPRODUCT_IMAGE
+    API_URL_CATEGORYPRODUCT_IMAGE,
+    API_URL_PRODUCT_IMAGE
     
   };
 };

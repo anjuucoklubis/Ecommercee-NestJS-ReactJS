@@ -10,18 +10,20 @@ import {
   HttpStatus,
   Controller,
   HttpException,
-  // UseGuards,
+  UseGuards,
 } from '@nestjs/common';
+import { join } from 'path';
 import {
   CreateProductRequest,
   ProductResponse,
   UnauthorizedResponse,
   UpdateProductRequest,
 } from 'src/model/product.model';
+import { Observable, of } from 'rxjs';
 import { WebResponse } from 'src/model/web.model';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { ProductService } from './product.service';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-// import { JwtAuthGuard } from 'src/auth/jwt.guard';
 
 @ApiTags('Product')
 @Controller('product')
@@ -158,5 +160,19 @@ export class ProductController {
     } else {
       return response;
     }
+  }
+
+  @Get('product-image/:imageName')
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: 'Get category product image',
+  })
+  getProfileImage(
+    @Param('imageName') imageName,
+    @Res() res,
+  ): Observable<string> {
+    return of(
+      res.sendFile(join(process.cwd(), 'public/img/product/' + imageName)),
+    );
   }
 }

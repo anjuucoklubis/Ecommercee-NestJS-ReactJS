@@ -11,6 +11,7 @@ import {
 import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
 import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
 import ProductViewModelUpdate from "./ViewModel/ProductViewModelUpdate.ts";
+import { FormatRupiah } from "../../../../components/rupiah/rupiahFormat.ts";
 
 interface UpdateProductViewProps {
   productId: string;
@@ -115,7 +116,11 @@ const UpdateProductView: React.FC<UpdateProductViewProps> = ({
                 variant="bordered"
                 type="text"
                 name="product_price_original"
-                value={formDataUpdate.product_price_original}
+                value={FormatRupiah({
+                  value: Number(
+                    formDataUpdate?.product_price_original || 0
+                  ),
+                })}
                 onChange={handleInputChange}
               />
               <Input
@@ -126,7 +131,7 @@ const UpdateProductView: React.FC<UpdateProductViewProps> = ({
                 label="Quantity Product"
                 placeholder="Enter Quantity..."
                 variant="bordered"
-                type="text"
+                type="number"
                 name="product_quantity"
                 value={formDataUpdate.product_quantity}
                 onChange={handleInputChange}
@@ -138,7 +143,7 @@ const UpdateProductView: React.FC<UpdateProductViewProps> = ({
                 }
                 label="Weight Product"
                 placeholder="Enter Weight"
-                type="text"
+                type="number"
                 variant="bordered"
                 name="product_weight"
                 value={formDataUpdate.product_weight}

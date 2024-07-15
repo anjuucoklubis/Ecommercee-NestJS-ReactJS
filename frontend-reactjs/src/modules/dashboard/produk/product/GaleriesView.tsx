@@ -45,7 +45,7 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
     setItemToDelete,
   } = GaleriesViewModelDelete();
 
-  const { API_URL_IMAGESRC_PRODUCT } = API_FRONTEND();
+  const { API_URL_PRODUCT_IMAGE } = API_FRONTEND();
 
   useEffect(() => {
     if (productId) {
@@ -77,6 +77,11 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
           <form
             className="p-4 md:p-5"
             onSubmit={handleSubmitCreateGaleriesProduct}
+            style={{
+              border: "2px solid #ccc",
+              borderRadius: "10px",
+              padding: "10px",
+            }}
           >
             <div>
               <div className="col-span-2">
@@ -126,18 +131,20 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
                   </label>
                 </div>
               </div>
-              {formData.product_galeries_image && (
-                <div className="col-span-2">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Preview
-                  </label>
-                  <img
-                    src={URL.createObjectURL(formData.product_galeries_image)}
-                    alt="Preview"
-                    className="max-w-full h-auto max-h-24 rounded-lg"
-                  />
-                </div>
-              )}
+              <div style={{ marginBottom: "20px" }}>
+                {formData.product_galeries_image && (
+                  <div className="col-span-2">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Preview
+                    </label>
+                    <img
+                      src={URL.createObjectURL(formData.product_galeries_image)}
+                      alt="Preview"
+                      className="max-w-full h-auto max-h-24 rounded-lg"
+                    />
+                  </div>
+                )}
+              </div>
               <Button type="submit" color="primary">
                 Submit
               </Button>
@@ -148,6 +155,7 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
             {productDetailForGaleries?.productGalleries.length === 0 ? (
               <p>No record Galeries</p>
             ) : (
+      
               productDetailForGaleries?.productGalleries.map(
                 (gallery, index) => (
                   <Card
@@ -156,12 +164,13 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
                     isPressable
                     onPress={() => console.log("item pressed")}
                   >
+                    <p>Gambar {index + 1}</p>
                     <CardBody className="relative overflow-visible p-0">
                       <img
                         width="100%"
                         alt={`Gallery ${index}`}
                         className="w-full object-cover h-[140px]"
-                        src={`${API_URL_IMAGESRC_PRODUCT}/${gallery.product_galeries_image}`}
+                        src={`${API_URL_PRODUCT_IMAGE}/${gallery.product_galeries_image}`}
                       />
                       <button
                         onClick={() => setItemToDelete(gallery.id)}
@@ -193,6 +202,7 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
                   </Card>
                 )
               )
+           
             )}
           </div>
           {itemToDelete !== null && (

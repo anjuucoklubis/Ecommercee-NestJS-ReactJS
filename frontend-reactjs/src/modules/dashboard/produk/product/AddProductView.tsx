@@ -109,7 +109,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
                 label="Quantity Product"
                 placeholder="Enter Quantity..."
                 variant="bordered"
-                type="text"
+                type="number"
                 name="product_quantity"
                 value={formData.product_quantity}
                 onChange={handleInputChange}
@@ -121,7 +121,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
                 }
                 label="Weight Product"
                 placeholder="Enter Weight"
-                type="text"
+                type="number"
                 variant="bordered"
                 name="product_weight"
                 value={formData.product_weight}

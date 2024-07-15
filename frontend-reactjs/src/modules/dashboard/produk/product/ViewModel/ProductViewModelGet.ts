@@ -52,29 +52,29 @@ function ProductViewModelGet() {
 
   const columns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "product_sku", uid: "product_sku", sortable: true },
-    { name: "product_name", uid: "product_name", sortable: true },
-    { name: "product_description", uid: "product_description", sortable: true },
+    { name: "Product SKU", uid: "product_sku", sortable: true },
+    { name: "Product Name", uid: "product_name", sortable: true },
+    { name: "Product Description", uid: "product_description", sortable: true },
     {
-      name: "product_short_description",
+      name: "Product Short Description",
       uid: "product_short_description",
       sortable: true,
     },
     {
-      name: "product_price_original",
+      name: "Product Price Original",
       uid: "product_price_original",
       sortable: true,
     },
     {
-      name: "product_price_discount",
+      name: "Product Price Discount",
       uid: "product_price_discount",
       sortable: true,
     },
-    { name: "product_quantity", uid: "product_quantity", sortable: true },
-    { name: "product_weight", uid: "product_weight", sortable: true },
-    { name: "CREATED_AT", uid: "createdAt", sortable: true },
-    { name: "UPDATED_AT", uid: "updatedAt", sortable: true },
-    { name: "ACTIONS", uid: "actions" },
+    { name: "Product Quantity", uid: "product_quantity", sortable: true },
+    { name: "Product Weight", uid: "product_weight", sortable: true },
+    { name: "Created", uid: "createdAt", sortable: true },
+    { name: "Updated", uid: "updatedAt", sortable: true },
+    { name: "Actions", uid: "actions" },
   ];
 
   const imageSrc = `${API_URL}/product`;

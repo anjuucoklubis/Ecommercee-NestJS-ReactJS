@@ -59,10 +59,11 @@ function ProductViewModelUpdate({ onClose }) {
   const handleSubmitUpdateProduct = async (event) => {
     event.preventDefault();
     try {
-      // const parsedFormData = {
-      //   ...formDataUpdate,
-      //   CatagoryProductId: parseInt(formDataUpdate.CatagoryProductId),
-      // };
+      const parsedFormData = {
+        ...formDataUpdate,
+        product_quantity: formDataUpdate.product_quantity.toString(),
+        product_weight: formDataUpdate.product_weight.toString(),
+      };
 
       console.log("Form Data:", formDataUpdate);
       const response = await fetch(`${API_URL_PRODUCT_UPDATE}/${productId}`, {
@@ -71,7 +72,7 @@ function ProductViewModelUpdate({ onClose }) {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(formDataUpdate),
+        body: JSON.stringify(parsedFormData),
         credentials: "include",
       });
       if (response.ok) {
@@ -99,7 +100,7 @@ function ProductViewModelUpdate({ onClose }) {
     console.log("Input Changed:", name, value);
     setFormDataUpdate({
       ...formDataUpdate,
-      [name]: value,
+      [name]: name === "product_price_original" ? value.replace(/\D/g, '') : value,
     });
   };
   // Find Category All
