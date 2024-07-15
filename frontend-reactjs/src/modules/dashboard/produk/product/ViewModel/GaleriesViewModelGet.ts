@@ -3,7 +3,7 @@ import API_FRONTEND from "../../../../../api/api.ts";
 import { GetProductDetailInterfaceForGaleries } from "../Interface/InterfaceGaleries.ts";
 
 function GaleriesViewModelGet() {
-  const { API_URL_PRODUCT } = API_FRONTEND();
+  const { API_URL_PRODUCT_GET } = API_FRONTEND();
   const [productDetailForGaleries, setProductDetailForGaleries] =
     useState<GetProductDetailInterfaceForGaleries | null>(null);
   const [showModalViewDetailProduct, setShowModalViewDetailProduct] =
@@ -11,7 +11,7 @@ function GaleriesViewModelGet() {
 
   const getProductByIDForGaleries = async (productId: number) => {
     try {
-      const response = await fetch(`${API_URL_PRODUCT}/get/${productId}`);
+      const response = await fetch(`${API_URL_PRODUCT_GET}/${productId}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch galeries product");

@@ -6,7 +6,7 @@ import {
 } from "../Interface/InterfaceDiscountProduct.ts";
 import API_FRONTEND from "../../../../../api/api.ts";
 function DiscountProductViewModelGet() {
-  const { API_URL_DISCOUNTPRODUCT } = API_FRONTEND();
+  const { API_URL_DISCOUNTPRODUCT_GET } = API_FRONTEND();
   const [discount, setDiscount] = useState<GetDiscountProductAllInterface[]>(
     []
   );
@@ -19,7 +19,7 @@ function DiscountProductViewModelGet() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL_DISCOUNTPRODUCT}/get`);
+        const response = await axios.get(`${API_URL_DISCOUNTPRODUCT_GET}`);
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -33,13 +33,13 @@ function DiscountProductViewModelGet() {
     };
 
     fetchData();
-  }, [API_URL_DISCOUNTPRODUCT]);
+  }, [API_URL_DISCOUNTPRODUCT_GET]);
 
   const getDiscountByID = async (discountId: number) => {
     try {
       setDiscountId(discountId);
       const response = await fetch(
-        `${API_URL_DISCOUNTPRODUCT}/get/${discountId}`
+        `${API_URL_DISCOUNTPRODUCT_GET}/${discountId}`
       );
 
       if (!response.ok) {
@@ -63,7 +63,11 @@ function DiscountProductViewModelGet() {
   const columns = [
     { name: "ID", uid: "id", sortable: true },
     { name: "NAME", uid: "product_discount_name", sortable: true },
-    { name: "DESCRIPTION", uid: "product_discount_description", sortable: true },
+    {
+      name: "DESCRIPTION",
+      uid: "product_discount_description",
+      sortable: true,
+    },
     { name: "PERCENT", uid: "product_discount_percent", sortable: true },
     { name: "ACTIVE", uid: "product_discount_active", sortable: true },
     { name: "CREATED_AT", uid: "createdAt", sortable: true },
@@ -71,7 +75,6 @@ function DiscountProductViewModelGet() {
     { name: "ACTIONS", uid: "actions" },
   ];
 
-  
   return {
     discount,
     setDiscount,

@@ -5,7 +5,8 @@ import API_FRONTEND from "../../../../../api/api.ts";
 import { GetAllCategoryProductForCreateProductInterface } from "../Interface/InterfaceProduct.ts";
 import axios from "axios";
 function ProductViewModelCreate({ onClose }) {
-  const { API_URL_PRODUCT } = API_FRONTEND();
+  const { API_URL_PRODUCT_CREATE, API_URL_CATEGORYPRODUCT_GET } =
+    API_FRONTEND();
   const [showModalCreateProduct, setShowModalCreateProduct] =
     React.useState(false);
   const [formData, setFormData] = useState<{
@@ -78,7 +79,7 @@ function ProductViewModelCreate({ onClose }) {
         categoryProductId: parseInt(formData.categoryProductId),
       };
 
-      const response = await fetch(`${API_URL_PRODUCT}/create`, {
+      const response = await fetch(`${API_URL_PRODUCT_CREATE}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +132,6 @@ function ProductViewModelCreate({ onClose }) {
     });
   };
 
-  // Find Category All
   const [getAllCategoryforCreateProduct, setGetAllCategoryforCreateProduct] =
     useState<GetAllCategoryProductForCreateProductInterface[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -139,9 +139,7 @@ function ProductViewModelCreate({ onClose }) {
   useEffect(() => {
     const fetchDataCategoryForCreateProduct = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/categoryproduct/get"
-        );
+        const response = await axios.get(`${API_URL_CATEGORYPRODUCT_GET}`);
 
         const formattedData = response.data.map((item: any) => ({
           ...item,

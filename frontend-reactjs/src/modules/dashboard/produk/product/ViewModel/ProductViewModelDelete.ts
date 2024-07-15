@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 
 function ProductViewModelDelete() {
-  const { API_URL_PRODUCT } = API_FRONTEND();
+  const { API_URL_PRODUCT_DELETE } = API_FRONTEND();
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
   const handleRemoveItem = async (id: number) => {
     try {
-      const response = await fetch(`${API_URL_PRODUCT}/delete/${id}`, {
+      const response = await fetch(`${API_URL_PRODUCT_DELETE}/${id}`, {
         method: "DELETE",
       });
       if (response.ok) {

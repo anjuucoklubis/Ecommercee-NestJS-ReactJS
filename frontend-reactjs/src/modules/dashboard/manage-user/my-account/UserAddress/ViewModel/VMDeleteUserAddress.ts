@@ -3,8 +3,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { User } from "../../MyAccountInterface.ts";
 import { GetDataMyAccount } from "../../ViewModel/GetDataMyAccount.ts";
+import API_FRONTEND from "../../../../../../api/api.ts";
 
 function VMDeleteUserAddress() {
+  const { API_URL_USER_ADDRESS_DELETE } = API_FRONTEND();
   const { fetchUserProfile } = GetDataMyAccount();
 
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -34,7 +36,7 @@ function VMDeleteUserAddress() {
     if (itemToDelete) {
       try {
         const response = await fetch(
-          `http://localhost:3000/useraddress/${itemToDelete}`,
+          `${API_URL_USER_ADDRESS_DELETE}/${itemToDelete}`,
           {
             method: "DELETE",
             headers: {
@@ -71,7 +73,7 @@ function VMDeleteUserAddress() {
       } catch (error) {
         console.error("Error deleting address:", error);
       } finally {
-        setItemToDelete(null); 
+        setItemToDelete(null);
       }
     }
   };

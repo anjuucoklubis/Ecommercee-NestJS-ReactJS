@@ -24,7 +24,7 @@ import { UseraddressService } from './useraddress.service';
 export class UseraddressController {
   constructor(private readonly useraddressService: UseraddressService) {}
   @UseGuards(JwtAuthGuard)
-  @Post('address')
+  @Post('address-create')
   async createAddress(
     @Req() req,
     @Body() addressData: CreateUserAddressRequest,
@@ -47,7 +47,7 @@ export class UseraddressController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('address/:id')
+  @Patch('address-update/:id')
   async updateAddress(
     @Param('id') addressId: string,
     @Body() addressData: UpdateUserAddressRequest,
@@ -68,7 +68,7 @@ export class UseraddressController {
     };
   }
 
-  @Delete(':id')
+  @Delete('address-delete/:id')
   async deleteAddress(@Param('id') id: string, @Res() response) {
     try {
       await this.useraddressService.deleteAddress(id);

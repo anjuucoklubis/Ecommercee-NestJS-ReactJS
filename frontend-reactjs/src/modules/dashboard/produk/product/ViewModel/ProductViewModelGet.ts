@@ -7,7 +7,7 @@ import {
 } from "../Interface/InterfaceProduct.ts";
 
 function ProductViewModelGet() {
-  const { API_URL_PRODUCT, API_URL } = API_FRONTEND();
+  const { API_URL, API_URL_PRODUCT_GET } = API_FRONTEND();
   const [products, setProducts] = useState<GetProductAllInterface[]>([]);
   const [getproductDetail, setProductDetail] =
     useState<GetProductDetailInterface | null>(null);
@@ -18,7 +18,7 @@ function ProductViewModelGet() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL_PRODUCT}/get`);
+        const response = await axios.get(`${API_URL_PRODUCT_GET}`);
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -32,12 +32,12 @@ function ProductViewModelGet() {
     };
 
     fetchData();
-  }, [API_URL_PRODUCT]);
+  }, [API_URL_PRODUCT_GET]);
 
   const getProductByID = async (productId: number) => {
     try {
       setProductId(productId);
-      const response = await fetch(`${API_URL_PRODUCT}/get/${productId}`);
+      const response = await fetch(`${API_URL_PRODUCT_GET}/${productId}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch product detail");
@@ -55,17 +55,27 @@ function ProductViewModelGet() {
     { name: "product_sku", uid: "product_sku", sortable: true },
     { name: "product_name", uid: "product_name", sortable: true },
     { name: "product_description", uid: "product_description", sortable: true },
-    { name: "product_short_description", uid: "product_short_description", sortable: true },
-    { name: "product_price_original", uid: "product_price_original", sortable: true },
-    { name: "product_price_discount", uid: "product_price_discount", sortable: true },
+    {
+      name: "product_short_description",
+      uid: "product_short_description",
+      sortable: true,
+    },
+    {
+      name: "product_price_original",
+      uid: "product_price_original",
+      sortable: true,
+    },
+    {
+      name: "product_price_discount",
+      uid: "product_price_discount",
+      sortable: true,
+    },
     { name: "product_quantity", uid: "product_quantity", sortable: true },
     { name: "product_weight", uid: "product_weight", sortable: true },
     { name: "CREATED_AT", uid: "createdAt", sortable: true },
     { name: "UPDATED_AT", uid: "updatedAt", sortable: true },
     { name: "ACTIONS", uid: "actions" },
   ];
-
-  
 
   const imageSrc = `${API_URL}/product`;
   return {

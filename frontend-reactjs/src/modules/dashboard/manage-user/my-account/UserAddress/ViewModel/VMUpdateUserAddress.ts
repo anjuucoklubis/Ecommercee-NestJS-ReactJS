@@ -3,6 +3,7 @@ import { Useraddress } from "../Interface/UserAddressInterface";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { toast } from "react-toastify";
+import API_FRONTEND from "../../../../../../api/api.ts";
 
 interface Province {
   id: number;
@@ -19,6 +20,11 @@ export const useUpdateAddress = (
   addressData: Useraddress,
   onClose: () => void
 ) => {
+  const {
+    API_URL_LOC_CITY,
+    API_URL_LOC_PROVINCE,
+    API_URL_USER_ADDRESS_UPDATE,
+  } = API_FRONTEND();
   const [error, setError] = useState<Error | null>(null);
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [cities, setCities] = useState<City[]>([]);
@@ -39,9 +45,7 @@ export const useUpdateAddress = (
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/masterlocation/province"
-        );
+        const response = await axios.get(`${API_URL_LOC_PROVINCE}`);
         setProvinces(response.data);
       } catch (error) {
         console.error("Error fetching provinces:", error);
@@ -56,12 +60,12 @@ export const useUpdateAddress = (
         console.log(`Fetching cities for province ID: ${selectedProvince}`);
         try {
           const response = await axios.get(
-            `http://localhost:3000/masterlocation/city/${selectedProvince}`
+            `${API_URL_LOC_CITY}/${selectedProvince}`
           );
           setCities(response.data);
-          setCity(""); 
-          setPostal_code(""); 
-          setSelectedCityName(""); 
+          setCity("");
+          setPostal_code("");
+          setSelectedCityName("");
         } catch (error) {
           console.error("Error fetching cities:", error);
           setCities([]);
@@ -72,7 +76,6 @@ export const useUpdateAddress = (
     };
     fetchCities();
   }, [selectedProvince]);
-  
 
   useEffect(() => {
     if (addressData) {
@@ -93,26 +96,27 @@ export const useUpdateAddress = (
     if (selectedProvince) {
       setSelectedProvince(selectedProvince.id.toString());
       setSelectedProvinceName(selectedProvince.province);
-      setProvince(selectedProvince.province); 
+      setProvince(selectedProvince.province);
       setCity("");
       setPostal_code("");
-      setSelectedCityName(""); 
+      setSelectedCityName("");
     } else {
       setSelectedProvince("");
       setSelectedProvinceName("");
       setProvince("");
       setCity("");
-      setPostal_code(""); 
+      setPostal_code("");
       setSelectedCityName("");
     }
   };
-  
 
   const handleCityChange = (e) => {
-    const selectedCity = cities.find((city) => city.id === Number(e.target.value));
+    const selectedCity = cities.find(
+      (city) => city.id === Number(e.target.value)
+    );
     if (selectedCity) {
       setCity(selectedCity.city_name);
-      setSelectedCityName(selectedCity.city_name); 
+      setSelectedCityName(selectedCity.city_name);
       setPostal_code(selectedCity.postal_code);
     } else {
       setCity("");
@@ -149,7 +153,7 @@ export const useUpdateAddress = (
 
     try {
       const response = await axios.patch(
-        `http://localhost:3000/useraddress/address/${addressData.id}`,
+        `${API_URL_USER_ADDRESS_UPDATE}/${addressData.id}`,
         JSON.stringify(addressData),
         {
           headers: {
@@ -202,6 +206,6 @@ export const useUpdateAddress = (
     city,
     postal_code,
     houseOroffice,
-    setHouseOroffice
+    setHouseOroffice,
   };
 };

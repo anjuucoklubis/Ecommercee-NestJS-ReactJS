@@ -7,7 +7,8 @@ import {
 import API_FRONTEND from "../../../../../api/api.ts";
 
 function CategoryProductViewModelUpdate({ onClose }) {
-  const { API_URL_CATEGORYPRODUCT } = API_FRONTEND();
+  const { API_URL_CATEGORYPRODUCT_GET, API_URL_CATEGORYPRODUCT_UPDATE } =
+    API_FRONTEND();
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [categoryDetail, setCategoryDetail] =
     useState<ShowModalCategoryProductDetailInterface | null>(null);
@@ -40,7 +41,7 @@ function CategoryProductViewModelUpdate({ onClose }) {
     try {
       setCategoryId(categoryId);
       const response = await fetch(
-        `${API_URL_CATEGORYPRODUCT}/get/${categoryId}`
+        `${API_URL_CATEGORYPRODUCT_GET}/${categoryId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch category detail");
@@ -76,7 +77,7 @@ function CategoryProductViewModelUpdate({ onClose }) {
       }
 
       const response = await fetch(
-        `${API_URL_CATEGORYPRODUCT}/update/${categoryId}`,
+        `${API_URL_CATEGORYPRODUCT_UPDATE}/${categoryId}`,
         {
           method: "PATCH",
           body: formData,

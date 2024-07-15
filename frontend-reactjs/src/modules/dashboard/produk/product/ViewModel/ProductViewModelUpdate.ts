@@ -9,7 +9,11 @@ import {
 import axios from "axios";
 
 function ProductViewModelUpdate({ onClose }) {
-  const { API_URL_PRODUCT } = API_FRONTEND();
+  const {
+    API_URL_PRODUCT_GET,
+    API_URL_PRODUCT_UPDATE,
+    API_URL_CATEGORYPRODUCT_GET,
+  } = API_FRONTEND();
   const [productId, setProductId] = useState<number | null>(null);
   const [productDetail, setProductDetail] =
     useState<ShowModalProductDetailInterface | null>(null);
@@ -29,7 +33,7 @@ function ProductViewModelUpdate({ onClose }) {
   const handleShowDetailProduct = async (productId) => {
     try {
       setProductId(productId);
-      const response = await fetch(`${API_URL_PRODUCT}/get/${productId}`);
+      const response = await fetch(`${API_URL_PRODUCT_GET}/${productId}`);
       if (!response.ok) {
         throw new Error("Failed to fetch product detail");
       }
@@ -61,7 +65,7 @@ function ProductViewModelUpdate({ onClose }) {
       // };
 
       console.log("Form Data:", formDataUpdate);
-      const response = await fetch(`${API_URL_PRODUCT}/update/${productId}`, {
+      const response = await fetch(`${API_URL_PRODUCT_UPDATE}/${productId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -106,9 +110,7 @@ function ProductViewModelUpdate({ onClose }) {
   useEffect(() => {
     const fetchDataCategoryForCreateProduct = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/categoryproduct/get"
-        );
+        const response = await axios.get(`${API_URL_CATEGORYPRODUCT_GET}`);
 
         const formattedData = response.data.map((item: any) => ({
           ...item,

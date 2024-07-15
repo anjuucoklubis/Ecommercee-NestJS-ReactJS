@@ -8,7 +8,7 @@ import {
 import API_FRONTEND from "../../../../../api/api.ts";
 
 function CategoryProductViewModelGet() {
-  const { API_URL_CATEGORYPRODUCT, API_URL} = API_FRONTEND();
+  const { API_URL_CATEGORYPRODUCT_GET, API_URL} = API_FRONTEND();
   const [categories, setCategories] = useState<
     GetCategoryProductAllInterface[]
   >([]);
@@ -21,7 +21,7 @@ function CategoryProductViewModelGet() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL_CATEGORYPRODUCT}/get`);
+        const response = await axios.get(`${API_URL_CATEGORYPRODUCT_GET}`);
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -35,13 +35,13 @@ function CategoryProductViewModelGet() {
     };
 
     fetchData();
-  }, [API_URL_CATEGORYPRODUCT]);
+  }, [API_URL_CATEGORYPRODUCT_GET]);
 
   const getCategoryByID = async (categoryId: number) => {
     try {
       setCategoryId(categoryId);
       const response = await fetch(
-        `${API_URL_CATEGORYPRODUCT}/get/${categoryId}`
+        `${API_URL_CATEGORYPRODUCT_GET}/${categoryId}`
       );
 
       if (!response.ok) {

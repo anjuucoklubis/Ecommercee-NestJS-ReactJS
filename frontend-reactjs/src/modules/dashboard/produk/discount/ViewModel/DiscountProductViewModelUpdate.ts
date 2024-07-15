@@ -7,7 +7,8 @@ import {
 } from "../Interface/InterfaceDiscountProduct.ts";
 
 function DiscountProductViewModelUpdate({ onClose }) {
-  const { API_URL_DISCOUNTPRODUCT } = API_FRONTEND();
+  const { API_URL_DISCOUNTPRODUCT_UPDATE, API_URL_DISCOUNTPRODUCT_GET } =
+    API_FRONTEND();
   const [discountId, setDiscountId] = useState<number | null>(null);
   const [discountDetail, setDiscountDetail] =
     useState<ShowModalDiscountProductDetailInterface | null>(null);
@@ -23,7 +24,7 @@ function DiscountProductViewModelUpdate({ onClose }) {
     try {
       setDiscountId(discountId);
       const response = await fetch(
-        `${API_URL_DISCOUNTPRODUCT}/get/${discountId}`
+        `${API_URL_DISCOUNTPRODUCT_GET}/${discountId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch discount detail");
@@ -55,7 +56,7 @@ function DiscountProductViewModelUpdate({ onClose }) {
 
       console.log("Form Data:", formDataUpdate);
       const response = await fetch(
-        `${API_URL_DISCOUNTPRODUCT}/update/${discountId}`,
+        `${API_URL_DISCOUNTPRODUCT_UPDATE}/${discountId}`,
         {
           method: "PATCH",
           headers: {

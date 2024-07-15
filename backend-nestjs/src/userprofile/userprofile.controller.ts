@@ -39,7 +39,7 @@ export class UserprofileController {
   constructor(private readonly userprofileService: UserprofileService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('profile')
+  @Post('profile-create')
   @UseInterceptors(FileInterceptor('image', StorageUploadUserProfile))
   @ApiOkResponse({
     description: 'OK',
@@ -79,7 +79,7 @@ export class UserprofileController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('profile')
+  @Patch('profile-update')
   @ApiOkResponse({
     description: 'OK',
     type: UserProfileResponse,
@@ -144,7 +144,7 @@ export class UserprofileController {
     }
   }
 
-  @Get('userprofile-image/:imageName')
+  @Get('profile-image/:imageName')
   @UseGuards(JwtAuthGuard)
   @ApiOkResponse({
     description: 'Get user profile image',

@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 
 function GaleriesViewModelCreate({ onClose }) {
-  const { API_URL_GALERIESPRODUCT } = API_FRONTEND();
+  const { API_URL_GALERIESPRODUCT_CREATE } = API_FRONTEND();
   const [formData, setFormData] = useState<{
     id: number;
     product_galeries_image: File | null;
@@ -32,7 +32,7 @@ function GaleriesViewModelCreate({ onClose }) {
 
     try {
       const response = await fetch(
-        `${API_URL_GALERIESPRODUCT}/create/${formData.productId}`,
+        `${API_URL_GALERIESPRODUCT_CREATE}/${formData.productId}`,
         {
           method: "POST",
           body: formDataToSend,

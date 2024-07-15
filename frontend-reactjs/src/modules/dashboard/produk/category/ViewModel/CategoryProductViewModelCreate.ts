@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 function CategoryProductViewModelCreate({ onClose }) {
-  const { API_URL_CATEGORYPRODUCT } = API_FRONTEND();
+  const { API_URL_CATEGORYPRODUCT_CREATE } = API_FRONTEND();
   const [showModalCreateCategory, setShowModalCreateCateogry] =
     React.useState(false);
   const [formData, setFormData] = useState<{
@@ -40,7 +40,7 @@ function CategoryProductViewModelCreate({ onClose }) {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("image", formData.image);
 
-      const response = await fetch(`${API_URL_CATEGORYPRODUCT}/create`, {
+      const response = await fetch(`${API_URL_CATEGORYPRODUCT_CREATE}`, {
         method: "POST",
         body: formDataToSend,
       });

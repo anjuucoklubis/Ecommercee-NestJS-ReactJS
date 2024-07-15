@@ -4,16 +4,13 @@ import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 
 function CategoryProductViewModelDelete() {
-  const { API_URL_CATEGORYPRODUCT} = API_FRONTEND();
+  const { API_URL_CATEGORYPRODUCT_DELETE } = API_FRONTEND();
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
   const handleRemoveItem = async (id: number) => {
     try {
-      const response = await fetch(
-        `${API_URL_CATEGORYPRODUCT}/delete/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${API_URL_CATEGORYPRODUCT_DELETE}/${id}`, {
+        method: "DELETE",
+      });
       if (response.ok) {
       } else {
         console.error("Failed to delete item:", response.statusText);

@@ -3,12 +3,12 @@ import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 
 function GaleriesViewModelDelete() {
-  const { API_URL_GALERIESPRODUCT } = API_FRONTEND();
+  const { API_URL_GALERIESPRODUCT_DELETE } = API_FRONTEND();
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
 
   const handleRemoveItem = async (id: number) => {
     try {
-      const response = await fetch(`${API_URL_GALERIESPRODUCT}/delete/${id}`, {
+      const response = await fetch(`${API_URL_GALERIESPRODUCT_DELETE}/${id}`, {
         method: "DELETE",
       });
 

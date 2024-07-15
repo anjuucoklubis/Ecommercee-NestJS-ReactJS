@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 function DiscountProductViewModelCreate({ onClose }) {
-  const { API_URL_DISCOUNTPRODUCT } = API_FRONTEND();
+  const { API_URL_DISCOUNTPRODUCT_CREATE } = API_FRONTEND();
   const [showModalCreateDiscount, setShowModalCreateDiscount] =
     React.useState(false);
   const [formData, setFormData] = useState<{
@@ -51,7 +51,7 @@ function DiscountProductViewModelCreate({ onClose }) {
         product_discount_active: formData.product_discount_active === "1",
       };
 
-      const response = await fetch(`${API_URL_DISCOUNTPRODUCT}/create`, {
+      const response = await fetch(`${API_URL_DISCOUNTPRODUCT_CREATE}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

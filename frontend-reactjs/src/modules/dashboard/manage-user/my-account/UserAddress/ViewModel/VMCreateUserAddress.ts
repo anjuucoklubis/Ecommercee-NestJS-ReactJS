@@ -18,7 +18,11 @@ interface City {
 }
 
 function VMCreateUserAddress({ onClose }) {
-  const { API_URL_USER_ADDRESS_CREATE } = API_FRONTEND();
+  const {
+    API_URL_USER_ADDRESS_CREATE,
+    API_URL_LOC_CITY,
+    API_URL_LOC_PROVINCE,
+  } = API_FRONTEND();
   const [formData, setFormData] = useState<{
     full_name: string;
     number_phone: string;
@@ -44,9 +48,7 @@ function VMCreateUserAddress({ onClose }) {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/masterlocation/province"
-        );
+        const response = await axios.get(`${API_URL_LOC_PROVINCE}`);
         setProvinces(response.data);
       } catch (error) {
         console.error("Error fetching provinces:", error);
@@ -61,7 +63,7 @@ function VMCreateUserAddress({ onClose }) {
         console.log(`Fetching cities for province ID: ${selectedProvince}`);
         try {
           const response = await axios.get(
-            `http://localhost:3000/masterlocation/city/${selectedProvince}`
+            `${API_URL_LOC_CITY}/${selectedProvince}`
           );
           setCities(response.data);
         } catch (error) {

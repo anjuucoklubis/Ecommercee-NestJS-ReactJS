@@ -7,24 +7,41 @@ const API_FRONTEND = () => {
   const API_URL_AUTH_LOGIN = "http://localhost:3000/auth/signin";
   const API_URL_AUTH_CHANGEPASSWORD = "http://localhost:3000/auth/change-password";
 
-
   /*MANAGEMENT PRODUCT API */
-  const API_URL_PRODUCT = "http://localhost:3000/product";
-  const API_URL_CATEGORYPRODUCT = "http://localhost:3000/categoryproduct";
-  const API_URL_DISCOUNTPRODUCT = "http://localhost:3000/discountproduct";
-  const API_URL_GALERIESPRODUCT = "http://localhost:3000/galeriesproduct";
+  const API_URL_PRODUCT_GET = "http://localhost:3000/product/get";
+  const API_URL_PRODUCT_CREATE = "http://localhost:3000/product/create";
+  const API_URL_PRODUCT_DELETE = "http://localhost:3000/product/delete";
+  const API_URL_PRODUCT_UPDATE = "http://localhost:3000/product/update";
+
+  /*MANAGEMENT CATEGORY PRODUCT API */
+  const API_URL_CATEGORYPRODUCT_CREATE = "http://localhost:3000/categoryproduct/create";
+  const API_URL_CATEGORYPRODUCT_GET = "http://localhost:3000/categoryproduct/get";
+  const API_URL_CATEGORYPRODUCT_DELETE = "http://localhost:3000/categoryproduct/delete";
+  const API_URL_CATEGORYPRODUCT_UPDATE = "http://localhost:3000/categoryproduct/update";
+
+  /*MANAGEMENT DISCOUNT PRODUCT API */
+  const API_URL_DISCOUNTPRODUCT_GET = "http://localhost:3000/discountproduct/get";
+  const API_URL_DISCOUNTPRODUCT_CREATE= "http://localhost:3000/discountproduct/create";
+  const API_URL_DISCOUNTPRODUCT_UPDATE = "http://localhost:3000/discountproduct/update";
+  const API_URL_DISCOUNTPRODUCT_DELETE = "http://localhost:3000/discountproduct/delete";
+
+  /*MANAGEMENT GALERI PRODUCT API */
+  const API_URL_GALERIESPRODUCT_CREATE = "http://localhost:3000/galeriesproduct/create";
+  const API_URL_GALERIESPRODUCT_DELETE = "http://localhost:3000/galeriesproduct/delete";
+
+
   const API_URL_IMAGESRC_PRODUCT = `${API_URL}/product`;
   const API_URL_IMAGESRC = `${API_URL}/category`;
 
   /*MANAGEMENT URL USER PROFILE */
-  const API_URL_USER_PROFILE_CREATE = "http://localhost:3000/userprofile/profile";
-  const API_URL_USER_PROFILE_UPDATE = "http://localhost:3000/userprofile/profile";
-  const API_URL_USER_PROFILE_IMAGE = "http://localhost:3000/userprofile/userprofile-image";
+  const API_URL_USER_PROFILE_CREATE = "http://localhost:3000/userprofile/profile-create";
+  const API_URL_USER_PROFILE_UPDATE = "http://localhost:3000/userprofile/profile=update";
+  const API_URL_USER_PROFILE_IMAGE = "http://localhost:3000/userprofile/profile-image";
 
-/*MANAGEMENT URL USER ADDRESS */
-  const API_URL_USER_ADDRESS_CREATE = "http://localhost:3000/useraddress/address";
-  const API_URL_USER_ADDRESS_UPDATE = "http://localhost:3000/useraddress/address";
- 
+  /*MANAGEMENT URL USER ADDRESS */
+  const API_URL_USER_ADDRESS_CREATE = "http://localhost:3000/useraddress/address-create";
+  const API_URL_USER_ADDRESS_UPDATE = "http://localhost:3000/useraddress/address-update";
+  const API_URL_USER_ADDRESS_DELETE = "http://localhost:3000/useraddress/address-delete";
 
   /*MANAGEMENT LOCATION */
   const API_URL_LOC_CITY = "http://localhost:3000/masterlocation/city";
@@ -32,22 +49,34 @@ const API_FRONTEND = () => {
 
   return {
     API_URL,
-    API_URL_CATEGORYPRODUCT,
-    API_URL_DISCOUNTPRODUCT,
+    API_URL_DISCOUNTPRODUCT_GET,
+    API_URL_DISCOUNTPRODUCT_CREATE,
+    API_URL_DISCOUNTPRODUCT_UPDATE,
+    API_URL_DISCOUNTPRODUCT_DELETE,
     API_URL_IMAGESRC,
-    API_URL_PRODUCT,
     API_URL_IMAGESRC_PRODUCT,
-    API_URL_GALERIESPRODUCT,
+    API_URL_GALERIESPRODUCT_CREATE,
+    API_URL_GALERIESPRODUCT_DELETE,
     API_URL_AUTH_REGISTER,
     API_URL_AUTH_LOGIN,
     API_URL_USER_PROFILE_CREATE,
     API_URL_USER_PROFILE_UPDATE,
     API_URL_USER_ADDRESS_CREATE,
     API_URL_USER_ADDRESS_UPDATE,
+    API_URL_USER_ADDRESS_DELETE,
     API_URL_LOC_CITY,
     API_URL_LOC_PROVINCE,
     API_URL_USER_PROFILE_IMAGE,
-    API_URL_AUTH_CHANGEPASSWORD
+    API_URL_AUTH_CHANGEPASSWORD,
+    API_URL_PRODUCT_GET,
+    API_URL_PRODUCT_CREATE,
+    API_URL_CATEGORYPRODUCT_GET,
+    API_URL_PRODUCT_DELETE,
+    API_URL_PRODUCT_UPDATE,
+    API_URL_CATEGORYPRODUCT_CREATE,
+    API_URL_CATEGORYPRODUCT_DELETE,
+    API_URL_CATEGORYPRODUCT_UPDATE
+    
   };
 };
 
