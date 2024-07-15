@@ -63,12 +63,12 @@ function CategoryProductViewModelGet() {
 
   const columns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "NAME", uid: "name", sortable: true },
-    { name: "DESCRIPTION", uid: "description", sortable: true },
-    { name: "IMAGE", uid: "image", sortable: true },
-    { name: "CREATED_AT", uid: "createdAt", sortable: true },
-    { name: "UPDATED_AT", uid: "updatedAt", sortable: true },
-    { name: "ACTIONS", uid: "actions" },
+    { name: "Name", uid: "name", sortable: true },
+    { name: "Description", uid: "description", sortable: true },
+    { name: "Image", uid: "image", sortable: true },
+    { name: "Created", uid: "createdAt", sortable: true },
+    { name: "Updated", uid: "updatedAt", sortable: true },
+    { name: "Actions", uid: "actions" },
   ];
 
   const imageSrc = `${API_URL}/category`;

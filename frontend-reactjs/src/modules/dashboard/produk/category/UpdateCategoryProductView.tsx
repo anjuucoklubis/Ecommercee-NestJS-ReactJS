@@ -39,7 +39,7 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
     if (categoryId) {
       handleShowDetailCategory(parseInt(categoryId, 10));
     }
-  }, [ categoryId]);
+  }, [categoryId]);
 
   return (
     <div>
@@ -83,7 +83,14 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
                 onChange={handleInputChangeUpdateCategory}
               />
 
-              <div className="col-span-2">
+              <div
+                className="col-span-2"
+                style={{
+                  border: "2px solid #ccc",
+                  borderRadius: "10px",
+                  padding: "10px",
+                }}
+              >
                 <label
                   htmlFor="name"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
