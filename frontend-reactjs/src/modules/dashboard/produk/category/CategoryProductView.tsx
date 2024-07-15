@@ -33,6 +33,7 @@ import CategoryProductViewModelDelete from "./ViewModel/CategoryProductViewModel
 import UpdateCategoryProductView from "./UpdateCategoryProductView.tsx";
 import { ToastContainer } from "react-toastify";
 import DetailCategoryProductView from "./DetailCategoryProductView.tsx";
+import DateComponenttt from "../../../../components/date/date.ts";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -55,6 +56,7 @@ export default function CategoryProductView() {
     itemToDelete,
     setItemToDelete,
   } = CategoryProductViewModelDelete();
+  const { formatDate } = DateComponenttt();
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -168,6 +170,13 @@ export default function CategoryProductView() {
               {cellValue}
             </Chip>
           );
+        case "createdAt":
+          return formatDate(cellValue || null) || "-";
+
+        case "updatedAt":
+          return cellValue && cellValue !== "1970-01-01T00:00:00.000Z"
+            ? formatDate(cellValue)
+            : "-";
         case "actions":
           return (
             <div className="relative flex justify-end items-center gap-2">

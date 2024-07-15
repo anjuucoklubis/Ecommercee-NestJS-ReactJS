@@ -40,7 +40,11 @@ export class CategoryproductService {
         );
 
       const createCategoryProduct = await this.prisma.categoryProduct.create({
-        data: { ...createCategoryProductRequest, image: file.filename },
+        data: {
+          ...createCategoryProductRequest,
+          image: file.filename,
+          updatedAt: null,
+        },
       });
 
       const response: CategoryProductResponse = {

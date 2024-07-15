@@ -27,7 +27,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
 }) => {
   const { getCategoryByID, getcategoryDetail } = CategoryProductViewModelGet();
 
-  const {API_URL_CATEGORYPRODUCT_IMAGE} = API_FRONTEND();
+  const { API_URL_CATEGORYPRODUCT_IMAGE } = API_FRONTEND();
   const { formatDate } = DateComponenttt();
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
               value={getcategoryDetail?.description}
               disabled={true}
             />
-               <Input
+            <Input
               endContent={
                 <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
@@ -85,7 +85,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
               value={formatDate(getcategoryDetail?.createdAt)}
               disabled={true}
             />
-               <Input
+            <Input
               endContent={
                 <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
@@ -94,17 +94,21 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
               type="text"
               variant="bordered"
               name="updatedAt"
-              value={formatDate(getcategoryDetail?.updatedAt)}
+              value={
+                getcategoryDetail?.updatedAt
+                  ? formatDate(getcategoryDetail?.updatedAt)
+                  : "-"
+              }
               disabled={true}
             />
-       
+
             {getcategoryDetail?.image && (
               <div className="col-span-2">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Image Category Product
                 </label>
                 <img
-                  src={(`${API_URL_CATEGORYPRODUCT_IMAGE}/${getcategoryDetail?.image}`)}
+                  src={`${API_URL_CATEGORYPRODUCT_IMAGE}/${getcategoryDetail?.image}`}
                   alt="Preview"
                   className="max-w-full h-auto max-h-24 rounded-lg"
                 />
