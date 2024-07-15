@@ -22,6 +22,7 @@ import UserAddressCreateView from "./UserAddress/UserAddressCreateView.tsx";
 import UserAddressUpdateView from "./UserAddress/UserAddressUpdateView.tsx";
 import VMDeleteUserAddress from "./UserAddress/ViewModel/VMDeleteUserAddress.ts";
 import ChangePasswordView from "../../../auth/changepassword/ChangePasswordView.tsx";
+import DateComponenttt from "../../../../../src/components/date/date.ts";
 
 const MyAccountView = () => {
   const { fetchUserProfile, API_URL_USER_PROFILE_IMAGE } = GetDataMyAccount();
@@ -40,6 +41,7 @@ const MyAccountView = () => {
   const [isOpenUpdateAddress, setIsOpenUpdateAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isOpenChangePassword, setIsOpenChangePassword] = useState(false);
+  const { formatDate } = DateComponenttt();
 
   const handleEditProfile = (id) => {
     setIsOpenUpdateUserProfile(true);
@@ -121,12 +123,20 @@ const MyAccountView = () => {
                               <td>{profile?.email || "-"}</td>
                             </tr>
                             <tr>
-                              <th>createdAt</th>
-                              <td>{profile?.createdAt || "-"}</td>
+                              <th>Akun di buat pada</th>
+                              <td>
+                                {profile?.createdAt
+                                  ? formatDate(profile.createdAt)
+                                  : "-"}
+                              </td>
                             </tr>
                             <tr>
-                              <th>updateAt</th>
-                              <td>{profile?.updateAt || "-"}</td>
+                              <th>Akun di update pada</th>
+                              <td>
+                                {profile?.updateAt
+                                  ? formatDate(profile.updateAt)
+                                  : "-"}
+                              </td>
                             </tr>
                           </thead>
                         </table>
