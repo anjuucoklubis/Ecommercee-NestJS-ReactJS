@@ -31,6 +31,7 @@ import DiscountProductViewModelGet from "./ViewModel/DiscountProductViewModelGet
 import DiscountProductViewModelDelete from "./ViewModel/DiscountProductViewModelDelete.ts";
 import AddDiscountProductView from "./AddDiscountProductView.tsx";
 import UpdateDiscountProductView from "./UpdateCategoryProductView.tsx";
+import DateComponenttt from "../../../../components/date/date.ts";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -48,6 +49,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 ];
 
 export default function DiscountProductView() {
+  const { formatDate } = DateComponenttt();
   const { discount, columns } = DiscountProductViewModelGet();
   const {
     handleConfirmDelete,
@@ -150,6 +152,13 @@ export default function DiscountProductView() {
               <p className="text-bold text-small capitalize">{cellValue}</p>
             </div>
           );
+        case "createdAt":
+          return formatDate(cellValue || null) || "-";
+
+        case "updatedAt":
+          return cellValue && cellValue !== "1970-01-01T00:00:00.000Z"
+            ? formatDate(cellValue)
+            : "-";
         case "product_discount_active":
           return (
             <Chip

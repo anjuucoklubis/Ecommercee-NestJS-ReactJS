@@ -65,7 +65,7 @@ const AddDiscountProductView: React.FC<AddDiscountProductViewProps> = ({
                 endContent={
                   <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
-                label="Description Discount"
+                label="Percent Discount"
                 placeholder="Enter Percent"
                 type="number"
                 variant="bordered"

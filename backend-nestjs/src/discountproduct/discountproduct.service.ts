@@ -33,7 +33,7 @@ export class DiscountproductService {
         );
 
       const createDiscountProduct = await this.prisma.productDiscount.create({
-        data: { ...createDiscountProductRequest },
+        data: { ...createDiscountProductRequest, updatedAt: null },
       });
 
       const response: DiscountProductResponse = {

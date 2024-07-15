@@ -62,17 +62,17 @@ function DiscountProductViewModelGet() {
 
   const columns = [
     { name: "ID", uid: "id", sortable: true },
-    { name: "NAME", uid: "product_discount_name", sortable: true },
+    { name: "Name", uid: "product_discount_name", sortable: true },
     {
-      name: "DESCRIPTION",
+      name: "Description",
       uid: "product_discount_description",
       sortable: true,
     },
-    { name: "PERCENT", uid: "product_discount_percent", sortable: true },
-    { name: "ACTIVE", uid: "product_discount_active", sortable: true },
-    { name: "CREATED_AT", uid: "createdAt", sortable: true },
-    { name: "UPDATED_AT", uid: "updatedAt", sortable: true },
-    { name: "ACTIONS", uid: "actions" },
+    { name: "Percent", uid: "product_discount_percent", sortable: true },
+    { name: "Active", uid: "product_discount_active", sortable: true },
+    { name: "Created", uid: "createdAt", sortable: true },
+    { name: "Updated", uid: "updatedAt", sortable: true },
+    { name: "Actions", uid: "actions" },
   ];
 
   return {
