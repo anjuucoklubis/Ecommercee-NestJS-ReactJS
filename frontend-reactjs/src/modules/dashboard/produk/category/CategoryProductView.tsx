@@ -32,6 +32,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CategoryProductViewModelDelete from "./ViewModel/CategoryProductViewModelDelete.ts";
 import UpdateCategoryProductView from "./UpdateCategoryProductView.tsx";
 import { ToastContainer } from "react-toastify";
+import DetailCategoryProductView from "./DetailCategoryProductView.tsx";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -39,7 +40,12 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["id", "name", "description", "actions"];
+const INITIAL_VISIBLE_COLUMNS = [
+  "id",
+  "name",
+  "description",
+  "actions",
+];
 
 export default function CategoryProductView() {
   const { categories, columns } = CategoryProductViewModelGet();
@@ -115,78 +121,93 @@ export default function CategoryProductView() {
         return sortDescriptor.direction === "descending" ? -cmp : cmp;
       }
 
-      // Handle case when sortDescriptor.column is undefined
-      return 0; // Return default value or handle as per your logic
+      return 0;
     });
   }, [sortDescriptor, items]);
 
   const [isOpenUpdateCategory, setIsOpenUpdateCategory] = useState(false);
   const [categoryIdToEdit, setCategoryIdToEdit] = useState(null);
+  const [isOpenDetailCategory, setIsOpenDetailCategory] = useState(false);
+  const [categoryIdToDetail, setCategoryIdToDetail] = useState(null);
 
   const handleEdit = (id) => {
     setCategoryIdToEdit(id);
     setIsOpenUpdateCategory(true);
   };
 
+  const handleDetail = (id) => {
+    setCategoryIdToDetail(id);
+    setIsOpenDetailCategory(true);
+  };
+
   const closeModal = () => {
     setIsOpenUpdateCategory(false);
     setCategoryIdToEdit(null);
+    setIsOpenDetailCategory(false);
   };
 
-  const renderCell = React.useCallback((category, columnKey) => {
-    const cellValue = category[columnKey];
+  const renderCell = React.useCallback(
+    (category, columnKey) => {
+      const cellValue = category[columnKey];
 
-    switch (columnKey) {
-      case "name":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-small capitalize">{cellValue}</p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[category.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-300" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Dynamic Actions"
-                onAction={(key) => {
-                  if (key === "Edit") {
-                    handleEdit(category.id);
-                  } else if (key === "Delete") {
-                    setItemToDelete(category.id);
-                  }
-                }}
-              >
-                <DropdownItem key="Edit" color="warning">
-                  Edit
-                </DropdownItem>
-                <DropdownItem key="Delete" color="danger">
-                  Delete
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, [setItemToDelete]);
+      switch (columnKey) {
+        case "name":
+          return (
+            <div className="flex flex-col">
+              <p className="text-bold text-small capitalize">{cellValue}</p>
+            </div>
+          );
+        case "status":
+          return (
+            <Chip
+              className="capitalize"
+              color={statusColorMap[category.status]}
+              size="sm"
+              variant="flat"
+            >
+              {cellValue}
+            </Chip>
+          );
+        case "actions":
+          return (
+            <div className="relative flex justify-end items-center gap-2">
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button isIconOnly size="sm" variant="light">
+                    <VerticalDotsIcon className="text-default-300" />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Dynamic Actions"
+                  onAction={(key) => {
+                    if (key === "Edit") {
+                      handleEdit(category.id);
+                    } else if (key === "Delete") {
+                      setItemToDelete(category.id);
+                    } else if (key === "detail") {
+                      handleDetail(category.id);
+                    }
+                  }}
+                >
+                  <DropdownItem key="detail" color="success">
+                    View
+                  </DropdownItem>
+                  <DropdownItem key="Edit" color="warning">
+                    Edit
+                  </DropdownItem>
+                  <DropdownItem key="Delete" color="danger">
+                    Delete
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [setItemToDelete]
+  );
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
@@ -333,9 +354,8 @@ export default function CategoryProductView() {
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
   return (
-    
     <PartialView>
-            <ToastContainer />
+      <ToastContainer />
 
       <Table
         aria-label="Example table with custom cells, pagination and sorting"
@@ -381,7 +401,11 @@ export default function CategoryProductView() {
         categoryId={categoryIdToEdit || ""}
       />
       <AddCategoryProductView isOpen={isOpen} onClose={onClose} />
-
+      <DetailCategoryProductView
+        isOpenDetailCategory={isOpenDetailCategory}
+        onClose={closeModal}
+        categoryId={categoryIdToDetail || ""}
+      />
       {itemToDelete && (
         <div
           id="popup-modal"
