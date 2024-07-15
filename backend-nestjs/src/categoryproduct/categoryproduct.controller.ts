@@ -13,15 +13,20 @@ import {
   HttpException,
   UseInterceptors,
   ParseFilePipeBuilder,
+  UseGuards,
 } from '@nestjs/common';
+import { join } from 'path';
+import { Observable, of } from 'rxjs';
+
 import {
+  UnauthorizedResponse,
   CategoryProductResponse,
   CreateCategoryProductRequest,
-  UnauthorizedResponse,
   UpdateCategoryProductRequest,
 } from 'src/model/categoryproduct.model';
 import { existsSync, unlinkSync } from 'fs';
 import { WebResponse } from 'src/model/web.model';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageUploadCategory } from 'src/utils/storage-upload';
 import { CategoryproductService } from './categoryproduct.service';
@@ -182,5 +187,19 @@ export class CategoryproductController {
     } else {
       return response;
     }
+  }
+
+  @Get('categoryproduct-image/:imageName')
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: 'Get category product image',
+  })
+  getProfileImage(
+    @Param('imageName') imageName,
+    @Res() res,
+  ): Observable<string> {
+    return of(
+      res.sendFile(join(process.cwd(), 'public/img/category/' + imageName)),
+    );
   }
 }

@@ -33,7 +33,7 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
     handleImageChangeUpdateCategoryProduct,
   } = CategoryProductViewModelUpdate({ onClose });
 
-  const { API_URL_IMAGESRC } = API_FRONTEND();
+  const { API_URL_CATEGORYPRODUCT_IMAGE } = API_FRONTEND();
 
   useEffect(() => {
     if (categoryId) {
@@ -135,12 +135,12 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
                 <div className="flex flex-col items-start">
                   <label
                     htmlFor="currentImage"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font- medium text-gray-900 dark:text-white"
                   >
                     Gambar saat ini
                   </label>
                   <img
-                    src={`${API_URL_IMAGESRC}/${formDataUpdate.originalImage}`}
+                    src={`${API_URL_CATEGORYPRODUCT_IMAGE}/${formDataUpdate.originalImage}`}
                     alt="Current"
                     className="max-w-full h-auto max-h-20 rounded-lg"
                   />
