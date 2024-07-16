@@ -13,6 +13,8 @@ const API_FRONTEND = () => {
   const API_URL_PRODUCT_DELETE = "http://localhost:3000/product/delete";
   const API_URL_PRODUCT_UPDATE = "http://localhost:3000/product/update";
   const API_URL_PRODUCT_IMAGE = "http://localhost:3000/product/product-image";
+  const API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT = "http://localhost:3000/product/assign-to-discount";
+
 
 
   /*MANAGEMENT CATEGORY PRODUCT API */
@@ -78,7 +80,8 @@ const API_FRONTEND = () => {
     API_URL_CATEGORYPRODUCT_DELETE,
     API_URL_CATEGORYPRODUCT_UPDATE,
     API_URL_CATEGORYPRODUCT_IMAGE,
-    API_URL_PRODUCT_IMAGE
+    API_URL_PRODUCT_IMAGE,
+    API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT
     
   };
 };

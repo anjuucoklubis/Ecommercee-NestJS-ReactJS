@@ -35,6 +35,7 @@ import UpdateProductView from "./UpdateProductView.tsx";
 import ProductViewModelDelete from "./ViewModel/ProductViewModelDelete.ts";
 import GaleriesView from "./GaleriesView.tsx";
 import DateComponenttt from "../../../../components/date/date.ts";
+import AssignProductDiscountView from "./AssignProductDiscountView.tsx";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -45,6 +46,8 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 const INITIAL_VISIBLE_COLUMNS = [
   "product_name",
   "product_quantity",
+  "product_price_original",
+  "product_price_discount",
   "status",
   "actions",
 ];
@@ -77,6 +80,7 @@ export default function ProductView() {
     setIsOpenGaleriesProduct(false);
     setIsOpenDetailProduct(false);
     setProductIdToGaleries(null);
+    setIsOpenAssignProductDiscount(false);
   };
 
   const {
@@ -95,6 +99,13 @@ export default function ProductView() {
     setIsOpenGaleriesProduct(true);
   };
 
+  //assign product discount
+  const [isOpenAssignProductDiscount, setIsOpenAssignProductDiscount] =
+    useState(false);
+
+  const handleAssignProductDiscount = () => {
+    setIsOpenAssignProductDiscount(true);
+  };
   // ========================
 
   const [filterValue, setFilterValue] = React.useState("");
@@ -294,7 +305,7 @@ export default function ProductView() {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name... PRODUCT VIEW"
+            placeholder="Search by name..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -351,6 +362,13 @@ export default function ProductView() {
             </Dropdown>
             <Button onPress={onOpen} color="primary" endContent={<PlusIcon />}>
               Add New
+            </Button>
+            <Button
+              onPress={handleAssignProductDiscount} // Pass the product ID
+              color="primary"
+              endContent={<PlusIcon />}
+            >
+              Assign Product Discount
             </Button>
           </div>
         </div>
@@ -477,6 +495,12 @@ export default function ProductView() {
         onClose={closeModal}
         productId={productIdToGaleries || ""}
       />
+      <AssignProductDiscountView
+        isOpenAssignProductDiscount={isOpenAssignProductDiscount}
+        onClose={closeModal}
+
+      />
+
       {itemToDelete && (
         <div
           id="popup-modal"
