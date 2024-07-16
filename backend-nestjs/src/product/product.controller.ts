@@ -14,6 +14,7 @@ import {
 } from '@nestjs/common';
 import { join } from 'path';
 import {
+  AssignProductToDiscountRequest,
   CreateProductRequest,
   ProductResponse,
   UnauthorizedResponse,
@@ -174,5 +175,29 @@ export class ProductController {
     return of(
       res.sendFile(join(process.cwd(), 'public/img/product/' + imageName)),
     );
+  }
+
+  @Post('/assign-to-discount')
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    description: 'Products assigned to discount',
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad Request',
+    type: UnauthorizedResponse,
+  })
+  @HttpCode(200)
+  async assignToDiscount(
+    @Body() request: AssignProductToDiscountRequest,
+  ): Promise<WebResponse<void>> {
+    try {
+      await this.productService.assignToDiscount(request);
+      return { data: null }; // No data to return on success
+    } catch (error) {
+      throw new HttpException(
+        'Failed to assign products to discount: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

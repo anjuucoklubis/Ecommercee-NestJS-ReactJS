@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateProductRequest {
   @ApiProperty({
@@ -189,4 +190,21 @@ export class RemoveResponseOk {
   constructor(data: boolean) {
     this.data = data;
   }
+}
+
+export class AssignProductToDiscountRequest {
+  @ApiProperty({
+    example: 1,
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  discountId: number;
+
+  @ApiProperty({
+    type: [Number],
+  })
+  @IsNotEmpty()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  productIds: number[];
 }

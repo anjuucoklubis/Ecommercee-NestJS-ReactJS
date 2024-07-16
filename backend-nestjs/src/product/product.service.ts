@@ -5,6 +5,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import {
+  AssignProductToDiscountRequest,
   CreateProductRequest,
   ProductResponse,
   UpdateProductRequest,
@@ -145,5 +146,49 @@ export class ProductService {
         id: +id,
       },
     });
+  }
+
+  async assignToDiscount(
+    request: AssignProductToDiscountRequest,
+  ): Promise<void> {
+    try {
+      const productDiscountId = request.discountId;
+      const productIds = request.productIds;
+
+      // Fetch existing products to validate the IDs
+      const existingProducts = await this.prisma.product.findMany({
+        where: {
+          id: { in: productIds },
+        },
+        select: { id: true }, // Only get IDs
+      });
+
+      const existingProductIds = existingProducts.map((product) => product.id);
+
+      // Check for missing product IDs
+      const missingProductIds = productIds.filter(
+        (id) => !existingProductIds.includes(id),
+      );
+
+      if (missingProductIds.length > 0) {
+        throw new Error(
+          `Product IDs not found: ${missingProductIds.join(', ')}`,
+        );
+      }
+
+      // Proceed with the update if all IDs are valid
+      await this.prisma.$transaction(
+        existingProductIds.map((productId) =>
+          this.prisma.product.update({
+            where: { id: productId },
+            data: { productDiscountId },
+          }),
+        ),
+      );
+    } catch (error) {
+      throw new Error(
+        'Failed to assign products to discount: ' + error.message,
+      );
+    }
   }
 }
