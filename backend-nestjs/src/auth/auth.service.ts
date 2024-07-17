@@ -28,10 +28,19 @@ export class AuthService {
 
     const hashedPassword = await this.hashPassword(password);
 
+    const pembeliRole = await this.prisma.userRole.findUnique({
+      where: { role_name: 'PEMBELI' },
+    });
+
+    if (!pembeliRole) {
+      throw new BadRequestException('Role PEMBELI not found');
+    }
+
     await this.prisma.user.create({
       data: {
         email,
         hashedPassword,
+        userRoleId: pembeliRole.id,
       },
     });
 
