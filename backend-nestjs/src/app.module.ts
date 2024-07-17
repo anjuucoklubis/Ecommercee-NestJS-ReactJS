@@ -18,6 +18,7 @@ import { UsersModule } from './users/users.module';
 import { MasterlocationModule } from './masterlocation/masterlocation.module';
 import { UserprofileModule } from './userprofile/userprofile.module';
 import { UseraddressModule } from './useraddress/useraddress.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { UseraddressModule } from './useraddress/useraddress.module';
     MasterlocationModule,
     UserprofileModule,
     UseraddressModule,
+    RoleModule,
   ],
   controllers: [
     AppController,
