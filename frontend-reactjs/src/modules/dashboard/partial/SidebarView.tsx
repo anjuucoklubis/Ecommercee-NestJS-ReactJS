@@ -7,10 +7,10 @@ import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import Category from "@mui/icons-material/Category";
 import Inventory from "@mui/icons-material/Inventory";
 import Discount from "@mui/icons-material/Discount";
-
 import { Link } from "react-router-dom";
-
+import CheckRoleForSidebar from "../../../guard/CheckRoleForSidebar.tsx";
 const SidebarView = () => {
+  const isAdmin = CheckRoleForSidebar();
   return (
     <Sidebar style={{ height: "100vh" }}>
       <Menu>
@@ -22,13 +22,16 @@ const SidebarView = () => {
           label="Manage User"
           icon={<PeopleOutlinedIcon />}
         >
-          <MenuItem icon={<AccountCircleIcon />}>
-            <Link to="/admin/manageuser-account">Account</Link>
-          </MenuItem>
-          <MenuItem icon={<VerifiedUserIcon />}>
-            <Link to="/admin/manageuser-role">Role</Link>
-          </MenuItem>
-
+          {isAdmin && (
+            <MenuItem icon={<AccountCircleIcon />}>
+              <Link to="/admin/manageuser-account">Account</Link>
+            </MenuItem>
+          )}
+          {isAdmin && (
+            <MenuItem icon={<VerifiedUserIcon />}>
+              <Link to="/admin/manageuser-role">Role</Link>
+            </MenuItem>
+          )}
           <MenuItem icon={<VerifiedUserIcon />}>
             <Link to="/admin/manageuser-myaccount">My Account</Link>
           </MenuItem>
@@ -41,11 +44,13 @@ const SidebarView = () => {
           <MenuItem icon={<Inventory />}>
             <Link to="/admin/manageproduct-product">Product</Link>
           </MenuItem>
-          <MenuItem icon={<Category />}>
-            <Link to="/admin/manageproduct-categoryproduct">
-              Category Product
-            </Link>
-          </MenuItem>
+          {isAdmin && (
+            <MenuItem icon={<Category />}>
+              <Link to="/admin/manageproduct-categoryproduct">
+                Category Product
+              </Link>
+            </MenuItem>
+          )}
           <MenuItem icon={<Discount />}>
             <Link to="/admin/manageproduct-discountproduct">
               Discount Product
@@ -53,7 +58,7 @@ const SidebarView = () => {
           </MenuItem>
           <MenuItem icon={<Discount />}>
             <Link to="/admin/manageproduct-assigndiscount">
-              Assign Discount 
+              Assign Discount
             </Link>
           </MenuItem>
         </SubMenu>

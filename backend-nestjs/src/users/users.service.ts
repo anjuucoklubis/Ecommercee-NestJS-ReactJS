@@ -46,6 +46,7 @@ export class UsersService {
       include: {
         userprofile: true,
         useraddress: true,
+        UserRole:true
       },
     });
 

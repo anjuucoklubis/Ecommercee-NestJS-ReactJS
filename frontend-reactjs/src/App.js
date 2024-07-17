@@ -15,6 +15,7 @@ import LoginView from "./modules/auth/login/LoginView.tsx";
 import { useSelector } from "react-redux";
 import MyAccountView from "./modules/dashboard/manage-user/my-account/MyAccountView.tsx";
 import AssignProductDiscountView from "./modules/dashboard/produk/assignproductdiscount/AssignProductDiscountView.tsx";
+import CheckRoleRoute from "./guard/CheckRoleRoute.tsx";
 const PrivateRoutes = () => {
   // const authState = useSelector((state) => state.auth);
   // console.log("Auth state", authState);
@@ -61,10 +62,13 @@ const App = () => {
             path="/admin/manageproduct-product"
             element={<ProductView />}
           />
-          <Route
-            path="/admin/manageproduct-categoryproduct"
-            element={<CategoryProductView />}
-          />
+          <Route element={<CheckRoleRoute />}>
+            <Route
+              path="/admin/manageproduct-categoryproduct"
+              element={<CategoryProductView />}
+            />
+          </Route>
+
           <Route
             path="/admin/manageproduct-discountproduct"
             element={<DiscountProductView />}
@@ -75,8 +79,12 @@ const App = () => {
           />
 
           {/* MANAGEMENT DASHBOARD - MANAGEMENT USER */}
-          <Route path="/admin/manageuser-account" element={<AccountView />} />
-          <Route path="/admin/manageuser-role" element={<RoleView />} />
+          <Route element={<CheckRoleRoute />}>
+            <Route path="/admin/manageuser-account" element={<AccountView />} />
+          </Route>
+          <Route element={<CheckRoleRoute />}>
+            <Route path="/admin/manageuser-role" element={<RoleView />} />
+          </Route>
 
           {/* MANAGEMENT DASHBOARD - MANAGEMENT ACOUND */}
           <Route

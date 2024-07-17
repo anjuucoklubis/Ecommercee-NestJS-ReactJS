@@ -5,6 +5,11 @@ export interface User {
   updateAt: string;
   userprofile: Userprofile;
   useraddress: Useraddress[];
+  UserRole: UserRole;
+}
+
+export interface UserRole {
+  role_name: string;
 }
 
 export interface Userprofile {
