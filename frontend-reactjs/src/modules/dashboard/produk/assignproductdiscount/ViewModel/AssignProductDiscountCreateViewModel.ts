@@ -23,7 +23,7 @@ export interface GetProductAllInterface {
   updatedAt: string;
 }
 
-function AssignProductDiscountViewModel({ onClose }) {
+function AssignProductDiscountCreateViewModel({ onClose }) {
   const [formData, setFormData] = useState<{
     discountId: number;
     productIds: number[];
@@ -124,4 +124,4 @@ function AssignProductDiscountViewModel({ onClose }) {
   };
 }
 
-export default AssignProductDiscountViewModel;
+export default AssignProductDiscountCreateViewModel;

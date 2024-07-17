@@ -51,6 +51,11 @@ const SidebarView = () => {
               Discount Product
             </Link>
           </MenuItem>
+          <MenuItem icon={<Discount />}>
+            <Link to="/admin/manageproduct-assigndiscount">
+              Assign Discount 
+            </Link>
+          </MenuItem>
         </SubMenu>
       </Menu>
     </Sidebar>

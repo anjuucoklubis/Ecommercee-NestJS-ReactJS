@@ -6,20 +6,17 @@ import {
   ModalHeader,
   ModalFooter,
   ModalContent,
-  Checkbox,
-  CheckboxGroup,
 } from "@nextui-org/react";
-import AssignProductDiscountViewModel from "./ViewModel/AssignProductDiscountViewModel.ts";
+import AssignProductDiscountCreateViewModel from "./ViewModel/AssignProductDiscountCreateViewModel.ts";
 
 interface AssignProductDiscountViewProps {
   isOpenAssignProductDiscount: boolean;
   onClose: () => void;
 }
 
-const AssignProductDiscountView: React.FC<AssignProductDiscountViewProps> = ({
-  isOpenAssignProductDiscount,
-  onClose,
-}) => {
+const AddAssignProductDiscountView: React.FC<
+  AssignProductDiscountViewProps
+> = ({ isOpenAssignProductDiscount, onClose }) => {
   const {
     getAllDiscountforAssignProduct,
     selectedDiscount,
@@ -28,7 +25,7 @@ const AssignProductDiscountView: React.FC<AssignProductDiscountViewProps> = ({
     handleSubmit,
     formData,
     handleProductSelection,
-  } = AssignProductDiscountViewModel({ onClose });
+  } = AssignProductDiscountCreateViewModel({ onClose });
 
   return (
     <div>
@@ -63,18 +60,29 @@ const AssignProductDiscountView: React.FC<AssignProductDiscountViewProps> = ({
                   ))}
                 </select>
               </div>
-              <CheckboxGroup label="Select products">
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Select products
+                </label>
                 {getAllProductforAssignProduct.map((product) => (
-                  <Checkbox
-                    key={product.id}
-                    isSelected={formData.productIds.includes(product.id)}
-                    onChange={() => handleProductSelection(product.id)}
-                    checked={formData.productIds.includes(product.id)} // Coba ini
-                  >
-                    {product.product_name}
-                  </Checkbox>
+                  <div className="form-check" key={product.id}>
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={product.id}
+                      id={`product-${product.id}`}
+                      checked={formData.productIds.includes(product.id)}
+                      onChange={() => handleProductSelection(product.id)}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor={`product-${product.id}`}
+                    >
+                      {product.product_name}
+                    </label>
+                  </div>
                 ))}
-              </CheckboxGroup>
+              </div>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="flat" onPress={onClose}>
@@ -91,4 +99,4 @@ const AssignProductDiscountView: React.FC<AssignProductDiscountViewProps> = ({
   );
 };
 
-export default AssignProductDiscountView;
+export default AddAssignProductDiscountView;

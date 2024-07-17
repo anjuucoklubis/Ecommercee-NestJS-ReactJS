@@ -53,13 +53,20 @@ export class DiscountproductService {
   }
 
   findAll() {
-    return this.prisma.productDiscount.findMany();
+    return this.prisma.productDiscount.findMany({
+      include: {
+        products: true,
+      },
+    });
   }
 
   findOne(id: number) {
     return this.prisma.productDiscount.findUnique({
       where: {
         id: +id,
+      },
+      include: {
+        products: true,
       },
     });
   }
@@ -93,27 +100,75 @@ export class DiscountproductService {
           updateRequest.product_discount_active;
       }
 
-      if (Object.keys(updatedData).length > 0) {
-        const updatedProduct = await this.prisma.productDiscount.update({
-          where: {
-            id: discountId,
-          },
-          data: updatedData,
-        });
+      const updatedProduct = await this.prisma.productDiscount.update({
+        where: {
+          id: discountId,
+        },
+        data: updatedData,
+      });
 
-        const response: DiscountProductResponse = {
-          id: updatedProduct.id,
-          product_discount_name: updatedProduct.product_discount_name,
-          product_discount_description:
-            updatedProduct.product_discount_description,
-          product_discount_percent: updatedProduct.product_discount_percent,
-          product_discount_active: updatedProduct.product_discount_active,
-        };
-
-        return response;
-      } else {
-        throw new Error('Nothing to update');
+      if (updateRequest.product_discount_active !== undefined) {
+        if (updateRequest.product_discount_active) {
+          const products = await this.prisma.product.findMany({
+            where: { productDiscountId: discountId },
+          });
+          await Promise.all(
+            products.map((product) =>
+              this.prisma.product.update({
+                where: { id: product.id },
+                data: {
+                  product_price_discount: this.calculateDiscountedPrice(
+                    product.product_price_original,
+                    updateRequest.product_discount_percent,
+                  ),
+                },
+              }),
+            ),
+          );
+        } else {
+          await this.prisma.product.updateMany({
+            where: {
+              productDiscountId: discountId,
+            },
+            data: {
+              product_price_discount: '0',
+            },
+          });
+        }
       }
+
+      if (
+        updateRequest.product_discount_percent !== undefined &&
+        updatedProduct.product_discount_active
+      ) {
+        const products = await this.prisma.product.findMany({
+          where: { productDiscountId: discountId },
+        });
+        await Promise.all(
+          products.map((product) =>
+            this.prisma.product.update({
+              where: { id: product.id },
+              data: {
+                product_price_discount: this.calculateDiscountedPrice(
+                  product.product_price_original,
+                  updateRequest.product_discount_percent,
+                ),
+              },
+            }),
+          ),
+        );
+      }
+
+      const response: DiscountProductResponse = {
+        id: updatedProduct.id,
+        product_discount_name: updatedProduct.product_discount_name,
+        product_discount_description:
+          updatedProduct.product_discount_description,
+        product_discount_percent: updatedProduct.product_discount_percent,
+        product_discount_active: updatedProduct.product_discount_active,
+      };
+
+      return response;
     } catch (error) {
       if (error instanceof BadRequestException) {
         throw new Error('Validation failed: ' + error.message);
@@ -123,11 +178,33 @@ export class DiscountproductService {
     }
   }
 
-  remove(id: number) {
-    return this.prisma.productDiscount.delete({
-      where: {
-        id: +id,
-      },
+  async remove(id: number) {
+    const discountProduct = await this.prisma.productDiscount.findUnique({
+      where: { id },
+      include: { products: true },
     });
+
+    if (!discountProduct) {
+      throw new Error('Discount product not found');
+    }
+    if (discountProduct.product_discount_active) {
+      await this.prisma.product.updateMany({
+        where: { productDiscountId: id },
+        data: {
+          product_price_discount: String(0),
+        },
+      });
+    }
+    return this.prisma.productDiscount.delete({
+      where: { id },
+    });
+  }
+  private calculateDiscountedPrice(
+    originalPrice: string,
+    discountPercent: number,
+  ): string {
+    const originalPriceInt = parseInt(originalPrice, 10);
+    const discountPrice = originalPriceInt * (1 - discountPercent / 100);
+    return discountPrice.toString();
   }
 }

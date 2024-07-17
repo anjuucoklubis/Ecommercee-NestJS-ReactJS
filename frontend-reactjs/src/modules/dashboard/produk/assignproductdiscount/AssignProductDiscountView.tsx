@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -13,10 +13,8 @@ import {
   DropdownMenu,
   DropdownItem,
   Chip,
-  User,
   Pagination,
   Selection,
-  ChipProps,
   SortDescriptor,
   useDisclosure,
 } from "@nextui-org/react";
@@ -27,77 +25,24 @@ import { VerticalDotsIcon } from "../../../../components/icons/VerticalDotsIcon.
 import { ChevronDownIcon } from "../../../../components/icons/ChevronDownIcon.tsx";
 import { SearchIcon } from "../../../../components/icons/SearchIcon.tsx";
 import PartialView from "../../partial/PartialView.tsx";
-import ProductViewModelGet from "./ViewModel/ProductViewModelGet.ts";
-import AddProductView from "./AddProductView.tsx";
 import { ToastContainer } from "react-toastify";
-import DetailProductView from "./DetailProductView.tsx";
-import UpdateProductView from "./UpdateProductView.tsx";
-import ProductViewModelDelete from "./ViewModel/ProductViewModelDelete.ts";
-import GaleriesView from "./GaleriesView.tsx";
 import DateComponenttt from "../../../../components/date/date.ts";
-
-const statusColorMap: Record<string, ChipProps["color"]> = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
+import AssignProductDiscountViewModel from "./ViewModel/AssignProductDiscountViewModel.ts";
+import DetailAssignProductDiscountView from "./DetailAssignProductDiscountView.tsx";
+import AddAssignProductDiscountView from "./AddAssignProductDiscountView.tsx";
 
 const INITIAL_VISIBLE_COLUMNS = [
-  "product_name",
-  "product_quantity",
-  "product_price_original",
-  "product_price_discount",
-  "status",
+  "id",
+  "product_discount_name",
+  "product_discount_active",
+  "product_discount_percent",
+  "product_count",
   "actions",
 ];
 
-export default function ProductView() {
-  // ========================
-  const { products, columns } = ProductViewModelGet();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [isOpenDetailProduct, setIsOpenDetailProduct] = useState(false);
-  const [productIdToDetail, setProductIdToDetail] = useState(null);
-  const [size, setSize] = React.useState("5xl");
+export default function AssignProductDiscountView() {
   const { formatDate } = DateComponenttt();
-  const handleView = (id) => {
-    setProductIdToDetail(id);
-    setSize(size);
-    setIsOpenDetailProduct(true);
-  };
-
-  const [isOpenUpdateProduct, setIsOpenUpdateProduct] = useState(false);
-  const [productIdToUpdate, setProductIdToUpdate] = useState(null);
-  const handleEdit = (id) => {
-    setProductIdToUpdate(id);
-    setSize(size);
-    setIsOpenUpdateProduct(true);
-  };
-  const closeModal = () => {
-    setIsOpenUpdateProduct(false);
-    setProductIdToUpdate(null);
-    setIsOpenGaleriesProduct(false);
-    setIsOpenDetailProduct(false);
-    setProductIdToGaleries(null);
-  };
-
-  const {
-    handleConfirmDelete,
-    handleCancelDelete,
-    itemToDelete,
-    setItemToDelete,
-  } = ProductViewModelDelete();
-
-  // galeries
-  const [isOpenGaleriesProduct, setIsOpenGaleriesProduct] = useState(false);
-  const [productIdToGaleries, setProductIdToGaleries] = useState(null);
-  const handleGaleries = (id) => {
-    setProductIdToGaleries(id);
-    setSize(size);
-    setIsOpenGaleriesProduct(true);
-  };
-
-  // ========================
+  const { discount, columns } = AssignProductDiscountViewModel();
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState<Selection>(
@@ -109,7 +54,7 @@ export default function ProductView() {
   const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
-    column: "age",
+    column: "name",
     direction: "ascending",
   });
 
@@ -126,24 +71,26 @@ export default function ProductView() {
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...products];
+    let filteredCategories = [...discount];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((products) =>
-        products.product_name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredCategories = filteredCategories.filter((category) =>
+        category.product_discount_name
+          .toLowerCase()
+          .includes(filterValue.toLowerCase())
       );
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((products) =>
-        Array.from(statusFilter).includes(products.product_name)
+      filteredCategories = filteredCategories.filter((category) =>
+        Array.from(statusFilter).includes(category.id)
       );
     }
 
-    return filteredUsers;
-  }, [products, filterValue, statusFilter]);
+    return filteredCategories;
+  }, [discount, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -167,93 +114,101 @@ export default function ProductView() {
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback(
-    (product, columnKey) => {
-      const cellValue = product[columnKey];
+  const [isOpenUpdateDiscount, setIsOpenUpdateDiscount] = useState(false);
+  const [discountIdToEdit, setUpdateIdToEdit] = useState(null);
 
-      switch (columnKey) {
-        case "name":
-          return (
-            <User
-              avatarProps={{ radius: "lg", src: product.avatar }}
-              description={product.email}
-              name={cellValue}
-            >
-              {product.email}
-            </User>
-          );
-        case "role":
-          return (
-            <div className="flex flex-col">
-              <p className="text-bold text-small capitalize">{cellValue}</p>
-              <p className="text-bold text-tiny capitalize text-default-400">
-                {product.team}
-              </p>
-            </div>
-          );
-        case "status":
-          return (
-            <Chip
-              className="capitalize"
-              color={statusColorMap[product.status]}
-              size="sm"
-              variant="flat"
-            >
-              {cellValue}
-            </Chip>
-          );
-        case "createdAt":
-          return formatDate(cellValue || null) || "-";
+  const [
+    isOpenDetailAssignProductDiscount,
+    setIsOpenDetailAssignProductDiscount,
+  ] = useState(false);
+  const [discountIdToDetail, setDiscountIdToDetail] = useState(null);
 
-        case "updatedAt":
-          return cellValue && cellValue !== "1970-01-01T00:00:00.000Z"
-            ? formatDate(cellValue)
-            : "-";
-        case "actions":
-          return (
-            <div className="relative flex justify-end items-center gap-2">
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
-                    <VerticalDotsIcon className="text-default-300" />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu
-                  aria-label="Dynamic Actions"
-                  onAction={(key) => {
-                    if (key === "View") {
-                      handleView(product.id);
-                    } else if (key === "Edit") {
-                      handleEdit(product.id);
-                    } else if (key === "Delete") {
-                      setItemToDelete(product.id);
-                    } else if (key === "Galeries") {
-                      handleGaleries(product.id);
-                    }
-                  }}
-                >
-                  <DropdownItem key="Galeries" color="primary">
-                    Galery
-                  </DropdownItem>
-                  <DropdownItem key="View" color="success">
-                    View
-                  </DropdownItem>
-                  <DropdownItem key="Edit" color="warning">
-                    Edit
-                  </DropdownItem>
-                  <DropdownItem key="Delete" color="danger">
-                    Delete
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          );
-        default:
-          return cellValue;
-      }
-    },
-    [setItemToDelete]
-  );
+  const handleEdit = (id) => {
+    setUpdateIdToEdit(id);
+    setIsOpenUpdateDiscount(true);
+  };
+
+  const handleView = (id) => {
+    setDiscountIdToDetail(id);
+    setIsOpenDetailAssignProductDiscount(true);
+  };
+
+  const closeModal = () => {
+    setIsOpenUpdateDiscount(false);
+    setUpdateIdToEdit(null);
+    setIsOpenDetailAssignProductDiscount(false);
+    setIsOpenAssignProductDiscount(false);
+  };
+
+  //assign product discount
+  const [isOpenAssignProductDiscount, setIsOpenAssignProductDiscount] =
+    useState(false);
+
+  const handleAssignProductDiscount = () => {
+    setIsOpenAssignProductDiscount(true);
+  };
+
+  const renderCell = React.useCallback((discount, columnKey) => {
+    const cellValue = discount[columnKey];
+
+    switch (columnKey) {
+      case "name":
+        return (
+          <div className="flex flex-col">
+            <p className="text-bold text-small capitalize">{cellValue}</p>
+          </div>
+        );
+      case "createdAt":
+        return formatDate(cellValue || null) || "-";
+
+      case "updatedAt":
+        return cellValue && cellValue !== "1970-01-01T00:00:00.000Z"
+          ? formatDate(cellValue)
+          : "-";
+      case "product_discount_active":
+        return (
+          <Chip
+            className="capitalize"
+            color={cellValue ? "success" : "danger"}
+            size="sm"
+            variant="flat"
+          >
+            {cellValue ? "Active" : "Inactive"}
+          </Chip>
+        );
+      case "actions":
+        return (
+          <div className="relative flex justify-end items-center gap-2">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button isIconOnly size="sm" variant="light">
+                  <VerticalDotsIcon className="text-default-300" />
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Dynamic Actions"
+                onAction={(key) => {
+                  if (key === "Edit") {
+                    handleEdit(discount.id);
+                  } else if (key === "view") {
+                    handleView(discount.id);
+                  }
+                }}
+              >
+                <DropdownItem key="Edit" color="warning">
+                  Edit
+                </DropdownItem>
+                <DropdownItem key="view" color="danger">
+                  View
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+        );
+      default:
+        return cellValue;
+    }
+  }, []);
 
   const onNextPage = React.useCallback(() => {
     if (page < pages) {
@@ -267,15 +222,12 @@ export default function ProductView() {
     }
   }, [page]);
 
-  const onRowsPerPageChange = React.useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setRowsPerPage(Number(e.target.value));
-      setPage(1);
-    },
-    []
-  );
+  const onRowsPerPageChange = React.useCallback((e) => {
+    setRowsPerPage(Number(e.target.value));
+    setPage(1);
+  }, []);
 
-  const onSearchChange = React.useCallback((value?: string) => {
+  const onSearchChange = React.useCallback((value) => {
     if (value) {
       setFilterValue(value);
       setPage(1);
@@ -289,10 +241,13 @@ export default function ProductView() {
     setPage(1);
   }, []);
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between gap-3 items-end">
+      <div className="flex flex-col gap-2">
+        <h1>Category Product</h1>
+        <div className="flex justify-between gap-1 items-end">
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
@@ -302,31 +257,7 @@ export default function ProductView() {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
+          <div className="flex gap-1">
             <Dropdown>
               <DropdownTrigger className="hidden sm:flex">
                 <Button
@@ -351,14 +282,21 @@ export default function ProductView() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button onPress={onOpen} color="primary" endContent={<PlusIcon />}>
+            {/* <Button onPress={onOpen} color="primary" endContent={<PlusIcon />}>
               Add New
+            </Button> */}
+            <Button
+              onPress={handleAssignProductDiscount}
+              color="primary"
+              endContent={<PlusIcon />}
+            >
+              Assign Product Discount
             </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {products.length} products
+            Total {discount.length} discount
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -378,19 +316,19 @@ export default function ProductView() {
     filterValue,
     statusFilter,
     visibleColumns,
+    discount.length,
     onSearchChange,
+    onClear,
     onRowsPerPageChange,
-    products.length,
-    hasSearchFilter,
   ]);
 
   const bottomContent = React.useMemo(() => {
     return (
-      <div className="py-2 px-2 flex justify-between items-center">
-        <span className="w-[30%] text-small text-default-400">
+      <div className="py-2 px-2 flex w-full justify-between border-t border-default-100">
+        <span className="text-default-400 text-small">
           {selectedKeys === "all"
             ? "All items selected"
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
+            : `${selectedKeys.size} of ${items.length} selected`}
         </span>
         <Pagination
           isCompact
@@ -423,9 +361,14 @@ export default function ProductView() {
     );
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
+  useEffect(() => {
+    console.log("hahah", discount);
+  }, [discount]);
+
   return (
     <PartialView>
       <ToastContainer />
+
       <Table
         aria-label="Example table with custom cells, pagination and sorting"
         isHeaderSticky
@@ -453,7 +396,7 @@ export default function ProductView() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={"No products found"} items={sortedItems}>
+        <TableBody emptyContent="No discount found" items={sortedItems}>
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (
@@ -463,24 +406,22 @@ export default function ProductView() {
           )}
         </TableBody>
       </Table>
-      <AddProductView isOpen={isOpen} onClose={onClose} />
-      <DetailProductView
-        isOpenDetailProduct={isOpenDetailProduct}
-        onClose={closeModal}
-        productId={productIdToDetail || ""}
-      />
-      <UpdateProductView
-        isOpenUpdateProduct={isOpenUpdateProduct}
-        onClose={closeModal}
-        productId={productIdToUpdate || ""}
-      />
-      <GaleriesView
-        isOpenGaleriesProduct={isOpenGaleriesProduct}
-        onClose={closeModal}
-        productId={productIdToGaleries || ""}
-      />
 
-      {itemToDelete && (
+      <DetailAssignProductDiscountView
+        isOpenDetailAssignProductDiscount={isOpenDetailAssignProductDiscount}
+        onClose={closeModal}
+        discountId={discountIdToDetail || ""}
+      />
+      <AddAssignProductDiscountView
+        isOpenAssignProductDiscount={isOpenAssignProductDiscount}
+        onClose={closeModal}
+      />
+      {/* 
+      
+
+      <AddDiscountProductView isOpen={isOpen} onClose={onClose} />
+ */}
+      {/* {itemToDelete && (
         <div
           id="popup-modal"
           className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
@@ -504,7 +445,7 @@ export default function ProductView() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </PartialView>
   );
 }

@@ -154,18 +154,22 @@ export class ProductService {
     try {
       const productDiscountId = request.discountId;
       const productIds = request.productIds;
+      const discount = await this.prisma.productDiscount.findUnique({
+        where: { id: productDiscountId },
+      });
 
-      // Fetch existing products to validate the IDs
+      if (!discount) {
+        throw new Error(`Discount with ID ${productDiscountId} not found`);
+      }
+
       const existingProducts = await this.prisma.product.findMany({
         where: {
           id: { in: productIds },
         },
-        select: { id: true }, // Only get IDs
       });
 
       const existingProductIds = existingProducts.map((product) => product.id);
 
-      // Check for missing product IDs
       const missingProductIds = productIds.filter(
         (id) => !existingProductIds.includes(id),
       );
@@ -176,14 +180,25 @@ export class ProductService {
         );
       }
 
-      // Proceed with the update if all IDs are valid
       await this.prisma.$transaction(
-        existingProductIds.map((productId) =>
-          this.prisma.product.update({
-            where: { id: productId },
-            data: { productDiscountId },
-          }),
-        ),
+        existingProducts.map((product) => {
+          const originalPrice = parseFloat(product.product_price_original);
+          let discountPrice = 0;
+
+          if (discount.product_discount_active) {
+            const discountAmount =
+              (discount.product_discount_percent / 100) * originalPrice;
+            discountPrice = originalPrice - discountAmount;
+          }
+
+          return this.prisma.product.update({
+            where: { id: product.id },
+            data: {
+              productDiscountId,
+              product_price_discount: discountPrice.toString(),
+            },
+          });
+        }),
       );
     } catch (error) {
       throw new Error(

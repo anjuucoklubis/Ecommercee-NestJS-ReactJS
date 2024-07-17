@@ -14,6 +14,7 @@ import RegisterView from "./modules/auth/register/RegisterView.tsx";
 import LoginView from "./modules/auth/login/LoginView.tsx";
 import { useSelector } from "react-redux";
 import MyAccountView from "./modules/dashboard/manage-user/my-account/MyAccountView.tsx";
+import AssignProductDiscountView from "./modules/dashboard/produk/assignproductdiscount/AssignProductDiscountView.tsx";
 const PrivateRoutes = () => {
   // const authState = useSelector((state) => state.auth);
   // console.log("Auth state", authState);
@@ -68,20 +69,26 @@ const App = () => {
             path="/admin/manageproduct-discountproduct"
             element={<DiscountProductView />}
           />
+          <Route
+            path="/admin/manageproduct-assigndiscount"
+            element={<AssignProductDiscountView />}
+          />
 
           {/* MANAGEMENT DASHBOARD - MANAGEMENT USER */}
           <Route path="/admin/manageuser-account" element={<AccountView />} />
           <Route path="/admin/manageuser-role" element={<RoleView />} />
 
-             {/* MANAGEMENT DASHBOARD - MANAGEMENT ACOUND */}
-             <Route path="/admin/manageuser-myaccount" element={<MyAccountView />} />
+          {/* MANAGEMENT DASHBOARD - MANAGEMENT ACOUND */}
+          <Route
+            path="/admin/manageuser-myaccount"
+            element={<MyAccountView />}
+          />
         </Route>
 
         <Route element={<RestrictedRoutes />}>
           {/* MANAGEMENT AUTH */}
           <Route path="/auth/register" element={<RegisterView />} />
           <Route path="/auth/login" element={<LoginView />} />
-
         </Route>
       </Routes>
     </Router>
