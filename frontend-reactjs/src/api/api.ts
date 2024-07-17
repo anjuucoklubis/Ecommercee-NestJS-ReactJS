@@ -51,6 +51,12 @@ const API_FRONTEND = () => {
   const API_URL_LOC_CITY = "http://localhost:3000/masterlocation/city";
   const API_URL_LOC_PROVINCE = "http://localhost:3000/masterlocation/province";
 
+  /* MANAGEMENT  USER ROLE */
+  const API_URL_USEROLE_GET = "http://localhost:3000/role/get";
+  const API_URL_USEROLE_CREATE = "http://localhost:3000/role/create";
+  const API_URL_USEROLE_UPDATE = "http://localhost:3000/role/update";
+  const API_URL_USEROLE_DELETE = "http://localhost:3000/role/delete";
+
   return {
     API_URL,
     API_URL_DISCOUNTPRODUCT_GET,
@@ -81,7 +87,11 @@ const API_FRONTEND = () => {
     API_URL_CATEGORYPRODUCT_UPDATE,
     API_URL_CATEGORYPRODUCT_IMAGE,
     API_URL_PRODUCT_IMAGE,
-    API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT
+    API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT,
+    API_URL_USEROLE_GET,
+    API_URL_USEROLE_CREATE,
+    API_URL_USEROLE_UPDATE,
+    API_URL_USEROLE_DELETE,
     
   };
 };
