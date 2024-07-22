@@ -2,16 +2,24 @@ import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function DiscountProductViewModelDelete() {
   const { API_URL_DISCOUNTPRODUCT_DELETE } = API_FRONTEND();
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
   const handleRemoveItem = async (id: number) => {
     try {
-      const response = await fetch(`${API_URL_DISCOUNTPRODUCT_DELETE}/${id}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
+      const response = await axios.delete(
+        `${API_URL_DISCOUNTPRODUCT_DELETE}/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
       } else {
         console.error("Failed to delete item:", response.statusText);
       }

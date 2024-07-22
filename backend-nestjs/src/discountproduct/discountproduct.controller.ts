@@ -7,6 +7,7 @@ import {
   Patch,
   Delete,
   HttpCode,
+  UseGuards,
   HttpStatus,
   Controller,
   HttpException,
@@ -18,11 +19,13 @@ import {
   UpdateDiscountProductRequest,
 } from 'src/model/discountproduct.model';
 import { WebResponse } from 'src/model/web.model';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { DiscountproductService } from './discountproduct.service';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Discount Product')
 @Controller('discountproduct')
+@UseGuards(JwtAuthGuard)
 export class DiscountproductController {
   constructor(
     private readonly discountproductService: DiscountproductService,

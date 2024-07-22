@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
+import axios from "axios";
+import Cookies from "js-cookie";
+
 function DiscountProductViewModelCreate({ onClose }) {
   const { API_URL_DISCOUNTPRODUCT_CREATE } = API_FRONTEND();
   const [showModalCreateDiscount, setShowModalCreateDiscount] =
@@ -51,16 +54,19 @@ function DiscountProductViewModelCreate({ onClose }) {
         product_discount_active: formData.product_discount_active === "1",
       };
 
-      const response = await fetch(`${API_URL_DISCOUNTPRODUCT_CREATE}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(parsedFormData),
-      });
+      const response = await axios.post(
+        `${API_URL_DISCOUNTPRODUCT_CREATE}`,
+        JSON.stringify(parsedFormData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
 
       console.log("Response received");
-      if (response.ok) {
+      if (response.status === 200) {
         setFormData({
           product_discount_name: "",
           product_discount_description: "",
@@ -76,7 +82,7 @@ function DiscountProductViewModelCreate({ onClose }) {
           },
         });
       } else {
-        const responseData = await response.json();
+        const responseData = response.data;
         if (responseData && responseData.message) {
           toast.error(responseData.message);
         } else {

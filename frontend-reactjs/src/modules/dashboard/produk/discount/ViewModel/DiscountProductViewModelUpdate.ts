@@ -5,6 +5,8 @@ import {
   FormDataUpdateDiscountProductInterface,
   ShowModalDiscountProductDetailInterface,
 } from "../Interface/InterfaceDiscountProduct.ts";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function DiscountProductViewModelUpdate({ onClose }) {
   const { API_URL_DISCOUNTPRODUCT_UPDATE, API_URL_DISCOUNTPRODUCT_GET } =
@@ -23,21 +25,26 @@ function DiscountProductViewModelUpdate({ onClose }) {
   const handleShowDetailDiscount = async (discountId) => {
     try {
       setDiscountId(discountId);
-      const response = await fetch(
-        `${API_URL_DISCOUNTPRODUCT_GET}/${discountId}`
+      const response = await axios.get(
+        `${API_URL_DISCOUNTPRODUCT_GET}/${discountId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
-      if (!response.ok) {
-        throw new Error("Failed to fetch discount detail");
+      if (response.status === 200) {
+        const data = response.data;
+        setDiscountDetail(data);
+        setFormDataUpdate({
+          product_discount_name: data.product_discount_name,
+          product_discount_description: data.product_discount_description,
+          product_discount_percent: data.product_discount_percent,
+          product_discount_active: data.product_discount_active ? "1" : "0",
+        });
       }
-      const data = await response.json();
-
-      setDiscountDetail(data);
-      setFormDataUpdate({
-        product_discount_name: data.product_discount_name,
-        product_discount_description: data.product_discount_description,
-        product_discount_percent: data.product_discount_percent,
-        product_discount_active: data.product_discount_active ? "1" : "0",
-      });
+      throw new Error("Failed to fetch discount detail");
     } catch (error) {
       console.error("Error fetching discount detail:", error);
     }
@@ -55,19 +62,17 @@ function DiscountProductViewModelUpdate({ onClose }) {
       };
 
       console.log("Form Data:", formDataUpdate);
-      const response = await fetch(
+      const response = await axios.patch(
         `${API_URL_DISCOUNTPRODUCT_UPDATE}/${discountId}`,
+        JSON.stringify(parsedFormData),
         {
-          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
           },
-          body: JSON.stringify(parsedFormData),
-          credentials: "include",
         }
       );
-      if (response.ok) {
+      if (response.status === 200) {
         onClose();
         toast.success("Discount berhasil diubah", {
           position: "top-right",
