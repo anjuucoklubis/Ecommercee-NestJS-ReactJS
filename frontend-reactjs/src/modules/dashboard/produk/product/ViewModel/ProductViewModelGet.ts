@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import API_FRONTEND from "../../../../../api/api.ts";
 import {
@@ -11,14 +12,19 @@ function ProductViewModelGet() {
   const [products, setProducts] = useState<GetProductAllInterface[]>([]);
   const [getproductDetail, setProductDetail] =
     useState<GetProductDetailInterface | null>(null);
-  const [productId, setProductId] = useState<number | null>(null);
+  const [productId, setProductId] = useState<string | null>(null);
   const [showModalViewDetailProduct, setShowModalViewDetailProduct] =
     useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL_PRODUCT_GET}`);
+        const response = await axios.get(API_URL_PRODUCT_GET, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        });
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -34,17 +40,23 @@ function ProductViewModelGet() {
     fetchData();
   }, [API_URL_PRODUCT_GET]);
 
-  const getProductByID = async (productId: number) => {
+  const getProductByID = async (productId: string) => {
     try {
       setProductId(productId);
-      const response = await fetch(`${API_URL_PRODUCT_GET}/${productId}`);
+      const response = await axios.get(`${API_URL_PRODUCT_GET}/${productId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      });
 
-      if (!response.ok) {
+      if (response.status === 200) {
+        const data: GetProductDetailInterface = response.data;
+        setProductDetail(data);
+        setShowModalViewDetailProduct(true);
+      } else {
         throw new Error("Failed to fetch product detail");
       }
-      const data: GetProductDetailInterface = await response.json();
-      setProductDetail(data);
-      setShowModalViewDetailProduct(true);
     } catch (error) {
       console.error("Error fetching product detail:", error);
     }

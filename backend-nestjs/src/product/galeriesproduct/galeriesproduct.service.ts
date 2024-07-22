@@ -15,7 +15,7 @@ export class GaleriesproductService {
             product_galeries_image: gallery.product_galeries_image,
             product_galeries_thumbnail: gallery.product_galeries_thumbnail,
             Product: {
-              connect: { id: Number(gallery.Product.connect.id) },
+              connect: { id: String(gallery.Product.connect.id) },
             },
           },
         });
@@ -36,7 +36,7 @@ export class GaleriesproductService {
   findOne(id: number) {
     return this.prisma.product.findUnique({
       where: {
-        id: +id,
+        id: String(id),
       },
     });
   }

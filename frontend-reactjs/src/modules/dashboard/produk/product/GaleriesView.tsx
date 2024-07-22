@@ -16,14 +16,14 @@ import GaleriesViewModelCreate from "./ViewModel/GaleriesViewModelCreate.ts";
 import GaleriesViewModelDelete from "./ViewModel/GaleriesViewModelDelete.ts";
 import { ToastContainer } from "react-toastify";
 
-interface DetailProductViewProps {
+interface GaleryProductViewProps {
   productId: string;
   onClose: () => void;
   isOpenGaleriesProduct: boolean;
   size?: "5xl";
 }
 
-const GaleriesView: React.FC<DetailProductViewProps> = ({
+const GaleriesView: React.FC<GaleryProductViewProps> = ({
   onClose,
   isOpenGaleriesProduct,
   productId,
@@ -49,13 +49,13 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
 
   useEffect(() => {
     if (productId) {
-      getProductByIDForGaleries(parseInt(productId, 10));
+      getProductByIDForGaleries(productId);
     }
   }, [productId]);
 
   useEffect(() => {
     if (productId) {
-      getProductByIDForGaleries(parseInt(productId, 10));
+      getProductByIDForGaleries(productId);
       setFormData((prevData) => ({ ...prevData, productId: productId }));
     }
   }, [productId]);
@@ -155,7 +155,6 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
             {productDetailForGaleries?.productGalleries.length === 0 ? (
               <p>No record Galeries</p>
             ) : (
-      
               productDetailForGaleries?.productGalleries.map(
                 (gallery, index) => (
                   <Card
@@ -202,7 +201,6 @@ const GaleriesView: React.FC<DetailProductViewProps> = ({
                   </Card>
                 )
               )
-           
             )}
           </div>
           {itemToDelete !== null && (

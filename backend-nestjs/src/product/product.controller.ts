@@ -11,6 +11,7 @@ import {
   Controller,
   HttpException,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { join } from 'path';
 import {
@@ -25,10 +26,12 @@ import { WebResponse } from 'src/model/web.model';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { ProductService } from './product.service';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Logger } from '@nestjs/common';
 
+const logger = new Logger('ProductController');
 @ApiTags('Product')
 @Controller('product')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -43,10 +46,20 @@ export class ProductController {
   })
   @HttpCode(200)
   async create(
+    @Req() req,
     @Body() request: CreateProductRequest,
   ): Promise<WebResponse<ProductResponse>> {
     try {
-      const result = await this.productService.create(request);
+      const userId = req.user.id;
+      logger.log('User ID: ' + userId);
+      logger.log('Create Product Request: ' + JSON.stringify(request));
+
+      const result = await this.productService.create(request, userId);
+      logger.log('Create Product Result: ' + JSON.stringify(result));
+
+      if (!result) {
+        throw new Error('Failed to create product: Empty result');
+      }
       return {
         data: result,
       };
@@ -61,8 +74,8 @@ export class ProductController {
   }
 
   @Get('/get/:id')
-  findOne(@Param('id') id: number) {
-    return this.productService.findOne(+id);
+  findOne(@Param('id') id: string) {
+    return this.productService.findOne(id);
   }
 
   @Patch('/update/:id')
@@ -75,10 +88,9 @@ export class ProductController {
     type: UnauthorizedResponse,
   })
   @HttpCode(200)
-  async update(@Param('id') id: number, @Body() body: UpdateProductRequest) {
+  async update(@Param('id') id: string, @Body() body: UpdateProductRequest) {
     try {
-      const productId = parseInt(id.toString(), 10);
-      const product = await this.productService.findOne(productId);
+      const product = await this.productService.findOne(id);
 
       if (!product) {
         throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
@@ -95,10 +107,7 @@ export class ProductController {
         body.product_weight ||
         body.categoryProductId
       ) {
-        const updatedProduct = await this.productService.update(
-          productId,
-          body,
-        );
+        const updatedProduct = await this.productService.update(id, body);
         const response = {
           'INFORMATION-RESPONSE': {
             REQUESTNAME: 'UPDATE PRODUCT',
@@ -134,7 +143,7 @@ export class ProductController {
 
   @Delete('/delete/:id')
   async remove(@Param('id') id: number, @Res() response: Response) {
-    const deletedRecord = await this.productService.remove(+id);
+    const deletedRecord = await this.productService.remove(String(id));
 
     if (deletedRecord) {
       const response = {

@@ -118,7 +118,7 @@ export class ProductResponse {
     example: 1,
     description: 'ID of product',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({
     example: '0123456755',

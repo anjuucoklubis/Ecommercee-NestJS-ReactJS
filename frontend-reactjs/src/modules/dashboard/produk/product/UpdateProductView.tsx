@@ -37,7 +37,7 @@ const UpdateProductView: React.FC<UpdateProductViewProps> = ({
 
   useEffect(() => {
     if (productId) {
-      handleShowDetailProduct(parseInt(productId, 10));
+      handleShowDetailProduct(productId);
     }
   }, [productId]);
 
@@ -117,9 +117,7 @@ const UpdateProductView: React.FC<UpdateProductViewProps> = ({
                 type="text"
                 name="product_price_original"
                 value={FormatRupiah({
-                  value: Number(
-                    formDataUpdate?.product_price_original || 0
-                  ),
+                  value: Number(formDataUpdate?.product_price_original || 0),
                 })}
                 onChange={handleInputChange}
               />

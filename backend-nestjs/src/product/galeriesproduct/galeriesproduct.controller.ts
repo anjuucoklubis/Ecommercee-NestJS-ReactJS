@@ -64,7 +64,7 @@ export class GaleriesproductController {
         {
           product_galeries_image: file.filename,
           product_galeries_thumbnail: false,
-          Product: { connect: { id: id } },
+          Product: { connect: { id: String(id) } },
         },
       ]);
 
@@ -73,7 +73,7 @@ export class GaleriesproductController {
         product_galeries_image: createdGalleryData[0].product_galeries_image,
         product_galeries_thumbnail:
           createdGalleryData[0].product_galeries_thumbnail,
-        productId: createdGalleryData[0].productId,
+        productId: Number(createdGalleryData[0].productId),
       };
 
       const response = {

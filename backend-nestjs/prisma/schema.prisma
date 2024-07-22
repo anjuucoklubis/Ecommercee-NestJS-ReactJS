@@ -33,7 +33,7 @@ model ProductDiscount {
 }
 
 model Product {
-  id                        Int    @id @default(autoincrement())
+  id String @id @default(uuid())
   product_sku               String @db.VarChar(255)
   product_name              String @db.VarChar(255)
   product_description       String @db.VarChar(255)
@@ -53,6 +53,9 @@ model Product {
   productDiscountId Int?
 
   productGalleries ProductGalleries[]
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model ProductGalleries {
@@ -64,7 +67,7 @@ model ProductGalleries {
   updatedAt DateTime @updatedAt
 
   Product   Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  productId Int?
+  productId String?
 }
 
 model User {
@@ -82,7 +85,7 @@ model User {
   userprofile Userprofile?
   useraddress Useraddress[]
 
-  
+  products Product[]
 }
 
 model UserRole {

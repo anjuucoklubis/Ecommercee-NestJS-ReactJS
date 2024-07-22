@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 import { GetAllCategoryProductForCreateProductInterface } from "../Interface/InterfaceProduct.ts";
 import axios from "axios";
+import Cookies from "js-cookie";
+
 function ProductViewModelCreate({ onClose }) {
   const { API_URL_PRODUCT_CREATE, API_URL_CATEGORYPRODUCT_GET } =
     API_FRONTEND();
@@ -47,28 +49,31 @@ function ProductViewModelCreate({ onClose }) {
       !formData.product_weight
     ) {
       if (!formData.product_sku) {
-        toast.error("Please enter product_sku of Product");
+        toast.error("Please enter Product SKU");
       }
       if (!formData.product_name) {
-        toast.error("Please enter product_name of Product");
+        toast.error("Please enter Product Name");
       }
       if (!formData.product_description) {
-        toast.error("Please upload an product_description file");
+        toast.error("Please enter Product Description");
       }
       if (!formData.product_short_description) {
-        toast.error("Please upload an product_short_description file");
+        toast.error("Please enter Product Short Description");
       }
       if (!formData.product_price_original) {
-        toast.error("Please upload an product_price_original file");
+        toast.error("Please enter Product Price Original");
       }
       if (!formData.product_price_discount) {
-        toast.error("Please upload an product_price_discount file");
+        toast.error("Please enter an product_price_discount file");
       }
       if (!formData.product_quantity) {
-        toast.error("Please upload an product_quantity file");
+        toast.error("Please enter Product Quantity");
       }
       if (!formData.product_weight) {
-        toast.error("Please upload an product_weight file");
+        toast.error("Please enter Product Weight");
+      }
+      if (!formData.categoryProductId) {
+        toast.error("Please select Product Category");
       }
       return;
     }
@@ -81,16 +86,19 @@ function ProductViewModelCreate({ onClose }) {
         product_weight: formData.product_weight.toString(),
       };
 
-      const response = await fetch(`${API_URL_PRODUCT_CREATE}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(parsedFormData),
-      });
+      const response = await axios.post(
+        API_URL_PRODUCT_CREATE,
+        parsedFormData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
 
       console.log("Response received");
-      if (response.ok) {
+      if (response.status === 200) {
         setFormData({
           product_sku: "",
           product_name: "",
@@ -111,7 +119,7 @@ function ProductViewModelCreate({ onClose }) {
           },
         });
       } else {
-        const responseData = await response.json();
+        const responseData = response.data();
         if (responseData && responseData.message) {
           toast.error(responseData.message);
         } else {

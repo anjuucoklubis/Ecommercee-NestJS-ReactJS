@@ -7,6 +7,7 @@ import {
   ShowModalProductDetailInterface,
 } from "../Interface/InterfaceProduct.ts";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function ProductViewModelUpdate({ onClose }) {
   const {
@@ -33,24 +34,29 @@ function ProductViewModelUpdate({ onClose }) {
   const handleShowDetailProduct = async (productId) => {
     try {
       setProductId(productId);
-      const response = await fetch(`${API_URL_PRODUCT_GET}/${productId}`);
-      if (!response.ok) {
+      const response = await axios.get(`${API_URL_PRODUCT_GET}/${productId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      });
+      if (response.status === 200) {
+        const data: ShowModalProductDetailInterface = response.data;
+        setProductDetail(data);
+        setFormDataUpdate({
+          product_sku: data.product_sku,
+          product_name: data.product_name,
+          product_description: data.product_description,
+          product_short_description: data.product_short_description,
+          product_price_original: data.product_price_original,
+          product_price_discount: data.product_price_discount,
+          product_quantity: data.product_quantity,
+          product_weight: data.product_weight,
+          categoryProductId: data.CategoryProduct.id,
+        });
+      } else {
         throw new Error("Failed to fetch product detail");
       }
-      const data = await response.json();
-
-      setProductDetail(data);
-      setFormDataUpdate({
-        product_sku: data.product_sku,
-        product_name: data.product_name,
-        product_description: data.product_description,
-        product_short_description: data.product_short_description,
-        product_price_original: data.product_price_original,
-        product_price_discount: data.product_price_discount,
-        product_quantity: data.product_quantity,
-        product_weight: data.product_weight,
-        categoryProductId: data.CategoryProduct.id,
-      });
     } catch (error) {
       console.error("Error fetching product detail:", error);
     }
@@ -66,16 +72,17 @@ function ProductViewModelUpdate({ onClose }) {
       };
 
       console.log("Form Data:", formDataUpdate);
-      const response = await fetch(`${API_URL_PRODUCT_UPDATE}/${productId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(parsedFormData),
-        credentials: "include",
-      });
-      if (response.ok) {
+      const response = await axios.patch(
+        `${API_URL_PRODUCT_UPDATE}/${productId}`,
+        JSON.stringify(parsedFormData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
         onClose();
         toast.success("product berhasil diubah", {
           position: "top-right",
@@ -84,7 +91,7 @@ function ProductViewModelUpdate({ onClose }) {
           },
         });
       } else {
-        const errorData = await response.json();
+        const errorData =  response.data;
         console.error("Failed to update product new:", errorData);
         console.error("Failed to update product new:", errorData);
 
@@ -100,7 +107,8 @@ function ProductViewModelUpdate({ onClose }) {
     console.log("Input Changed:", name, value);
     setFormDataUpdate({
       ...formDataUpdate,
-      [name]: name === "product_price_original" ? value.replace(/\D/g, '') : value,
+      [name]:
+        name === "product_price_original" ? value.replace(/\D/g, "") : value,
     });
   };
   // Find Category All

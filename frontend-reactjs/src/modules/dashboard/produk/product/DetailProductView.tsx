@@ -36,7 +36,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
 
   useEffect(() => {
     if (productId) {
-      getProductByID(parseInt(productId, 10));
+      getProductByID(productId);
     }
   }, [productId]);
 

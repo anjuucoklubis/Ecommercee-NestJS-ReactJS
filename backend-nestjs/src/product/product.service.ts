@@ -22,19 +22,30 @@ export class ProductService {
     private readonly prisma: PrismaService,
     private validationService: ValidationService,
   ) {}
-  async create(request: CreateProductRequest): Promise<ProductResponse> {
+  async create(
+    request: CreateProductRequest,
+    userId: string,
+  ): Promise<ProductResponse> {
     try {
       const createProductRequest: CreateProductRequest =
         this.validationService.validate(ProductValidation.CREATE, request);
+      const { categoryProductId, ...restData } = createProductRequest;
+      const product_price_discount =
+        createProductRequest.product_price_discount ?? '0';
 
       const createProduct = await this.prisma.product.create({
         data: {
-          ...createProductRequest,
-          product_price_discount:
-            createProductRequest.product_price_discount ?? '0',
+          ...restData,
+          categoryProductId: categoryProductId,
+          product_price_discount: product_price_discount,
+          userId: userId,
+          updatedAt: null,
         },
       });
-
+      console.log('Created Product:', createProduct);
+      if (!createProduct) {
+        throw new Error('Failed to create product');
+      }
       const response: ProductResponse = {
         id: createProduct.id,
         product_sku: createProduct.product_sku,
@@ -58,31 +69,40 @@ export class ProductService {
     return this.prisma.product.findMany();
   }
 
-  findOne(id: number) {
-    return this.prisma.product.findUnique({
-      where: {
-        id: +id,
-      },
-      include: {
-        CategoryProduct: {
-          select: {
-            id: true,
-            name: true,
-          },
+  findOne(id: string) {
+    console.log('Searching for product with ID:', id);
+    return this.prisma.product
+      .findUnique({
+        where: {
+          id: id,
         },
-        productGalleries: true,
-      },
-    });
+        include: {
+          CategoryProduct: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          productGalleries: true,
+        },
+      })
+      .then((product) => {
+        console.log('Product found:', product);
+        return product;
+      })
+      .catch((error) => {
+        console.error('Error finding product:', error);
+        throw error;
+      });
   }
 
   async update(
-    id: number,
+    id: string,
     request: UpdateProductRequest,
   ): Promise<ProductResponse> {
     try {
       const updateRequest: UpdateProductRequest =
         this.validationService.validate(ProductValidation.UPDATE, request);
-      const productId = parseInt(id.toString(), 10);
       const updatedData: Partial<Prisma.ProductUpdateInput> = {};
 
       if (updateRequest.product_sku) {
@@ -114,20 +134,32 @@ export class ProductService {
       }
       if (updateRequest.categoryProductId) {
         updatedData.CategoryProduct = {
-          connect: { id: updateRequest.categoryProductId },
+          connect: { id: Number(updateRequest.categoryProductId) },
         };
       }
 
       if (Object.keys(updatedData).length > 0) {
-        return await this.prisma.product.update({
+        const updatedProduct = await this.prisma.product.update({
           where: {
-            id: productId,
+            id: id,
           },
           data: updatedData,
           include: {
             CategoryProduct: true,
           },
         });
+        return {
+          id: updatedProduct.id,
+          product_sku: updatedProduct.product_sku,
+          product_name: updatedProduct.product_name,
+          product_description: updatedProduct.product_description,
+          product_short_description: updatedProduct.product_short_description,
+          product_price_original: updatedProduct.product_price_original,
+          product_price_discount: updatedProduct.product_price_discount,
+          product_quantity: updatedProduct.product_quantity,
+          product_weight: updatedProduct.product_weight,
+          categoryProductId: updatedProduct.CategoryProduct.id,
+        };
       } else {
         throw new Error('Nothing to update');
       }
@@ -140,10 +172,10 @@ export class ProductService {
     }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.product.delete({
       where: {
-        id: +id,
+        id: String(id),
       },
     });
   }
@@ -153,7 +185,7 @@ export class ProductService {
   ): Promise<void> {
     try {
       const productDiscountId = request.discountId;
-      const productIds = request.productIds;
+      const productIds = request.productIds.map(String);
       const discount = await this.prisma.productDiscount.findUnique({
         where: { id: productDiscountId },
       });
