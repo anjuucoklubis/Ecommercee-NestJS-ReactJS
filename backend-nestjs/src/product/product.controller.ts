@@ -201,7 +201,7 @@ export class ProductController {
   ): Promise<WebResponse<void>> {
     try {
       await this.productService.assignToDiscount(request);
-      return { data: null }; // No data to return on success
+      return { data: null };
     } catch (error) {
       throw new HttpException(
         'Failed to assign products to discount: ' + error.message,

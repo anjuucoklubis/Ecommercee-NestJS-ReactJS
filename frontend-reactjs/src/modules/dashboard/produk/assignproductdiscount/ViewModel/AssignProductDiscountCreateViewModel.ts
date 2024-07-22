@@ -32,14 +32,17 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
     productIds: [],
   });
 
-  const [getAllDiscountforAssignProduct, setGetAllDiscountforAssignProduct] = useState<GetAllDiscountProductForAssignToProductInterface[]>([]);
+  const [getAllDiscountforAssignProduct, setGetAllDiscountforAssignProduct] =
+    useState<GetAllDiscountProductForAssignToProductInterface[]>([]);
   const [selectedDiscount, setSelectedDiscount] = useState<number | string>("");
 
   useEffect(() => {
     const fetchDataCategoryForCreateProduct = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/discountproduct/get');
-        console.log("Fetched products:", response.data); // Tambahkan ini
+        const response = await axios.get(
+          "http://localhost:3000/discountproduct/get"
+        );
+        console.log("Fetched products:", response.data);
         const formattedData = response.data.map((item: any) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -61,12 +64,13 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
     setFormData((prev) => ({ ...prev, discountId }));
   };
 
-  const [getAllProductforAssignProduct, setGetAllProductforAssignProduct] = useState<GetProductAllInterface[]>([]);
+  const [getAllProductforAssignProduct, setGetAllProductforAssignProduct] =
+    useState<GetProductAllInterface[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/product/get');
+        const response = await axios.get("http://localhost:3000/product/get");
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -85,7 +89,7 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
     event.preventDefault();
     try {
       await axios.post(
-        'http://localhost:3000/product/assign-to-discount',
+        "http://localhost:3000/product/assign-to-discount",
         formData,
         {
           headers: {
@@ -94,7 +98,12 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
           },
         }
       );
-      toast.success("Products assigned to discount successfully!");
+      toast.success("Products assigned to discount successfully!", {
+        position: "top-right",
+        onClose: () => {
+          window.location.reload();
+        },
+      });
       onClose();
     } catch (error) {
       toast.error("Failed to assign products to discount.");
@@ -102,7 +111,7 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
   };
 
   const handleProductSelection = (productId) => {
-    console.log("Selected product ID:", productId); // Tambahkan ini
+    console.log("Selected product ID:", productId);
     setFormData((prev) => {
       const productIds = prev.productIds.includes(productId)
         ? prev.productIds.filter((id) => id !== productId)
@@ -110,9 +119,7 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
       return { ...prev, productIds };
     });
   };
-  
-  
-  
+
   return {
     getAllDiscountforAssignProduct,
     selectedDiscount,

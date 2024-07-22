@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateProductRequest {
   @ApiProperty({
@@ -201,10 +201,10 @@ export class AssignProductToDiscountRequest {
   discountId: number;
 
   @ApiProperty({
-    type: [Number],
+    type: [String],
   })
   @IsNotEmpty()
   @IsArray()
-  @IsNumber({}, { each: true })
-  productIds: number[];
+  @IsString({ each: true })
+  productIds: string[];
 }
