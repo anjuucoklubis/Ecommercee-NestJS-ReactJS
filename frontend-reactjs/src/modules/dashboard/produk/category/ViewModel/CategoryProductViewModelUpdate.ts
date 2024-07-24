@@ -5,6 +5,8 @@ import {
   ShowModalCategoryProductDetailInterface,
 } from "../Interface/InterfaceCategoryProduct";
 import API_FRONTEND from "../../../../../api/api.ts";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 function CategoryProductViewModelUpdate({ onClose }) {
   const { API_URL_CATEGORYPRODUCT_GET, API_URL_CATEGORYPRODUCT_UPDATE } =
@@ -31,6 +33,7 @@ function CategoryProductViewModelUpdate({ onClose }) {
 
   const handleImageChangeUpdateCategoryProduct = (event) => {
     const file = event.target.files[0];
+    console.log(file);
     setFormDataUpdate({
       ...formDataUpdate,
       image: file,
@@ -40,27 +43,33 @@ function CategoryProductViewModelUpdate({ onClose }) {
   const handleShowDetailCategory = async (categoryId: number) => {
     try {
       setCategoryId(categoryId);
-      const response = await fetch(
-        `${API_URL_CATEGORYPRODUCT_GET}/${categoryId}`
+      const response = await axios.get(
+        `${API_URL_CATEGORYPRODUCT_GET}/${categoryId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
       );
-      if (!response.ok) {
-        throw new Error("Failed to fetch category detail");
-      }
-      const data: {
-        name: string;
-        description: string;
-        image: string;
-        createdAt: string;
-        updatedAt: string;
-      } = await response.json();
+      if (response.status === 200) {
+        const data: {
+          name: string;
+          description: string;
+          image: string;
+          createdAt: string;
+          updatedAt: string;
+        } = response.data;
 
-      setCategoryDetail(data);
-      setFormDataUpdate({
-        name: data.name,
-        description: data.description,
-        image: null,
-        originalImage: data.image,
-      });
+        setCategoryDetail(data);
+        setFormDataUpdate({
+          name: data.name,
+          description: data.description,
+          image: null,
+          originalImage: data.image,
+        });
+      }
+      throw new Error("Failed to fetch category detail");
     } catch (error) {
       console.error("Error fetching category detail:", error);
     }
@@ -76,15 +85,16 @@ function CategoryProductViewModelUpdate({ onClose }) {
         formData.append("image", formDataUpdate.image);
       }
 
-      const response = await fetch(
+      const response = await axios.patch(
         `${API_URL_CATEGORYPRODUCT_UPDATE}/${categoryId}`,
+        formData,
         {
-          method: "PATCH",
-          body: formData,
-          credentials: "include",
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
         }
       );
-      if (response.ok) {
+      if (response.status === 200) {
         onClose();
         toast.success("Kategori berhasil diubah", {
           position: "top-right",

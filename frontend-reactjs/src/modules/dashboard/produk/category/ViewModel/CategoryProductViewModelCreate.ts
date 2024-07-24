@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
+import axios from "axios";
+import Cookies from "js-cookie";
+
 function CategoryProductViewModelCreate({ onClose }) {
   const { API_URL_CATEGORYPRODUCT_CREATE } = API_FRONTEND();
   const [showModalCreateCategory, setShowModalCreateCateogry] =
@@ -18,7 +21,7 @@ function CategoryProductViewModelCreate({ onClose }) {
 
   const handleSubmitCreateCategoryProduct = async (event) => {
     event.preventDefault();
-    console.log("Form Submitted");
+    console.log("Form Create Category Product");
     console.log("Form Data:", formData);
 
     if (!formData.name || !formData.description || !formData.image) {
@@ -40,13 +43,18 @@ function CategoryProductViewModelCreate({ onClose }) {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("image", formData.image);
 
-      const response = await fetch(`${API_URL_CATEGORYPRODUCT_CREATE}`, {
-        method: "POST",
-        body: formDataToSend,
-      });
+      const response = await axios.post(
+        API_URL_CATEGORYPRODUCT_CREATE,
+        formDataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
 
-      console.log("Response received");
-      if (response.ok) {
+      console.log("Request successful: " + JSON.stringify(response.status));
+      if (response.status === 200) {
         setFormData({
           name: "",
           description: "",
@@ -61,7 +69,7 @@ function CategoryProductViewModelCreate({ onClose }) {
           },
         });
       } else {
-        const responseData = await response.json();
+        const responseData = response.data;
         if (responseData && responseData.message) {
           toast.error(responseData.message);
         } else {
@@ -84,10 +92,15 @@ function CategoryProductViewModelCreate({ onClose }) {
     });
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    console.log("Image Changed:", file);
-    setFormData({ ...formData, image: file ?? null });
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    console.log("Input file", file);
+    if (file) {
+      setFormData((prevData) => ({
+        ...prevData,
+        image: file,
+      }));
+    }
   };
 
   return {

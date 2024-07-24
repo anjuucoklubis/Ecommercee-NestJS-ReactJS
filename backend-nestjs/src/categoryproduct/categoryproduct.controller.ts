@@ -7,13 +7,13 @@ import {
   Param,
   Delete,
   HttpCode,
+  UseGuards,
   HttpStatus,
   Controller,
   UploadedFile,
   HttpException,
   UseInterceptors,
   ParseFilePipeBuilder,
-  UseGuards,
 } from '@nestjs/common';
 import { join } from 'path';
 import { Observable, of } from 'rxjs';
@@ -36,6 +36,7 @@ const MAX_IMAGE_UPLOAD = 5 * 1024 * 1024;
 
 @ApiTags('Category Product')
 @Controller('categoryproduct')
+@UseGuards(JwtAuthGuard)
 export class CategoryproductController {
   constructor(
     private readonly categoryproductService: CategoryproductService,
