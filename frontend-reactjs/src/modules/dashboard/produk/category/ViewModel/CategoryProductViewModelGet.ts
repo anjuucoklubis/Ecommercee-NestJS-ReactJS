@@ -8,7 +8,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 function CategoryProductViewModelGet() {
-  const { API_URL_CATEGORYPRODUCT_GET, API_URL } = API_FRONTEND();
+  const { API_URL_CATEGORYPRODUCT_GET } = API_FRONTEND();
   const [categories, setCategories] = useState<
     GetCategoryProductAllInterface[]
   >([]);
@@ -65,8 +65,9 @@ function CategoryProductViewModelGet() {
         } = response.data;
         setCategoryDetail(data);
         setShowModalViewDetailCategory(true);
+      } else {
+        throw new Error("Failed to fetch category detail");
       }
-      throw new Error("Failed to fetch category detail");
     } catch (error) {
       console.error("Error fetching category detail:", error);
     }
@@ -82,14 +83,12 @@ function CategoryProductViewModelGet() {
     { name: "Actions", uid: "actions" },
   ];
 
-  const imageSrc = `${API_URL}/category`;
   return {
     categories,
     setCategories,
     getCategoryByID,
     showModalViewDetailCategory,
     getcategoryDetail,
-    imageSrc,
     setShowModalViewDetailCategory,
     categoryId,
     columns,

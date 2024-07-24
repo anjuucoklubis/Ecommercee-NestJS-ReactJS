@@ -34,7 +34,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
     if (categoryId) {
       getCategoryByID(parseInt(categoryId, 10));
     }
-  }, [categoryId]);
+  }, [categoryId, getCategoryByID]);
 
   return (
     <div>
@@ -58,7 +58,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
               variant="bordered"
               type="text"
               name="name"
-              value={getcategoryDetail?.name}
+              value={getcategoryDetail?.name || ""}
               disabled={true}
             />
             <Input
@@ -70,7 +70,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
               type="text"
               variant="bordered"
               name="description"
-              value={getcategoryDetail?.description}
+              value={getcategoryDetail?.description || ""}
               disabled={true}
             />
             <Input
@@ -82,7 +82,11 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
               type="text"
               variant="bordered"
               name="createdAt"
-              value={formatDate(getcategoryDetail?.createdAt)}
+              value={
+                getcategoryDetail
+                  ? formatDate(getcategoryDetail?.createdAt)
+                  : ""
+              }
               disabled={true}
             />
             <Input
@@ -95,8 +99,8 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
               variant="bordered"
               name="updatedAt"
               value={
-                getcategoryDetail?.updatedAt
-                  ? formatDate(getcategoryDetail?.updatedAt)
+                getcategoryDetail && getcategoryDetail.updatedAt
+                  ? formatDate(getcategoryDetail.updatedAt)
                   : "-"
               }
               disabled={true}

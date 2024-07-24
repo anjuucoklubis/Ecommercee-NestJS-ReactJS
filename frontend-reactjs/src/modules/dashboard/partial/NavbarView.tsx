@@ -29,7 +29,7 @@ const NavbarView = () => {
     const getUserProfile = async () => {
       try {
         const userProfile = await fetchUserProfile();
-        console.log("Fetched User Profile:", userProfile); // Debugging line
+        console.log("Fetched User Profile:", userProfile);
 
         setProfile(userProfile);
         setLoading(false);
@@ -45,7 +45,6 @@ const NavbarView = () => {
   const avatarUrl = profile?.userprofile
     ? `${API_URL_USER_PROFILE_IMAGE}/${profile.userprofile.image}`
     : "";
-  console.log("Avatar URL:", avatarUrl); // Debugging line
 
   const logout = async () => {
     try {

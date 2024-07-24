@@ -41,12 +41,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = [
-  "id",
-  "name",
-  "description",
-  "actions",
-];
+const INITIAL_VISIBLE_COLUMNS = ["id", "name", "description", "actions"];
 
 export default function CategoryProductView() {
   const { categories, columns } = CategoryProductViewModelGet();
@@ -82,7 +77,7 @@ export default function CategoryProductView() {
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.uid)
     );
-  }, [visibleColumns]);
+  }, [visibleColumns, columns]);
 
   const filteredItems = React.useMemo(() => {
     let filteredCategories = [...categories];
@@ -102,7 +97,7 @@ export default function CategoryProductView() {
     }
 
     return filteredCategories;
-  }, [categories, filterValue, statusFilter]);
+  }, [categories, filterValue, statusFilter, hasSearchFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -215,7 +210,7 @@ export default function CategoryProductView() {
           return cellValue;
       }
     },
-    [setItemToDelete]
+    [setItemToDelete, formatDate]
   );
 
   const onNextPage = React.useCallback(() => {
@@ -315,12 +310,13 @@ export default function CategoryProductView() {
     );
   }, [
     filterValue,
-    statusFilter,
     visibleColumns,
     categories.length,
     onSearchChange,
     onClear,
     onRowsPerPageChange,
+    columns,
+    onOpen,
   ]);
 
   const bottomContent = React.useMemo(() => {
@@ -360,7 +356,7 @@ export default function CategoryProductView() {
         </div>
       </div>
     );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+  }, [selectedKeys, items.length, page, pages, onNextPage, onPreviousPage]);
 
   return (
     <PartialView>

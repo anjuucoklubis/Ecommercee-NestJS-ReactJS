@@ -4,9 +4,6 @@ import API_FRONTEND from "../../../../../api/api.ts";
 import { useEffect, useState } from "react";
 import { User } from "../MyAccountInterface";
 
-console.log("useEffect:", useEffect);
-console.log("useState:", useState);
-
 export const GetDataMyAccount = () => {
   const fetchUserProfile = async () => {
     const response = await axios.get("http://localhost:3000/users/profile", {
@@ -23,7 +20,6 @@ export const GetDataMyAccount = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("useEffect triggered");
     const getUserProfile = async () => {
       try {
         const userProfile = await fetchUserProfile();

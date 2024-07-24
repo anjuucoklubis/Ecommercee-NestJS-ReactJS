@@ -68,8 +68,9 @@ function CategoryProductViewModelUpdate({ onClose }) {
           image: null,
           originalImage: data.image,
         });
+      } else {
+        throw new Error("Failed to fetch category detail");
       }
-      throw new Error("Failed to fetch category detail");
     } catch (error) {
       console.error("Error fetching category detail:", error);
     }
