@@ -38,7 +38,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
     if (productId) {
       getProductByID(productId);
     }
-  }, [productId, getProductByID]);
+  }, [productId]);
 
   return (
     <Modal

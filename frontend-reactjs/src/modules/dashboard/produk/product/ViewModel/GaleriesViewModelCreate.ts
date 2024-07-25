@@ -2,7 +2,8 @@ import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 function GaleriesViewModelCreate({ onClose }) {
   const { API_URL_GALERIESPRODUCT_CREATE } = API_FRONTEND();
   const [formData, setFormData] = useState<{
@@ -31,16 +32,18 @@ function GaleriesViewModelCreate({ onClose }) {
     formDataToSend.append("productId", formData.productId);
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         `${API_URL_GALERIESPRODUCT_CREATE}/${formData.productId}`,
+        formDataToSend,
         {
-          method: "POST",
-          body: formDataToSend,
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
         }
       );
 
       console.log("Response received");
-      if (response.ok) {
+      if (response.status === 201) {
         setFormData({
           id: 1,
           product_galeries_image: null,
@@ -50,12 +53,13 @@ function GaleriesViewModelCreate({ onClose }) {
 
         toast.success("Gallery created successfully", {
           position: "top-right",
-          onClose: () => {
-            window.location.reload();
-          },
+          autoClose: 3000,
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3200);
       } else {
-        const responseData = await response.json();
+        const responseData = response.data;
         if (responseData && responseData.message) {
           toast.error(responseData.message);
         } else {

@@ -1,22 +1,28 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 function GaleriesViewModelDelete() {
   const { API_URL_GALERIESPRODUCT_DELETE } = API_FRONTEND();
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);
 
   const handleRemoveItem = async (id: number) => {
     try {
-      const response = await fetch(`${API_URL_GALERIESPRODUCT_DELETE}/${id}`, {
-        method: "DELETE",
-      });
+      const response = await axios.delete(
+        `${API_URL_GALERIESPRODUCT_DELETE}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log(`Item ${id} successfully deleted`);
         return true;
       } else {
-        const errorText = await response.text();
+        const errorText = response.data;
         console.error("Failed to delete item:", errorText);
         throw new Error(`Failed to delete item: ${errorText}`);
       }
