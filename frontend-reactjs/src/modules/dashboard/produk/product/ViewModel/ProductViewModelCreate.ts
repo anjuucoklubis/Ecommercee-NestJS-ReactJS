@@ -164,7 +164,7 @@ function ProductViewModelCreate({ onClose }) {
     };
 
     fetchDataCategoryForCreateProduct();
-  }, []);
+  }, [API_URL_CATEGORYPRODUCT_GET]);
 
   const handleCategoryChange = (event) => {
     const categoryProductId = event.target.value;

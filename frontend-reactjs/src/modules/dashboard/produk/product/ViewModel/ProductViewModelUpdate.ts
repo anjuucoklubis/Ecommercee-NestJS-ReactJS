@@ -15,7 +15,7 @@ function ProductViewModelUpdate({ onClose }) {
     API_URL_PRODUCT_UPDATE,
     API_URL_CATEGORYPRODUCT_GET,
   } = API_FRONTEND();
-  const [productId, setProductId] = useState<number | null>(null);
+  const [productId, setProductId] = useState<string | null>(null);
   const [productDetail, setProductDetail] =
     useState<ShowModalProductDetailInterface | null>(null);
   const [formDataUpdate, setFormDataUpdate] =
@@ -91,7 +91,7 @@ function ProductViewModelUpdate({ onClose }) {
           },
         });
       } else {
-        const errorData =  response.data;
+        const errorData = response.data;
         console.error("Failed to update product new:", errorData);
         console.error("Failed to update product new:", errorData);
 
@@ -134,7 +134,7 @@ function ProductViewModelUpdate({ onClose }) {
     };
 
     fetchDataCategoryForCreateProduct();
-  }, []);
+  }, [API_URL_CATEGORYPRODUCT_GET]);
 
   const handleCategoryChange = (event) => {
     const categoryProductId = parseInt(event.target.value, 10);
