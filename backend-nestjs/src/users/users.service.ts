@@ -6,6 +6,7 @@ import {
 import { Request } from 'express';
 import { PrismaService } from 'src/Prisma/prisma.service';
 import { ValidationService } from 'src/common/validation.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +16,19 @@ export class UsersService {
   ) {}
 
   async getMyUser(id: string, req: Request) {
-    const user = await this.prisma.user.findUnique({ where: { id } });
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        hashedPassword: true,
+        createdAt: true,
+        updateAt: true,
+        UserRole: true,
+        userprofile: true,
+        useraddress: true,
+      },
+    });
 
     if (!user) {
       throw new NotFoundException();
@@ -34,7 +47,15 @@ export class UsersService {
 
   async getUsers() {
     return await this.prisma.user.findMany({
-      select: { id: true, email: true },
+      select: {
+        id: true,
+        email: true,
+        createdAt: true,
+        updateAt: true,
+        UserRole: true,
+        userprofile: true,
+        useraddress: true,
+      },
     });
   }
 
@@ -46,7 +67,7 @@ export class UsersService {
       include: {
         userprofile: true,
         useraddress: true,
-        UserRole:true
+        UserRole: true,
       },
     });
 
@@ -57,5 +78,51 @@ export class UsersService {
     delete user.hashedPassword;
 
     return { user };
+  }
+
+  findOne(id: string) {
+    console.log('Searching for user with ID:', id);
+    return this.prisma.user
+      .findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          userprofile: true,
+          useraddress: true,
+          UserRole: true,
+        },
+      })
+      .then((user) => {
+        console.log('User found:', user);
+        if (user) {
+          delete user.hashedPassword;
+        }
+        return user;
+      })
+      .catch((error) => {
+        console.error('Error finding user:', error);
+        throw error;
+      });
+  }
+
+  async resetPassword(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const defaultPassword = 'default';
+    const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+
+    await this.prisma.user.update({
+      where: { id },
+      data: { hashedPassword },
+    });
+
+    return { message: 'Password has been reset to default' };
   }
 }

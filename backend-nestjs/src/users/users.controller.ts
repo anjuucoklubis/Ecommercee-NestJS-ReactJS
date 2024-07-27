@@ -1,7 +1,7 @@
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { UsersService } from './users.service';
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
 
 @ApiTags('User Get All & by Id')
 @Controller('users')
@@ -23,5 +23,15 @@ export class UsersController {
   @Get()
   getUsers() {
     return this.usersService.getUsers();
+  }
+
+  @Get('/getOne/:id')
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(id);
+  }
+
+  @Patch('reset-password/:id')
+  async resetPassword(@Param('id') id: string) {
+    return this.usersService.resetPassword(id);
   }
 }

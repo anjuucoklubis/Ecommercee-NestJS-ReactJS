@@ -61,6 +61,7 @@ const API_FRONTEND = () => {
   const API_URL_USER_DATA_GET_ALL = "http://localhost:3000/users"; // blm ke pakai , on dev module Account
   const API_URL_USER_DATA_BY_ID = "http://localhost:3000/users"; //blm kepakai, on dev module Account
   const API_URL_USER_DATA_BY_AUTH = "http://localhost:3000/users/profile"; 
+  const API_URL_USER_DATA_BY_ID_NEW = "http://localhost:3000/users/getOne"; 
 
 
   return {
@@ -102,6 +103,7 @@ const API_FRONTEND = () => {
     API_URL_USER_DATA_GET_ALL,
     API_URL_USER_DATA_BY_ID,
     API_URL_USER_DATA_BY_AUTH,
+    API_URL_USER_DATA_BY_ID_NEW,
     API_URL_AUTH_LOGOUT,
     API_URL_AUTH_PROTECTED
     
