@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { User } from "../MyAccountInterface";
 
 export const GetDataMyAccount = () => {
+  const { API_URL_USER_DATA_BY_AUTH } = API_FRONTEND();
   const fetchUserProfile = async () => {
-    const response = await axios.get("http://localhost:3000/users/profile", {
+    const response = await axios.get(API_URL_USER_DATA_BY_AUTH, {
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
       },

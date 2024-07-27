@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import API_FRONTEND from "../../../../../api/api.ts";
 export interface GetAllDiscountProductForAssignToProductInterface {
   id: number;
   product_discount_name: string;
@@ -37,6 +37,12 @@ function AssignProductDiscountCreateViewModel({
     productIds: [],
   });
 
+  const {
+    API_URL_DISCOUNTPRODUCT_GET,
+    API_URL_PRODUCT_GET,
+    API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT,
+  } = API_FRONTEND();
+
   const [getAllDiscountforAssignProduct, setGetAllDiscountforAssignProduct] =
     useState<GetAllDiscountProductForAssignToProductInterface[]>([]);
   const [selectedDiscount, setSelectedDiscount] = useState<number | string>("");
@@ -44,9 +50,7 @@ function AssignProductDiscountCreateViewModel({
   useEffect(() => {
     const fetchDataCategoryForCreateProduct = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/discountproduct/get"
-        );
+        const response = await axios.get(API_URL_DISCOUNTPRODUCT_GET);
         console.log("Fetched products:", response.data);
         const formattedData = response.data.map((item: any) => ({
           ...item,
@@ -75,7 +79,7 @@ function AssignProductDiscountCreateViewModel({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/product/get");
+        const response = await axios.get(API_URL_PRODUCT_GET);
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -99,7 +103,7 @@ function AssignProductDiscountCreateViewModel({
     event.preventDefault();
     try {
       await axios.post(
-        "http://localhost:3000/product/assign-to-discount",
+        API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT,
         {
           discountId: discountId,
           productIds: formData.productIds,

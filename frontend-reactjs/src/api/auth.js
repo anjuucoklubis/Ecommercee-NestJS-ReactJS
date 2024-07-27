@@ -1,21 +1,23 @@
 import axios from "axios";
+import API_FRONTEND from "./api.ts";
 axios.defaults.withCredentials = true;
 
 export async function onRegistration(registrationData) {
-  return await axios.post(
-    "http://localhost:3000/auth/signup",
-    registrationData
-  );
+  const { API_URL_AUTH_REGISTER } = API_FRONTEND();
+  return await axios.post(API_URL_AUTH_REGISTER, registrationData);
 }
 
 export async function onLogin(loginData) {
-  return await axios.post("http://localhost:3000/auth/signin", loginData);
+  const { API_URL_AUTH_LOGIN } = API_FRONTEND();
+  return await axios.post(API_URL_AUTH_LOGIN, loginData);
 }
 
 export async function onLogout() {
-  return await axios.get("http://localhost:3000/auth/signout");
+  const { API_URL_AUTH_LOGOUT } = API_FRONTEND();
+  return await axios.get(API_URL_AUTH_LOGOUT);
 }
 
 export async function fetchProtectedInfo() {
-  return await axios.get("http://localhost:3000/auth/protected");
+  const { API_URL_AUTH_PROTECTED } = API_FRONTEND();
+  return await axios.get(API_URL_AUTH_PROTECTED);
 }
