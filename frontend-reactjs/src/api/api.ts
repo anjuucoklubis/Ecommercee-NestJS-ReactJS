@@ -14,6 +14,7 @@ const API_FRONTEND = () => {
   const API_URL_PRODUCT_UPDATE = "http://localhost:3000/product/update";
   const API_URL_PRODUCT_IMAGE = "http://localhost:3000/product/product-image";
   const API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT = "http://localhost:3000/product/assign-to-discount";
+  const API_URL_PRODUCT_REMOVE_PRODUCTDISCOUNT = "http://localhost:3000/product/remove-discount";
 
 
 
@@ -92,6 +93,7 @@ const API_FRONTEND = () => {
     API_URL_USEROLE_CREATE,
     API_URL_USEROLE_UPDATE,
     API_URL_USEROLE_DELETE,
+    API_URL_PRODUCT_REMOVE_PRODUCTDISCOUNT
     
   };
 };

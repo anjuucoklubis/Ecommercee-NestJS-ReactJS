@@ -10,7 +10,7 @@ export interface GetAllDiscountProductForAssignToProductInterface {
 }
 
 export interface GetProductAllInterface {
-  id: number;
+  id: string;
   product_sku: string;
   product_name: string;
   product_description: string;
@@ -21,14 +21,19 @@ export interface GetProductAllInterface {
   product_weight: string;
   createdAt: string;
   updatedAt: string;
+  productDiscountId: string;
 }
 
-function AssignProductDiscountCreateViewModel({ onClose }) {
+function AssignProductDiscountCreateViewModel({
+  onClose,
+  discountId,
+}: {
+  onClose: () => void;
+  discountId: string;
+}) {
   const [formData, setFormData] = useState<{
-    discountId: number;
-    productIds: number[];
+    productIds: string[];
   }>({
-    discountId: 1,
     productIds: [],
   });
 
@@ -76,7 +81,12 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
           createdAt: new Date(item.createdAt).toISOString(),
           updatedAt: new Date(item.updatedAt).toISOString(),
         }));
-        setGetAllProductforAssignProduct(formattedData);
+        const filteredProducts = formattedData.filter(
+          (product) => product.productDiscountId === null
+        );
+
+        console.log("Filtered Products:", filteredProducts);
+        setGetAllProductforAssignProduct(filteredProducts);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -85,12 +95,15 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
     fetchData();
   }, []);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       await axios.post(
         "http://localhost:3000/product/assign-to-discount",
-        formData,
+        {
+          discountId: discountId,
+          productIds: formData.productIds,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -110,16 +123,14 @@ function AssignProductDiscountCreateViewModel({ onClose }) {
     }
   };
 
-  const handleProductSelection = (productId) => {
-    console.log("Selected product ID:", productId);
-    setFormData((prev) => {
-      const productIds = prev.productIds.includes(productId)
+  const handleProductSelection = (productId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      productIds: prev.productIds.includes(productId)
         ? prev.productIds.filter((id) => id !== productId)
-        : [...prev.productIds, productId];
-      return { ...prev, productIds };
-    });
+        : [...prev.productIds, productId],
+    }));
   };
-
   return {
     getAllDiscountforAssignProduct,
     selectedDiscount,

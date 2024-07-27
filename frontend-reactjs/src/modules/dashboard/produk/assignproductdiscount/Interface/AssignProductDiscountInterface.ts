@@ -10,6 +10,7 @@ export interface GetDiscountProductAllInterface {
 }
 
 export interface products {
+  id: string;
   product_sku: string;
   product_name: string;
   product_description: string;

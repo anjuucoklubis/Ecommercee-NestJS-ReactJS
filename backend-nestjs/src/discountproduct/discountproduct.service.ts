@@ -60,10 +60,14 @@ export class DiscountproductService {
     });
   }
 
-  findOne(id: number) {
+  async findOne(id: string) {
+    if (!id) {
+      throw new Error('ID cannot be null or undefined');
+    }
+
     return this.prisma.productDiscount.findUnique({
       where: {
-        id: +id,
+        id: id,
       },
       include: {
         products: true,
@@ -72,16 +76,23 @@ export class DiscountproductService {
   }
 
   async update(
-    id: number,
+    id: string,
     request: UpdateDiscountProductRequest,
   ): Promise<DiscountProductResponse> {
     try {
+      const existingDiscount = await this.prisma.productDiscount.findUnique({
+        where: { id: id },
+      });
+
+      if (!existingDiscount) {
+        throw new Error('Discount product not found');
+      }
+
       const updateRequest: UpdateDiscountProductRequest =
         this.validationService.validate(
           DiscountProductValidation.UPDATE,
           request,
         );
-      const discountId = parseInt(id.toString(), 10);
       const updatedData: Partial<Prisma.ProductDiscountUpdateInput> = {};
 
       if (updateRequest.product_discount_name !== undefined) {
@@ -102,7 +113,7 @@ export class DiscountproductService {
 
       const updatedProduct = await this.prisma.productDiscount.update({
         where: {
-          id: discountId,
+          id: id,
         },
         data: updatedData,
       });
@@ -110,7 +121,7 @@ export class DiscountproductService {
       if (updateRequest.product_discount_active !== undefined) {
         if (updateRequest.product_discount_active) {
           const products = await this.prisma.product.findMany({
-            where: { productDiscountId: discountId },
+            where: { productDiscountId: id },
           });
           await Promise.all(
             products.map((product) =>
@@ -128,7 +139,7 @@ export class DiscountproductService {
         } else {
           await this.prisma.product.updateMany({
             where: {
-              productDiscountId: discountId,
+              productDiscountId: id,
             },
             data: {
               product_price_discount: '0',
@@ -142,7 +153,7 @@ export class DiscountproductService {
         updatedProduct.product_discount_active
       ) {
         const products = await this.prisma.product.findMany({
-          where: { productDiscountId: discountId },
+          where: { productDiscountId: id },
         });
         await Promise.all(
           products.map((product) =>
@@ -178,9 +189,9 @@ export class DiscountproductService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const discountProduct = await this.prisma.productDiscount.findUnique({
-      where: { id },
+      where: { id: String(id) },
       include: { products: true },
     });
 
@@ -196,7 +207,7 @@ export class DiscountproductService {
       });
     }
     return this.prisma.productDiscount.delete({
-      where: { id },
+      where: { id: String(id) },
     });
   }
   private calculateDiscountedPrice(

@@ -36,18 +36,12 @@ const DetailAssignProductDiscountView: React.FC<
     AssignProductDiscountViewModel();
 
   useEffect(() => {
-    if (discountId && !isNaN(parseInt(discountId, 10))) {
-      getDiscountByID(parseInt(discountId, 10));
+    if (discountId && discountId.trim() !== "") {
+      getDiscountByID(discountId); 
     } else {
       console.error("Invalid discountId:", discountId);
     }
   }, [discountId]);
-
-  useEffect(() => {
-    console.log("Updated getdiscountDetail:", getdiscountDetail);
-  }, [getdiscountDetail]);
-
-  console.log("wkwkw", getdiscountDetail?.product_discount_name);
 
   return (
     <Modal
@@ -63,7 +57,7 @@ const DetailAssignProductDiscountView: React.FC<
         <ModalBody>
           <div className="flex-1">
             <div style={{ marginBottom: "30px" }}>
-            <p style={{ marginBottom: "10px" }}>Discount Detail</p>
+              <p style={{ marginBottom: "10px" }}>Discount Detail</p>
 
               <Input
                 autoFocus
@@ -89,7 +83,7 @@ const DetailAssignProductDiscountView: React.FC<
                 variant="bordered"
                 type="text"
                 name="product_sku"
-                value={`${getdiscountDetail?.product_discount_percent || ""} %`} // Menambahkan simbol %
+                value={`${getdiscountDetail?.product_discount_percent || ""} %`} 
                 isReadOnly
                 disabled={true}
               />

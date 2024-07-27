@@ -209,4 +209,18 @@ export class ProductController {
       );
     }
   }
+
+  @Delete('/remove-discount/:id')
+  async removeDiscount(@Param('id') id: string) {
+    console.log(`Received request to remove discount for product ID: ${id}`);
+    try {
+      return await this.productService.removeProductDiscount(id);
+    } catch (error) {
+      console.error('Error in remove discount endpoint:', error);
+      throw new HttpException(
+        'Failed to remove product discount',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

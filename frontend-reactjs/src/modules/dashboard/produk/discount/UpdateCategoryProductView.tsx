@@ -34,7 +34,7 @@ const UpdateDiscountProductView: React.FC<UpdateDiscountProductViewProps> = ({
 
   useEffect(() => {
     if (discountId) {
-      handleShowDetailDiscount(parseInt(discountId, 10));
+      handleShowDetailDiscount(discountId);
     }
   }, [discountId]);
 
@@ -89,7 +89,7 @@ const UpdateDiscountProductView: React.FC<UpdateDiscountProductViewProps> = ({
                 type="number"
                 variant="bordered"
                 name="product_discount_percent"
-                value={formDataUpdate.product_discount_percent.toString()}
+                value={formDataUpdate.product_discount_percent}
                 onChange={handleInputChangeUpdateDiscount}
                 min={1}
                 max={100}

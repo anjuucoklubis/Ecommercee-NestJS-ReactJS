@@ -28,6 +28,12 @@ export class CreateDiscountProductRequest {
 
 export class UpdateDiscountProductRequest {
   @ApiProperty({
+    example: '1',
+    description: 'id of the discount product updated',
+  })
+  id?: string;
+
+  @ApiProperty({
     example: 'Ramadhan Sale Discount',
     description: 'name of the discount product updated',
   })
@@ -55,7 +61,7 @@ export class UpdateDiscountProductRequest {
 export class DiscountProductResponse {
   @ApiProperty({
     example: {
-      id: 1,
+      id: '1',
       product_discount_name: 'Ramadhan Sale Discount',
       product_discount_description:
         'Ramadhan Sale adalah discount saat ramadhan',
@@ -64,7 +70,7 @@ export class DiscountProductResponse {
     },
     description: 'Data object example',
   })
-  id: number;
+  id: string;
 
   @ApiProperty()
   product_discount_name: string;

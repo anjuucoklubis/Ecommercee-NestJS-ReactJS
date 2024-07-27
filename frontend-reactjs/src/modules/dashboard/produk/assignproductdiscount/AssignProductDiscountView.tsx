@@ -20,7 +20,6 @@ import {
 } from "@nextui-org/react";
 import { statusOptions } from "../../../../datadummy/dataa.ts";
 import { capitalize } from "../../../../utils/utils.ts";
-import { PlusIcon } from "../../../../components/icons/PlusIcon.tsx";
 import { VerticalDotsIcon } from "../../../../components/icons/VerticalDotsIcon.tsx";
 import { ChevronDownIcon } from "../../../../components/icons/ChevronDownIcon.tsx";
 import { SearchIcon } from "../../../../components/icons/SearchIcon.tsx";
@@ -30,6 +29,7 @@ import DateComponenttt from "../../../../components/date/date.ts";
 import AssignProductDiscountViewModel from "./ViewModel/AssignProductDiscountViewModel.ts";
 import DetailAssignProductDiscountView from "./DetailAssignProductDiscountView.tsx";
 import AddAssignProductDiscountView from "./AddAssignProductDiscountView.tsx";
+import DeleteAssignProductDiscountView from "./DeleteAssignProductDiscountView.tsx";
 
 const INITIAL_VISIBLE_COLUMNS = [
   "id",
@@ -114,19 +114,11 @@ export default function AssignProductDiscountView() {
     });
   }, [sortDescriptor, items]);
 
-  const [isOpenUpdateDiscount, setIsOpenUpdateDiscount] = useState(false);
-  const [discountIdToEdit, setUpdateIdToEdit] = useState(null);
-
   const [
     isOpenDetailAssignProductDiscount,
     setIsOpenDetailAssignProductDiscount,
   ] = useState(false);
   const [discountIdToDetail, setDiscountIdToDetail] = useState(null);
-
-  const handleEdit = (id) => {
-    setUpdateIdToEdit(id);
-    setIsOpenUpdateDiscount(true);
-  };
 
   const handleView = (id) => {
     setDiscountIdToDetail(id);
@@ -134,18 +126,29 @@ export default function AssignProductDiscountView() {
   };
 
   const closeModal = () => {
-    setIsOpenUpdateDiscount(false);
-    setUpdateIdToEdit(null);
     setIsOpenDetailAssignProductDiscount(false);
     setIsOpenAssignProductDiscount(false);
+    setIsOpenDeleteAssignProductDiscount(false)
   };
 
-  //assign product discount
   const [isOpenAssignProductDiscount, setIsOpenAssignProductDiscount] =
     useState(false);
+  const [discountIdToAssign, setDiscountIdToAssign] = useState(null);
 
-  const handleAssignProductDiscount = () => {
+  const handleAssignProductDiscount = (id) => {
+    setDiscountIdToAssign(id);
     setIsOpenAssignProductDiscount(true);
+  };
+
+  const [
+    isOpenDeleteAssignProductDiscount,
+    setIsOpenDeleteAssignProductDiscount,
+  ] = useState(false);
+  const [discountIdToDelete, setDiscountIdToDelete] = useState(null);
+
+  const handleDeleteAssignProductDiscount = (id) => {
+    setDiscountIdToDelete(id);
+    setIsOpenDeleteAssignProductDiscount(true);
   };
 
   const renderCell = React.useCallback((discount, columnKey) => {
@@ -188,18 +191,23 @@ export default function AssignProductDiscountView() {
               <DropdownMenu
                 aria-label="Dynamic Actions"
                 onAction={(key) => {
-                  if (key === "Edit") {
-                    handleEdit(discount.id);
+                  if (key === "assignproduct") {
+                    handleAssignProductDiscount(discount.id);
                   } else if (key === "view") {
                     handleView(discount.id);
+                  } else if (key === "delete"){
+                    handleDeleteAssignProductDiscount(discount.id);
                   }
                 }}
               >
-                <DropdownItem key="Edit" color="warning">
-                  Edit
+                <DropdownItem key="assignproduct" color="warning">
+                  Assign Product
                 </DropdownItem>
                 <DropdownItem key="view" color="danger">
                   View
+                </DropdownItem>
+                <DropdownItem key="delete" color="danger">
+                  Delete
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -285,13 +293,13 @@ export default function AssignProductDiscountView() {
             {/* <Button onPress={onOpen} color="primary" endContent={<PlusIcon />}>
               Add New
             </Button> */}
-            <Button
+            {/* <Button
               onPress={handleAssignProductDiscount}
               color="primary"
               endContent={<PlusIcon />}
             >
               Assign Product Discount
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -415,6 +423,12 @@ export default function AssignProductDiscountView() {
       <AddAssignProductDiscountView
         isOpenAssignProductDiscount={isOpenAssignProductDiscount}
         onClose={closeModal}
+        discountId={discountIdToAssign || ""}
+      />
+      <DeleteAssignProductDiscountView
+        isOpenDeleteAssignProductDiscount={isOpenDeleteAssignProductDiscount}
+        onClose={closeModal}
+        discountId={discountIdToDelete || ""}
       />
       {/* 
       

@@ -57,6 +57,7 @@ export class ProductService {
         product_quantity: createProduct.product_quantity,
         product_weight: createProduct.product_weight,
         categoryProductId: createProduct.categoryProductId,
+        productDiscountId: createProduct.productDiscountId,
       };
 
       return response;
@@ -137,6 +138,11 @@ export class ProductService {
           connect: { id: Number(updateRequest.categoryProductId) },
         };
       }
+      if (updateRequest.productDiscountId) {
+        updatedData.ProductDiscount = {
+          connect: { id: updateRequest.productDiscountId },
+        };
+      }
 
       if (Object.keys(updatedData).length > 0) {
         const updatedProduct = await this.prisma.product.update({
@@ -159,6 +165,7 @@ export class ProductService {
           product_quantity: updatedProduct.product_quantity,
           product_weight: updatedProduct.product_weight,
           categoryProductId: updatedProduct.CategoryProduct.id,
+          productDiscountId: updateRequest.productDiscountId,
         };
       } else {
         throw new Error('Nothing to update');
@@ -236,6 +243,34 @@ export class ProductService {
       throw new Error(
         'Failed to assign products to discount: ' + error.message,
       );
+    }
+  }
+  async removeProductDiscount(id: string) {
+    console.log(
+      `Attempting to remove product discount from product with ID: ${id}`,
+    );
+
+    try {
+      const productExists = await this.prisma.product.findUnique({
+        where: { id },
+      });
+
+      console.log(`Product found: ${productExists ? 'Yes' : 'No'}`);
+
+      if (!productExists) {
+        throw new Error('Product not found');
+      }
+
+      const updatedProduct = await this.prisma.product.update({
+        where: { id },
+        data: { productDiscountId: null },
+      });
+
+      console.log('Product discount removed successfully');
+      return updatedProduct;
+    } catch (error) {
+      console.error('Error removing product discount:', error);
+      throw new Error('Failed to remove product discount: ' + error.message);
     }
   }
 }

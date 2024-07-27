@@ -13,27 +13,27 @@ model CategoryProduct {
   description String @db.VarChar(255)
   image       String @db.VarChar(255)
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   products Product[]
 }
 
 model ProductDiscount {
-  id                           Int     @id @default(autoincrement())
+  id                           String  @id @default(uuid())
   product_discount_name        String  @db.VarChar(255)
   product_discount_description String  @db.VarChar(255)
   product_discount_percent     Int
   product_discount_active      Boolean
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   products Product[]
 }
 
 model Product {
-  id String @id @default(uuid())
+  id                        String @id @default(uuid())
   product_sku               String @db.VarChar(255)
   product_name              String @db.VarChar(255)
   product_description       String @db.VarChar(255)
@@ -43,14 +43,14 @@ model Product {
   product_quantity          String @db.VarChar(255)
   product_weight            String @db.VarChar(255)
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   CategoryProduct   CategoryProduct? @relation(fields: [categoryProductId], references: [id])
   categoryProductId Int?
 
   ProductDiscount   ProductDiscount? @relation(fields: [productDiscountId], references: [id])
-  productDiscountId Int?
+  productDiscountId String?
 
   productGalleries ProductGalleries[]
 
@@ -76,7 +76,7 @@ model User {
   email          String @unique
   hashedPassword String
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   updateAt  DateTime? @updatedAt()
 
   UserRole   UserRole? @relation(fields: [userRoleId], references: [id])
@@ -89,16 +89,15 @@ model User {
 }
 
 model UserRole {
-  id                         Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
   role_name        String @unique
   role_description String
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   updateAt  DateTime? @updatedAt()
 
-  users         User[]
-  
+  users User[]
 }
 
 model Useraddress {

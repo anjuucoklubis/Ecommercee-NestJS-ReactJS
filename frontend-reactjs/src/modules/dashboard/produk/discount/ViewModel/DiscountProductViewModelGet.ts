@@ -14,7 +14,7 @@ function DiscountProductViewModelGet() {
   );
   const [getdiscountDetail, setDiscountDetail] =
     useState<GetDiscountProductDetailInterface | null>(null);
-  const [discountId, setDiscountId] = useState<number | null>(null);
+  const [discountId, setDiscountId] = useState<string | null>(null);
   const [showModalViewDetailDiscount, setShowModalViewDetailDiscount] =
     useState(false);
 
@@ -42,7 +42,7 @@ function DiscountProductViewModelGet() {
     fetchData();
   }, [API_URL_DISCOUNTPRODUCT_GET]);
 
-  const getDiscountByID = async (discountId: number) => {
+  const getDiscountByID = async (discountId: string) => {
     try {
       setDiscountId(discountId);
       const response = await axios.get(

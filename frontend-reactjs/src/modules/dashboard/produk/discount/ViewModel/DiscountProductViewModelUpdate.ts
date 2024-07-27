@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 function DiscountProductViewModelUpdate({ onClose }) {
   const { API_URL_DISCOUNTPRODUCT_UPDATE, API_URL_DISCOUNTPRODUCT_GET } =
     API_FRONTEND();
-  const [discountId, setDiscountId] = useState<number | null>(null);
+  const [discountId, setDiscountId] = useState<string | null>(null);
   const [discountDetail, setDiscountDetail] =
     useState<ShowModalDiscountProductDetailInterface | null>(null);
   const [formDataUpdate, setFormDataUpdate] =

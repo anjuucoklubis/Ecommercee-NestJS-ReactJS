@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateProductRequest {
   @ApiProperty({
@@ -111,6 +111,12 @@ export class UpdateProductRequest {
     description: 'categoryProductId of the category product updated',
   })
   categoryProductId?: number;
+
+  @ApiProperty({
+    example: '1',
+    description: 'productDiscountId of the category product updated',
+  })
+  productDiscountId?: string;
 }
 
 export class ProductResponse {
@@ -173,6 +179,12 @@ export class ProductResponse {
     description: 'categoryProductId of the category',
   })
   categoryProductId: number;
+
+  @ApiProperty({
+    example: '1',
+    description: 'productDiscountId of the product',
+  })
+  productDiscountId: string;
 }
 
 export class UnauthorizedResponse {
@@ -194,11 +206,10 @@ export class RemoveResponseOk {
 
 export class AssignProductToDiscountRequest {
   @ApiProperty({
-    example: 1,
+    example: '1',
   })
   @IsNotEmpty()
-  @IsNumber()
-  discountId: number;
+  discountId: string;
 
   @ApiProperty({
     type: [String],

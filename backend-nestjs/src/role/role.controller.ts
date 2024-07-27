@@ -19,8 +19,9 @@ import {
 } from 'src/model/userrole.model';
 import { RoleService } from './role.service';
 import { WebResponse } from 'src/model/web.model';
-import { ApiBadRequestResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Role Users')
 @Controller('role')
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}

@@ -60,8 +60,8 @@ export class DiscountproductController {
   }
 
   @Get('/get/:id')
-  findOne(@Param('id') id: number) {
-    return this.discountproductService.findOne(+id);
+  findOne(@Param('id') id: string) {
+    return this.discountproductService.findOne(id);
   }
 
   @Patch('/update/:id')
@@ -75,13 +75,11 @@ export class DiscountproductController {
   })
   @HttpCode(200)
   async update(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() body: UpdateDiscountProductRequest,
   ) {
     try {
-      const discountId = parseInt(id.toString(), 10);
-      const discountProduct =
-        await this.discountproductService.findOne(discountId);
+      const discountProduct = await this.discountproductService.findOne(id);
 
       if (!discountProduct) {
         throw new HttpException(
@@ -97,7 +95,7 @@ export class DiscountproductController {
         body.product_discount_active
       ) {
         const updateDiscountProduct = await this.discountproductService.update(
-          discountId,
+          id,
           body,
         );
         const response = {
@@ -132,8 +130,8 @@ export class DiscountproductController {
   }
 
   @Delete('/delete/:id')
-  async remove(@Param('id') id: number, @Res() response: Response) {
-    const deletedRecord = await this.discountproductService.remove(+id);
+  async remove(@Param('id') id: string, @Res() response: Response) {
+    const deletedRecord = await this.discountproductService.remove(id);
 
     if (deletedRecord) {
       const response = {
