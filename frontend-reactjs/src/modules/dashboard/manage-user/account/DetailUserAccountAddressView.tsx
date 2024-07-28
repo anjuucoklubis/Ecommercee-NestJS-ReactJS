@@ -27,7 +27,6 @@ interface DetailUserAccountAddressViewProps {
   onClose: () => void;
   isOpenDetailUser: boolean;
   size?: "5xl";
-  isOpen: boolean; 
 }
 
 const DetailUserAccountAddressView: React.FC<

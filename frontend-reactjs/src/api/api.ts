@@ -57,12 +57,13 @@ const API_FRONTEND = () => {
   const API_URL_USEROLE_UPDATE = "http://localhost:3000/role/update";
   const API_URL_USEROLE_DELETE = "http://localhost:3000/role/delete";
 
-  /* User Data (3) */
+  /* User Data (6) */
   const API_URL_USER_DATA_GET_ALL = "http://localhost:3000/users"; // blm ke pakai , on dev module Account
   const API_URL_USER_DATA_BY_ID = "http://localhost:3000/users"; // tidak di pakai di ganti by_id_new
   const API_URL_USER_DATA_BY_AUTH = "http://localhost:3000/users/profile"; 
   const API_URL_USER_DATA_BY_ID_NEW = "http://localhost:3000/users/getOne"; 
   const API_URL_USER_DATA_RESET_PASSWORD = "http://localhost:3000/users/reset-password"
+  const API_URL_USER_DATA_DELETE_USER_ACCOUNT = "http://localhost:3000/users/delete-user"
 
 
   return {
@@ -107,7 +108,8 @@ const API_FRONTEND = () => {
     API_URL_USER_DATA_BY_ID_NEW,
     API_URL_AUTH_LOGOUT,
     API_URL_AUTH_PROTECTED,
-    API_URL_USER_DATA_RESET_PASSWORD
+    API_URL_USER_DATA_RESET_PASSWORD,
+    API_URL_USER_DATA_DELETE_USER_ACCOUNT
     
   };
 };

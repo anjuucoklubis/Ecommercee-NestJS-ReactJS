@@ -31,6 +31,7 @@ import { ToastContainer } from "react-toastify";
 import DateComponenttt from "../../../../components/date/date.ts";
 import GetAccountViewModel from "./ViewModel/GetAccountViewModel.ts";
 import DetailUserAccountAddressView from "./DetailUserAccountAddressView.tsx";
+import DeleteAccountViewModel from "./ViewModel/DeleteAccountViewMode.ts";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -72,13 +73,12 @@ export default function AccountView() {
     // setUserIdToUpdate(null);
   };
 
-  // const {
-  //   handleConfirmDelete,
-  //   handleCancelDelete,
-  //   itemToDelete,
-  //   setItemToDelete,
-  // } = UserViewModelDelete();
-
+  const {
+    setUserId,
+    handleCancelDelete,
+    deleteUserAccount,
+    userId,
+  } = DeleteAccountViewModel();
   // ========================
 
   const [filterValue, setFilterValue] = React.useState("");
@@ -205,10 +205,9 @@ export default function AccountView() {
                   onAction={(key) => {
                     if (key === "View") {
                       handleView(user.id);
-                    }    
-                    // else if (key === "Delete") {
-                    //   setItemToDelete(user.id);
-                    // }
+                    } else if (key === "Delete") {
+                      setUserId(user.id);
+                    }
                   }}
                 >
                   <DropdownItem key="View" color="success">
@@ -437,7 +436,7 @@ export default function AccountView() {
           )}
         </TableBody>
       </Table>
-       <DetailUserAccountAddressView
+      <DetailUserAccountAddressView
         isOpenDetailUser={isOpenDetailUser}
         onClose={closeModal}
         userId={userIdToDetail || ""}
@@ -449,18 +448,18 @@ export default function AccountView() {
       />
       <AddUserView isOpen={isOpen} onClose={onClose} /> */}
 
-      {/* {itemToDelete && (
+      {userId && (
         <div
           id="popup-modal"
           className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50"
         >
           <div className="bg-white p-4 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Konfirmasi Hapus</h3>
-            <p className="mb-6">Apakah Anda yakin ingin menghapus item ini?</p>
+            <p className="mb-6">Apakah Anda yakin ingin menghapus user ini?</p>
             <div className="flex justify-end">
               <button
                 className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md mr-2"
-                onClick={handleConfirmDelete}
+                onClick={deleteUserAccount}
               >
                 Ya, saya yakin
               </button>
@@ -473,7 +472,7 @@ export default function AccountView() {
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </PartialView>
   );
 }
