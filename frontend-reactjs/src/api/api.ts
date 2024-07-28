@@ -59,9 +59,10 @@ const API_FRONTEND = () => {
 
   /* User Data (3) */
   const API_URL_USER_DATA_GET_ALL = "http://localhost:3000/users"; // blm ke pakai , on dev module Account
-  const API_URL_USER_DATA_BY_ID = "http://localhost:3000/users"; //blm kepakai, on dev module Account
+  const API_URL_USER_DATA_BY_ID = "http://localhost:3000/users"; // tidak di pakai di ganti by_id_new
   const API_URL_USER_DATA_BY_AUTH = "http://localhost:3000/users/profile"; 
   const API_URL_USER_DATA_BY_ID_NEW = "http://localhost:3000/users/getOne"; 
+  const API_URL_USER_DATA_RESET_PASSWORD = "http://localhost:3000/users/reset-password"
 
 
   return {
@@ -105,7 +106,8 @@ const API_FRONTEND = () => {
     API_URL_USER_DATA_BY_AUTH,
     API_URL_USER_DATA_BY_ID_NEW,
     API_URL_AUTH_LOGOUT,
-    API_URL_AUTH_PROTECTED
+    API_URL_AUTH_PROTECTED,
+    API_URL_USER_DATA_RESET_PASSWORD
     
   };
 };
