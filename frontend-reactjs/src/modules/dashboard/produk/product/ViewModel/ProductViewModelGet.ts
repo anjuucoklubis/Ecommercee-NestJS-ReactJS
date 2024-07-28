@@ -8,7 +8,8 @@ import {
 } from "../Interface/InterfaceProduct.ts";
 
 function ProductViewModelGet() {
-  const { API_URL, API_URL_PRODUCT_GET } = API_FRONTEND();
+  const { API_URL, API_URL_PRODUCT_GET, API_URL_PRODUCT_GET_ALL_BY_USERAUTH } =
+    API_FRONTEND();
   const [products, setProducts] = useState<GetProductAllInterface[]>([]);
   const [getproductDetail, setProductDetail] =
     useState<GetProductDetailInterface | null>(null);
@@ -19,7 +20,7 @@ function ProductViewModelGet() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_URL_PRODUCT_GET, {
+        const response = await axios.get(API_URL_PRODUCT_GET_ALL_BY_USERAUTH, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${Cookies.get("token")}`,

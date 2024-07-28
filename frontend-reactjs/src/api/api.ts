@@ -17,6 +17,7 @@ const API_FRONTEND = () => {
   const API_URL_PRODUCT_IMAGE = "http://localhost:3000/product/product-image";
   const API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT = "http://localhost:3000/product/assign-to-discount";
   const API_URL_PRODUCT_REMOVE_PRODUCTDISCOUNT = "http://localhost:3000/product/remove-discount";
+  const API_URL_PRODUCT_GET_ALL_BY_USERAUTH = "http://localhost:3000/product/getAllProductByUserAuth";
 
   /*MANAGEMENT CATEGORY PRODUCT API (6) */
   const API_URL_CATEGORYPRODUCT_CREATE = "http://localhost:3000/categoryproduct/create";
@@ -109,7 +110,8 @@ const API_FRONTEND = () => {
     API_URL_AUTH_LOGOUT,
     API_URL_AUTH_PROTECTED,
     API_URL_USER_DATA_RESET_PASSWORD,
-    API_URL_USER_DATA_DELETE_USER_ACCOUNT
+    API_URL_USER_DATA_DELETE_USER_ACCOUNT,
+    API_URL_PRODUCT_GET_ALL_BY_USERAUTH
     
   };
 };
