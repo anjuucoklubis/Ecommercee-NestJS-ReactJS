@@ -39,7 +39,7 @@ function AssignProductDiscountCreateViewModel({
 
   const {
     API_URL_DISCOUNTPRODUCT_GET,
-    API_URL_PRODUCT_GET,
+    API_URL_PRODUCT_GET_ALL_BY_USERAUTH,
     API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT,
   } = API_FRONTEND();
 
@@ -79,7 +79,7 @@ function AssignProductDiscountCreateViewModel({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(API_URL_PRODUCT_GET);
+        const response = await axios.get(API_URL_PRODUCT_GET_ALL_BY_USERAUTH);
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),

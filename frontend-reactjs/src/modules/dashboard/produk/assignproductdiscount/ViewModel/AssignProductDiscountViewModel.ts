@@ -7,7 +7,10 @@ import {
   GetDiscountProductDetailInterface,
 } from "../Interface/AssignProductDiscountInterface.ts";
 function AssignProductDiscountViewModel() {
-  const { API_URL_DISCOUNTPRODUCT_GET } = API_FRONTEND();
+  const {
+    API_URL_DISCOUNTPRODUCT_GET,
+    API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH,
+  } = API_FRONTEND();
   const [discount, setDiscount] = useState<GetDiscountProductAllInterface[]>(
     []
   );
@@ -20,7 +23,9 @@ function AssignProductDiscountViewModel() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL_DISCOUNTPRODUCT_GET}`);
+        const response = await axios.get(
+          `${API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH}`
+        );
         const formattedData = response.data.map((item) => ({
           ...item,
           product_count: item.products.length,
@@ -35,7 +40,7 @@ function AssignProductDiscountViewModel() {
     };
 
     fetchData();
-  }, [API_URL_DISCOUNTPRODUCT_GET]);
+  }, [API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH]);
 
   const getDiscountByID = async (discountId: string) => {
     try {

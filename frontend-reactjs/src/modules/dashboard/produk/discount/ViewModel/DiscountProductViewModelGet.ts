@@ -8,7 +8,10 @@ import API_FRONTEND from "../../../../../api/api.ts";
 import Cookies from "js-cookie";
 
 function DiscountProductViewModelGet() {
-  const { API_URL_DISCOUNTPRODUCT_GET } = API_FRONTEND();
+  const {
+    API_URL_DISCOUNTPRODUCT_GET,
+    API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH,
+  } = API_FRONTEND();
   const [discount, setDiscount] = useState<GetDiscountProductAllInterface[]>(
     []
   );
@@ -21,12 +24,15 @@ function DiscountProductViewModelGet() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${API_URL_DISCOUNTPRODUCT_GET}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("token")}`,
-          },
-        });
+        const response = await axios.get(
+          `${API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${Cookies.get("token")}`,
+            },
+          }
+        );
         const formattedData = response.data.map((item) => ({
           ...item,
           createdAt: new Date(item.createdAt).toISOString(),
@@ -40,7 +46,7 @@ function DiscountProductViewModelGet() {
     };
 
     fetchData();
-  }, [API_URL_DISCOUNTPRODUCT_GET]);
+  }, [API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH]);
 
   const getDiscountByID = async (discountId: string) => {
     try {

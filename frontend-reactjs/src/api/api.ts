@@ -31,6 +31,7 @@ const API_FRONTEND = () => {
   const API_URL_DISCOUNTPRODUCT_CREATE= "http://localhost:3000/discountproduct/create";
   const API_URL_DISCOUNTPRODUCT_UPDATE = "http://localhost:3000/discountproduct/update";
   const API_URL_DISCOUNTPRODUCT_DELETE = "http://localhost:3000/discountproduct/delete";
+  const API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH = "http://localhost:3000/discountproduct/getAllDiscountByUserAuth";
 
   /*MANAGEMENT GALERI PRODUCT API (2) */
   const API_URL_GALERIESPRODUCT_CREATE = "http://localhost:3000/galeriesproduct/create";
@@ -111,8 +112,8 @@ const API_FRONTEND = () => {
     API_URL_AUTH_PROTECTED,
     API_URL_USER_DATA_RESET_PASSWORD,
     API_URL_USER_DATA_DELETE_USER_ACCOUNT,
-    API_URL_PRODUCT_GET_ALL_BY_USERAUTH
-    
+    API_URL_PRODUCT_GET_ALL_BY_USERAUTH,
+    API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH
   };
 };
 
