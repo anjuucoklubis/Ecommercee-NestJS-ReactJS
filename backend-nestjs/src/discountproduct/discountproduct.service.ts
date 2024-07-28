@@ -9,6 +9,7 @@ import {
   DiscountProductResponse,
   UpdateDiscountProductRequest,
 } from 'src/model/discountproduct.model';
+import { Request } from 'express';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/Prisma/prisma.service';
 import { ValidationService } from 'src/common/validation.service';
@@ -24,6 +25,7 @@ export class DiscountproductService {
 
   async create(
     request: CreateDiscountProductRequest,
+    userId: string,
   ): Promise<DiscountProductResponse> {
     try {
       const createDiscountProductRequest: CreateDiscountProductRequest =
@@ -33,7 +35,11 @@ export class DiscountproductService {
         );
 
       const createDiscountProduct = await this.prisma.productDiscount.create({
-        data: { ...createDiscountProductRequest, updatedAt: null },
+        data: {
+          ...createDiscountProductRequest,
+          updatedAt: null,
+          userId: userId,
+        },
       });
 
       const response: DiscountProductResponse = {
@@ -70,6 +76,24 @@ export class DiscountproductService {
         id: id,
       },
       include: {
+        products: true,
+      },
+    });
+  }
+
+  findDiscountAllByUser(req: Request) {
+    const decodedUser = req.user as { id: string; email: string };
+    return this.prisma.productDiscount.findMany({
+      where: {
+        userId: decodedUser.id,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
         products: true,
       },
     });

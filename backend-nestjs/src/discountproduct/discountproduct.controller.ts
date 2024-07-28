@@ -11,6 +11,7 @@ import {
   HttpStatus,
   Controller,
   HttpException,
+  Req,
 } from '@nestjs/common';
 import {
   UnauthorizedResponse,
@@ -42,10 +43,13 @@ export class DiscountproductController {
   })
   @HttpCode(200)
   async create(
+    @Req() req,
     @Body() request: CreateDiscountProductRequest,
   ): Promise<WebResponse<DiscountProductResponse>> {
     try {
-      const result = await this.discountproductService.create(request);
+      const userId = req.user.id;
+
+      const result = await this.discountproductService.create(request, userId);
       return {
         data: result,
       };
@@ -57,6 +61,11 @@ export class DiscountproductController {
   @Get('get')
   findAll() {
     return this.discountproductService.findAll();
+  }
+
+  @Get('getAllDiscountByUserAuth')
+  findAllByUser(@Req() req) {
+    return this.discountproductService.findDiscountAllByUser(req);
   }
 
   @Get('/get/:id')
