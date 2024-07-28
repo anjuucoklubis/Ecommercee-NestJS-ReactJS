@@ -42,7 +42,7 @@ const SidebarView = () => {
           icon={<Inventory />}
         >
           <MenuItem icon={<Inventory />}>
-            <Link to="/admin/manageproduct-product">Product</Link>
+            <Link to="/admin/manageproduct-product">My Product</Link>
           </MenuItem>
           {isAdmin && (
             <MenuItem icon={<Category />}>
@@ -53,7 +53,7 @@ const SidebarView = () => {
           )}
           <MenuItem icon={<Discount />}>
             <Link to="/admin/manageproduct-discountproduct">
-              Discount Product
+              My Discount
             </Link>
           </MenuItem>
           <MenuItem icon={<Discount />}>
