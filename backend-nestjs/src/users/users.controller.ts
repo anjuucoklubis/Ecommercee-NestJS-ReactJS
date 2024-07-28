@@ -1,7 +1,15 @@
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { UsersService } from './users.service';
-import { Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 
 @ApiTags('User Get All & by Id')
 @Controller('users')
@@ -33,5 +41,10 @@ export class UsersController {
   @Patch('reset-password/:id')
   async resetPassword(@Param('id') id: string) {
     return this.usersService.resetPassword(id);
+  }
+
+  @Delete('delete-user/:id')
+  async deleteAccountUser(@Param('id') id: string) {
+    return this.usersService.deleteAccountUser(id);
   }
 }
