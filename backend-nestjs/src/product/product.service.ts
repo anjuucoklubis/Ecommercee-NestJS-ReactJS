@@ -10,6 +10,7 @@ import {
   ProductResponse,
   UpdateProductRequest,
 } from 'src/model/product.model';
+import { Request } from 'express';
 import { Prisma } from '@prisma/client';
 import { ProductValidation } from './product.validation';
 import { PrismaService } from 'src/Prisma/prisma.service';
@@ -95,6 +96,24 @@ export class ProductService {
         console.error('Error finding product:', error);
         throw error;
       });
+  }
+
+  findAllByUser(req: Request) {
+    const decodedUser = req.user as { id: string; email: string };
+    return this.prisma.product.findMany({
+      where: {
+        userId: decodedUser.id,
+      },
+      include: {
+        CategoryProduct: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        productGalleries: true,
+      },
+    });
   }
 
   async update(

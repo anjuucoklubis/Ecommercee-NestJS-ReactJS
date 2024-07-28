@@ -78,6 +78,11 @@ export class ProductController {
     return this.productService.findOne(id);
   }
 
+  @Get('getAllProductByUserAuth')
+  findAllByUser(@Req() req) {
+    return this.productService.findAllByUser(req);
+  }
+
   @Patch('/update/:id')
   @ApiOkResponse({
     description: 'OK',
