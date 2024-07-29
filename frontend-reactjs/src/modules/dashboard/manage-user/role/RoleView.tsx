@@ -270,6 +270,7 @@ export default function RoleView() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        <h1>Role Admin</h1>
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable

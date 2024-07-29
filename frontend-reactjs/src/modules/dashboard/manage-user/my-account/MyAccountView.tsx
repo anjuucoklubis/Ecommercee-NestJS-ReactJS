@@ -87,6 +87,7 @@ const MyAccountView = () => {
   return (
     <PartialView>
       <ToastContainer />
+      <h1>My Account</h1>
       <div style={{ margin: 30 }}>
         <div className="flex flex-col px-4">
           <Switch

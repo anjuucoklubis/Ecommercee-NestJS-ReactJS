@@ -249,7 +249,7 @@ export default function CategoryProductView() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-2">
-        <h1>Category Product</h1>
+        <h1>Category Product Admin</h1>
         <div className="flex justify-between gap-1 items-end">
           <Input
             isClearable

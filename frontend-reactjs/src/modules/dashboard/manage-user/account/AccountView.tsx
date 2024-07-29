@@ -73,12 +73,8 @@ export default function AccountView() {
     // setUserIdToUpdate(null);
   };
 
-  const {
-    setUserId,
-    handleCancelDelete,
-    deleteUserAccount,
-    userId,
-  } = DeleteAccountViewModel();
+  const { setUserId, handleCancelDelete, deleteUserAccount, userId } =
+    DeleteAccountViewModel();
   // ========================
 
   const [filterValue, setFilterValue] = React.useState("");
@@ -265,6 +261,7 @@ export default function AccountView() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        <h1> Account Admin</h1>
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
