@@ -68,10 +68,8 @@ const DetailRoleView: React.FC<DetailRoleProps> = ({
                 //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 // }
                 label="Role Name"
-                placeholder="Enter SKU..."
                 variant="bordered"
                 type="text"
-                name="product_sku"
                 value={getRoleDetail?.role_name || ""}
                 isReadOnly
                 disabled={true}
@@ -82,11 +80,21 @@ const DetailRoleView: React.FC<DetailRoleProps> = ({
                 //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 // }
                 label="Role Description"
-                placeholder="Enter SKU..."
                 variant="bordered"
                 type="text"
-                name="product_sku"
                 value={getRoleDetail?.role_description || ""}
+                isReadOnly
+                disabled={true}
+              />
+              <Input
+                autoFocus
+                // endContent={
+                //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                // }
+                label="Count Users"
+                variant="bordered"
+                type="text"
+                value={getRoleDetail?.userCount ? getRoleDetail.userCount.toString() : "0"}
                 isReadOnly
                 disabled={true}
               />

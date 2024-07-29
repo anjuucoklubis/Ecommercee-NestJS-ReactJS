@@ -13,6 +13,7 @@ export interface GetRoleDetailInterface {
   users: users[];
   createdAt: string;
   updateAt: string;
+  userCount?: number;
 }
 
 export interface users {

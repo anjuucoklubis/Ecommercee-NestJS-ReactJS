@@ -41,6 +41,7 @@ function RoleViewModelGet() {
         throw new Error("Failed to fetch role detail");
       }
       const data: GetRoleDetailInterface = await response.json();
+      data.userCount = data.users.length;
       setGetRoleDetail(data);
     } catch (error) {
       console.error("Error fetching role detail:", error);
