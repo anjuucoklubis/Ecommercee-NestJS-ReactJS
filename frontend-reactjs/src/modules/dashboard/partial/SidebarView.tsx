@@ -50,9 +50,12 @@ const SidebarView = () => {
           )}
           {isAdmin && (
             <MenuItem icon={<Category />}>
-              <Link to="/admin/manageproduct-product-admin">
-                Product
-              </Link>
+              <Link to="/admin/manageproduct-product-admin">Product</Link>
+            </MenuItem>
+          )}
+          {isAdmin && (
+            <MenuItem icon={<Category />}>
+              <Link to="/admin/manageproduct-discountproduct-admin"> Discount</Link>
             </MenuItem>
           )}
           {!isAdmin && (

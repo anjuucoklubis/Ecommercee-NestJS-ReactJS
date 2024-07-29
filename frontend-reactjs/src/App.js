@@ -17,6 +17,7 @@ import MyAccountView from "./modules/dashboard/manage-user/my-account/MyAccountV
 import AssignProductDiscountView from "./modules/dashboard/produk/assignproductdiscount/AssignProductDiscountView.tsx";
 import CheckRoleRoute from "./guard/CheckRoleRoute.tsx";
 import ProductAdminView from "./modules/dashboard/produk/productAdmin/ProductAdminView.tsx";
+import DiscountProductAdminView from "./modules/dashboard/produk/discountAdmin/DiscountProductAdminView.tsx";
 const PrivateRoutes = () => {
   // const authState = useSelector((state) => state.auth);
   // console.log("Auth state", authState);
@@ -63,7 +64,7 @@ const App = () => {
             path="/admin/manageproduct-product"
             element={<ProductView />}
           />
-           <Route
+          <Route
             path="/admin/manageproduct-product-admin"
             element={<ProductAdminView />}
           />
@@ -77,6 +78,10 @@ const App = () => {
           <Route
             path="/admin/manageproduct-discountproduct"
             element={<DiscountProductView />}
+          />
+          <Route
+            path="/admin/manageproduct-discountproduct-admin"
+            element={<DiscountProductAdminView />}
           />
           <Route
             path="/admin/manageproduct-assigndiscount"

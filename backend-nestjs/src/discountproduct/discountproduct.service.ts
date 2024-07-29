@@ -62,6 +62,12 @@ export class DiscountproductService {
     return this.prisma.productDiscount.findMany({
       include: {
         products: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
       },
     });
   }
@@ -77,6 +83,12 @@ export class DiscountproductService {
       },
       include: {
         products: true,
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
       },
     });
   }
