@@ -41,7 +41,7 @@ const API_FRONTEND = () => {
 
   /*MANAGEMENT URL USER PROFILE (3) */
   const API_URL_USER_PROFILE_CREATE = "http://localhost:3000/userprofile/profile-create";
-  const API_URL_USER_PROFILE_UPDATE = "http://localhost:3000/userprofile/profile=update";
+  const API_URL_USER_PROFILE_UPDATE = "http://localhost:3000/userprofile/profile-update";
   const API_URL_USER_PROFILE_IMAGE = "http://localhost:3000/userprofile/profile-image";
 
   /*MANAGEMENT URL USER ADDRESS (3) */

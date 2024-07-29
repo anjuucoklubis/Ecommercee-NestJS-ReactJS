@@ -120,7 +120,7 @@ const UserProfileUpdateView: React.FC<UpdateUserProfileViewProps> = ({
                       orientation="horizontal"
                       label="Gender"
                       name="gender"
-                      onChange={(event) => handleGenderChange(event)}
+                      onChange={(event) => handleGenderChange(event.target.value)}
                       value={formData.gender}
                       // onChange={(event) =>
                       //   setFormData({ ...formData, gender: event.target.value })
