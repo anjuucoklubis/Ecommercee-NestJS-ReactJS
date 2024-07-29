@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import MyAccountView from "./modules/dashboard/manage-user/my-account/MyAccountView.tsx";
 import AssignProductDiscountView from "./modules/dashboard/produk/assignproductdiscount/AssignProductDiscountView.tsx";
 import CheckRoleRoute from "./guard/CheckRoleRoute.tsx";
+import ProductAdminView from "./modules/dashboard/produk/productAdmin/ProductAdminView.tsx";
 const PrivateRoutes = () => {
   // const authState = useSelector((state) => state.auth);
   // console.log("Auth state", authState);
@@ -61,6 +62,10 @@ const App = () => {
           <Route
             path="/admin/manageproduct-product"
             element={<ProductView />}
+          />
+           <Route
+            path="/admin/manageproduct-product-admin"
+            element={<ProductAdminView />}
           />
           <Route element={<CheckRoleRoute />}>
             <Route

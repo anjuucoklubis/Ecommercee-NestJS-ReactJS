@@ -68,7 +68,20 @@ export class ProductService {
   }
 
   findAll() {
-    return this.prisma.product.findMany();
+    return this.prisma.product.findMany({
+      include: {
+        user: {
+          select: {
+            email: true,
+            userprofile: {
+              select: {
+                firstname: true,
+              },
+            },
+          },
+        },
+      },
+    });
   }
 
   findOne(id: string) {
@@ -86,6 +99,16 @@ export class ProductService {
             },
           },
           productGalleries: true,
+          user: {
+            select: {
+              email: true,
+              userprofile: {
+                select: {
+                  firstname: true,
+                },
+              },
+            },
+          },
         },
       })
       .then((product) => {

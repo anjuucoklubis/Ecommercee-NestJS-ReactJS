@@ -41,9 +41,6 @@ const SidebarView = () => {
           label="Manage Product"
           icon={<Inventory />}
         >
-          <MenuItem icon={<Inventory />}>
-            <Link to="/admin/manageproduct-product">My Product</Link>
-          </MenuItem>
           {isAdmin && (
             <MenuItem icon={<Category />}>
               <Link to="/admin/manageproduct-categoryproduct">
@@ -51,16 +48,30 @@ const SidebarView = () => {
               </Link>
             </MenuItem>
           )}
-          <MenuItem icon={<Discount />}>
-            <Link to="/admin/manageproduct-discountproduct">
-              My Discount
-            </Link>
-          </MenuItem>
-          <MenuItem icon={<Discount />}>
-            <Link to="/admin/manageproduct-assigndiscount">
-              Assign Discount
-            </Link>
-          </MenuItem>
+          {isAdmin && (
+            <MenuItem icon={<Category />}>
+              <Link to="/admin/manageproduct-product-admin">
+                Product
+              </Link>
+            </MenuItem>
+          )}
+          {!isAdmin && (
+            <MenuItem icon={<Inventory />}>
+              <Link to="/admin/manageproduct-product">My Product</Link>
+            </MenuItem>
+          )}
+          {!isAdmin && (
+            <MenuItem icon={<Discount />}>
+              <Link to="/admin/manageproduct-discountproduct">My Discount</Link>
+            </MenuItem>
+          )}
+          {!isAdmin && (
+            <MenuItem icon={<Discount />}>
+              <Link to="/admin/manageproduct-assigndiscount">
+                Assign Discount
+              </Link>
+            </MenuItem>
+          )}
         </SubMenu>
       </Menu>
     </Sidebar>

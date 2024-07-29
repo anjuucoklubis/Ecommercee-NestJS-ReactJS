@@ -29,9 +29,6 @@ export interface GetProductDetailInterface {
     id: number;
     product_galeries_image: string;
   }[];
-  user: {
-    email: string;
-  };
   createdAt: string;
   updatedAt: string;
 }

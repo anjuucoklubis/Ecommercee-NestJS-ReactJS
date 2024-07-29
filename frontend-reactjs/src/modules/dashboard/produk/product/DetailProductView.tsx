@@ -236,6 +236,21 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                   disabled={true}
                 />
               </div>
+              <div style={{ marginBottom: "10px" }}>
+                <Input
+                  endContent={
+                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  }
+                  label="Email User Author"
+                  placeholder="Enter Weight"
+                  type="text"
+                  variant="bordered"
+                  name="product_weight"
+                  value={getproductDetail?.user?.email || ""}
+                  isReadOnly
+                  disabled={true}
+                />
+              </div>
               <div
                 style={{
                   marginBottom: "10px",
