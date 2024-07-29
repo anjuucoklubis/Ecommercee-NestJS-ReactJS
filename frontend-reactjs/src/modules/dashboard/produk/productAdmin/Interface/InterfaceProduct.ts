@@ -8,6 +8,9 @@ export interface GetProductAllInterface {
   product_price_discount: string;
   product_quantity: string;
   product_weight: string;
+  user: {
+    email: string;
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -29,6 +32,9 @@ export interface GetProductDetailInterface {
     id: number;
     product_galeries_image: string;
   }[];
+  user: {
+    email: string;
+  };
   createdAt: string;
   updatedAt: string;
 }

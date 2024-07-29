@@ -73,11 +73,6 @@ export class ProductService {
         user: {
           select: {
             email: true,
-            userprofile: {
-              select: {
-                firstname: true,
-              },
-            },
           },
         },
       },
@@ -102,11 +97,6 @@ export class ProductService {
           user: {
             select: {
               email: true,
-              userprofile: {
-                select: {
-                  firstname: true,
-                },
-              },
             },
           },
         },
@@ -135,6 +125,11 @@ export class ProductService {
           },
         },
         productGalleries: true,
+        user: {
+          select: {
+            email: true,
+          },
+        },
       },
     });
   }

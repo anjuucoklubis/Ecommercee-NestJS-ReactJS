@@ -22,7 +22,6 @@ import {
 } from "@nextui-org/react";
 import { statusOptions } from "../../../../datadummy/dataa.ts";
 import { capitalize } from "../../../../utils/utils.ts";
-import { PlusIcon } from "../../../../components/icons/PlusIcon.tsx";
 import { VerticalDotsIcon } from "../../../../components/icons/VerticalDotsIcon.tsx";
 import { ChevronDownIcon } from "../../../../components/icons/ChevronDownIcon.tsx";
 import { SearchIcon } from "../../../../components/icons/SearchIcon.tsx";
@@ -45,6 +44,7 @@ const INITIAL_VISIBLE_COLUMNS = [
   "product_quantity",
   "product_price_original",
   "product_price_discount",
+  "user.email",
   "status",
   "actions",
 ];
@@ -107,8 +107,14 @@ export default function ProductAdminView() {
     let filteredUsers = [...products];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((products) =>
-        products.product_name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredUsers = filteredUsers.filter(
+        (products) =>
+          products.product_name
+            .toLowerCase()
+            .includes(filterValue.toLowerCase()) ||
+          products.user.email
+            .toLowerCase()
+            .includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -147,7 +153,8 @@ export default function ProductAdminView() {
 
   const renderCell = React.useCallback(
     (product, columnKey) => {
-      const cellValue = product[columnKey];
+      const cellValue =
+        columnKey === "user.email" ? product.user.email : product[columnKey];
 
       switch (columnKey) {
         case "name":
@@ -260,11 +267,12 @@ export default function ProductAdminView() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        <h1>Product Admin</h1>
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            placeholder="Search by name or email author..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -433,7 +441,7 @@ export default function ProductAdminView() {
         onClose={closeModal}
         productId={productIdToDetail || ""}
       />
-  
+
       {itemToDelete && (
         <div
           id="popup-modal"

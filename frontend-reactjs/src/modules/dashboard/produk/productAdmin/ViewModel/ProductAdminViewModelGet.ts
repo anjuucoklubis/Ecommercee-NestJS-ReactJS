@@ -84,6 +84,8 @@ function ProductAdminViewModelGet() {
     },
     { name: "Product Quantity", uid: "product_quantity", sortable: true },
     { name: "Product Weight", uid: "product_weight", sortable: true },
+    { name: "Product Weight", uid: "product_weight", sortable: true },
+    { name: "Email Auhtor", uid: "user.email", sortable: true },
     { name: "Created", uid: "createdAt", sortable: true },
     { name: "Updated", uid: "updatedAt", sortable: true },
     { name: "Actions", uid: "actions" },
