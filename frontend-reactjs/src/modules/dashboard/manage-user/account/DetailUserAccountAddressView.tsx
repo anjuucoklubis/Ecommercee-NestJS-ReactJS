@@ -33,11 +33,8 @@ const DetailUserAccountAddressView: React.FC<
   DetailUserAccountAddressViewProps
 > = ({ onClose, isOpenDetailUser, userId, size = "5xl" }) => {
   const { getUserByID, getuserDetail } = GetAccountViewModel();
-  const {
-    handleConfirmResetPassword,
-    handleCancelResetPassword,
-    setUserId,
-  } = ResetPasswordViewModel();
+  const { handleConfirmResetPassword, handleCancelResetPassword, setUserId } =
+    ResetPasswordViewModel();
   const { API_URL_USER_PROFILE_IMAGE } = API_FRONTEND();
   const { formatDate } = DateComponenttt();
   const [isVertical, setIsVertical] = useState(false);
@@ -110,6 +107,12 @@ const DetailUserAccountAddressView: React.FC<
                                   <tr>
                                     <th>Email</th>
                                     <td>{getuserDetail?.email || "-"}</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Role</th>
+                                    <td>
+                                      {getuserDetail?.UserRole.role_name || "-"}
+                                    </td>
                                   </tr>
                                   <tr>
                                     <th>Akun di buat pada</th>

@@ -124,6 +124,10 @@ const MyAccountView = () => {
                               <td>{profile?.email || "-"}</td>
                             </tr>
                             <tr>
+                              <th>Role</th>
+                              <td>{profile?.UserRole.role_name || "-"}</td>
+                            </tr>
+                            <tr>
                               <th>Akun di buat pada</th>
                               <td>
                                 {profile?.createdAt

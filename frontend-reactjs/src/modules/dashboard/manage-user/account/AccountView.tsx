@@ -41,7 +41,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 
 const INITIAL_VISIBLE_COLUMNS = [
   "email",
-  "UserRole",
+  "UserRole.role_name",
   "createdAt",
   "updateAt",
   "actions",
@@ -107,8 +107,12 @@ export default function AccountView() {
     let filteredUsers = [...getAllUsers];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((getAllUsers) =>
-        getAllUsers.email.toLowerCase().includes(filterValue.toLowerCase())
+      filteredUsers = filteredUsers.filter(
+        (getAllUsers) =>
+          getAllUsers.email.toLowerCase().includes(filterValue.toLowerCase()) ||
+          getAllUsers.UserRole.role_name
+            .toLowerCase()
+            .includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -147,7 +151,10 @@ export default function AccountView() {
 
   const renderCell = React.useCallback(
     (user, columnKey) => {
-      const cellValue = user[columnKey];
+      const cellValue =
+        columnKey === "UserRole.role_name"
+          ? user.UserRole.role_name
+          : user[columnKey];
 
       switch (columnKey) {
         case "name":
@@ -266,7 +273,7 @@ export default function AccountView() {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            placeholder="Search by name or role..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
