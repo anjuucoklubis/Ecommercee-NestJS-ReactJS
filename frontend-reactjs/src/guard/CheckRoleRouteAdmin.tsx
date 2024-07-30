@@ -3,7 +3,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import React from "react";
 import { GetDataMyAccount } from "../modules/dashboard/manage-user/my-account/ViewModel/GetDataMyAccount.ts";
 
-const CheckRoleRoute = () => {
+const CheckRoleRouteAdmin = () => {
   const { profile, loading } = GetDataMyAccount();
   const [role, setRole] = useState<string | null>(null);
 
@@ -15,15 +15,17 @@ const CheckRoleRoute = () => {
   }, [loading, profile]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
+    return;
   }
 
   if (role === null) {
-    return <div>Error: Role not found</div>;
+    // return <div>Loading...</div>;
+    return;
   }
 
   console.log("role check", role);
-  return role === "ADMIN" ? <Outlet /> : <Navigate to="/dashboard" />;
+  return role === "ADMIN" ? <Outlet /> : <Navigate to="/not-found" />;
 };
 
-export default CheckRoleRoute;
+export default CheckRoleRouteAdmin;

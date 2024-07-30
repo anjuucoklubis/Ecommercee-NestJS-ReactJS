@@ -75,7 +75,8 @@ const NavbarView = () => {
   const user = useAuth();
   console.log("data user", user);
   if (loading) {
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
+    return;
   }
 
   return (

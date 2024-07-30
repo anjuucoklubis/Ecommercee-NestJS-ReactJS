@@ -67,7 +67,8 @@ const UserProfileUpdateView: React.FC<UpdateUserProfileViewProps> = ({
 
   const { API_URL_USER_PROFILE_IMAGE } = API_FRONTEND();
   if (loading) {
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
+    return;
   }
   return (
     <div>
@@ -120,7 +121,9 @@ const UserProfileUpdateView: React.FC<UpdateUserProfileViewProps> = ({
                       orientation="horizontal"
                       label="Gender"
                       name="gender"
-                      onChange={(event) => handleGenderChange(event.target.value)}
+                      onChange={(event) =>
+                        handleGenderChange(event.target.value)
+                      }
                       value={formData.gender}
                       // onChange={(event) =>
                       //   setFormData({ ...formData, gender: event.target.value })
