@@ -20,6 +20,9 @@ import CheckRoleRoutePenjual from "./guard/CheckRoleRoutePenjual.tsx";
 import ProductAdminView from "./modules/dashboard/produk/productAdmin/ProductAdminView.tsx";
 import DiscountProductAdminView from "./modules/dashboard/produk/discountAdmin/DiscountProductAdminView.tsx";
 import NotFoundView from "./modules/dashboard/not-found/NotFoundView.tsx";
+import DashboardPenjualView from "./modules/dashboard/homeDashboard/homeDashboardPenjual/DashboardPenjualView.tsx";
+import DashboardAdminView from "./modules/dashboard/homeDashboard/homeDashboardAdmin/DashboardAdminView.tsx";
+
 const PrivateRoutes = () => {
   // const authState = useSelector((state) => state.auth);
   // console.log("Auth state", authState);
@@ -63,6 +66,21 @@ const App = () => {
         <Route element={<PrivateRoutes />}>
           {/* MANAGEMENT NOT FOUND */}
           <Route path="/not-found" element={<NotFoundView />} />
+
+          {/* MANAGEMENT DASHBOARD - HOME */}
+          <Route element={<CheckRoleRoutePenjual />}>
+            <Route
+              path="/admin/dashboardhome-penjual"
+              element={<DashboardPenjualView />}
+            />
+          </Route>
+          <Route element={<CheckRoleRouteAdmin />}>
+            <Route
+              path="/admin/dashboardhome-admin"
+              s
+              element={<DashboardAdminView />}
+            />
+          </Route>
 
           {/* MANAGEMENT DASHBOARD - MANAGEMENT PRODUCT */}
           {/* ADMIN */}

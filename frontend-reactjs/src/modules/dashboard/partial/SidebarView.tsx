@@ -17,6 +17,39 @@ const SidebarView = () => {
         <MenuItem icon={<MenuOutlinedIcon />} style={{ textAlign: "center" }}>
           <h2>Admin</h2>
         </MenuItem>
+        {/* <SubMenu
+          title="Dashboard"
+          label="Dashboard"
+          icon={<PeopleOutlinedIcon />}
+        >
+          {isAdmin && (
+            <MenuItem icon={<AccountCircleIcon />}>
+              <Link to="/admin/dashboardhome-admin">Dashboard</Link>
+            </MenuItem>
+          )}
+          {!isAdmin && (
+            <MenuItem icon={<VerifiedUserIcon />}>
+              <Link to="/admin/dashboardhome-penjual">Dashboard</Link>
+            </MenuItem>
+          )}
+        </SubMenu> */}
+        {isAdmin && (
+          <MenuItem
+            icon={<PeopleOutlinedIcon />}
+            component={<Link to="/admin/dashboardhome-admin" />}
+          >
+            Dashboard
+          </MenuItem>
+        )}
+        {!isAdmin && (
+          <MenuItem
+            icon={<PeopleOutlinedIcon />}
+            component={<Link to="/admin/dashboardhome-penjual" />}
+          >
+            Dashboard
+          </MenuItem>
+        )}
+
         <SubMenu
           title="Manage User"
           label="Manage User"
@@ -55,7 +88,10 @@ const SidebarView = () => {
           )}
           {isAdmin && (
             <MenuItem icon={<Category />}>
-              <Link to="/admin/manageproduct-discountproduct-admin"> Discount</Link>
+              <Link to="/admin/manageproduct-discountproduct-admin">
+                {" "}
+                Discount
+              </Link>
             </MenuItem>
           )}
           {!isAdmin && (
