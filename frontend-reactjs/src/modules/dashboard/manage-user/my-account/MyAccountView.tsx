@@ -108,7 +108,7 @@ const MyAccountView = () => {
               <Tab
                 key="photos"
                 title={
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 shadow-lg transform hover:scale-105 transition duration-500">
                     <DataAccountIcon />
                     <span>Data Account</span>
                   </div>
@@ -157,7 +157,7 @@ const MyAccountView = () => {
               <Tab
                 key="Data Profile"
                 title={
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 shadow-lg transform hover:scale-105 transition duration-500">
                     <DataPersonalIcon />
                     <span>Data Profile</span>
                   </div>
@@ -258,7 +258,7 @@ const MyAccountView = () => {
               <Tab
                 key="Data Address"
                 title={
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 shadow-lg transform hover:scale-105 transition duration-500">
                     <DataAddressIcon />
                     <span>Data Address</span>
                   </div>
@@ -387,15 +387,15 @@ const MyAccountView = () => {
           <div className="bg-white p-4 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Konfirmasi Hapus</h3>
             <p className="mb-6">Apakah Anda yakin ingin menghapus item ini?</p>
-            <div className="flex justify-end">
+            <div className="flex" style={{ justifyContent: "space-between" }}>
               <button
-                className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md mr-2"
+                className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md mr-2 shadow-lg transform hover:scale-y-150 transition duration-500"
                 onClick={handleConfirmDelete}
               >
                 Ya, saya yakin
               </button>
               <button
-                className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md"
+                className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md shadow-lg transform hover:scale-y-150 transition duration-500"
                 onClick={handleCancelDelete}
               >
                 Tidak, batalkan
