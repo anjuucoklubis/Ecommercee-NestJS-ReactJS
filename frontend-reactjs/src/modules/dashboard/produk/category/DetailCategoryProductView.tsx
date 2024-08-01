@@ -123,9 +123,6 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
             <Button color="danger" variant="flat" onPress={onClose}>
               Close
             </Button>
-            <Button type="submit" color="primary">
-              Submit
-            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
