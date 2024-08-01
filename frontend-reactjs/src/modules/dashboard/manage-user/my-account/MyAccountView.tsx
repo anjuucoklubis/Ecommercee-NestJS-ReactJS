@@ -23,6 +23,7 @@ import UserAddressUpdateView from "./UserAddress/UserAddressUpdateView.tsx";
 import VMDeleteUserAddress from "./UserAddress/ViewModel/VMDeleteUserAddress.ts";
 import ChangePasswordView from "../../../auth/changepassword/ChangePasswordView.tsx";
 import DateComponenttt from "../../../../../src/components/date/date.ts";
+import { MdOutlineChangeCircle } from "react-icons/md";
 
 const MyAccountView = () => {
   const { fetchUserProfile, API_URL_USER_PROFILE_IMAGE } = GetDataMyAccount();
@@ -148,6 +149,7 @@ const MyAccountView = () => {
                         </table>
                       </div>
                       <Button color="warning" onPress={handleChangePassword}>
+                        <MdOutlineChangeCircle size={25}/>
                         Change Password
                       </Button>
                     </div>

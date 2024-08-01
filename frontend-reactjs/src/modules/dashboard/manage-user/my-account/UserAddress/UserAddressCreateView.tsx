@@ -11,10 +11,13 @@ import {
   Radio,
 } from "@nextui-org/react";
 
-import { MailIcon } from "../../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../../components/icons/LockIcon.tsx";
 import VMCreateUserAddress from "./ViewModel/VMCreateUserAddress.ts";
 import PhoneInput from "react-phone-number-input";
+import { PiUserPlusLight } from "react-icons/pi";
+import { FaRegAddressCard } from "react-icons/fa6";
+import { PiHouseLineLight } from "react-icons/pi";
+import { SlLocationPin } from "react-icons/sl";
+import { TiDocumentText } from "react-icons/ti";
 
 interface AddUserAddressViewProps {
   isOpenAddAddress: boolean;
@@ -60,7 +63,7 @@ const UserAddressCreateView: React.FC<AddUserAddressViewProps> = ({
                     <Input
                       autoFocus
                       endContent={
-                        <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                        <PiUserPlusLight className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                       }
                       label="Full Name"
                       placeholder="Enter Full Name.."
@@ -75,7 +78,7 @@ const UserAddressCreateView: React.FC<AddUserAddressViewProps> = ({
                     <Input
                       autoFocus
                       endContent={
-                        <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                        <FaRegAddressCard className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                       }
                       label="Address Line"
                       placeholder="Enter Address Line..."
@@ -124,6 +127,14 @@ const UserAddressCreateView: React.FC<AddUserAddressViewProps> = ({
                     >
                       <Radio value="house">House</Radio>
                       <Radio value="office">Office</Radio>
+                      <PiHouseLineLight
+                        size={25}
+                        style={{
+                          justifyContent: "flex-end",
+                          marginLeft: 230,
+                          marginBottom: 20,
+                        }}
+                      />
                     </RadioGroup>
                   </div>
                 </div>
@@ -138,12 +149,22 @@ const UserAddressCreateView: React.FC<AddUserAddressViewProps> = ({
                         padding: "10px",
                       }}
                     >
-                      <label
-                        htmlFor="province"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      <div
+                        style={{
+                          justifyContent: "space-between",
+                        }}
+                        className="flex"
                       >
-                        Province
-                      </label>
+                        <label
+                          htmlFor="province"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          Province
+                        </label>
+                        <div>
+                          <SlLocationPin size={20} />
+                        </div>
+                      </div>
                       <select
                         className="text-black bg-gray-50 border border-gray-300 w-full p-2.5 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         name="province"
@@ -174,12 +195,22 @@ const UserAddressCreateView: React.FC<AddUserAddressViewProps> = ({
                         padding: "10px",
                       }}
                     >
-                      <label
-                        htmlFor="city"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      <div
+                        style={{
+                          justifyContent: "space-between",
+                        }}
+                        className="flex"
                       >
-                        City
-                      </label>
+                        <label
+                          htmlFor="city"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                          City
+                        </label>
+                        <div>
+                          <SlLocationPin size={20} />
+                        </div>
+                      </div>
                       <select
                         className="text-black bg-gray-50 border border-gray-300 w-full p-2.5 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         name="city"
@@ -205,7 +236,7 @@ const UserAddressCreateView: React.FC<AddUserAddressViewProps> = ({
                     <Input
                       disabled={true}
                       endContent={
-                        <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                        <TiDocumentText className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                       }
                       label="Postal Code"
                       type="text"

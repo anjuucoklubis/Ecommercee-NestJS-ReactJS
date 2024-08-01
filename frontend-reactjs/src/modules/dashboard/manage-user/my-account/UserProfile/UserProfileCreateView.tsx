@@ -13,10 +13,11 @@ import {
 } from "@nextui-org/react";
 
 import VMCreateUserProfile from "./ViewModel/VMCreateUserProfile.ts";
-import { MailIcon } from "../../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../../components/icons/LockIcon.tsx";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import { PiUserPlusLight } from "react-icons/pi";
+import { BsGenderAmbiguous } from "react-icons/bs";
+import { LiaBirthdayCakeSolid } from "react-icons/lia";
 
 interface AddUserProfileViewProps {
   isOpen: boolean;
@@ -58,7 +59,7 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
                     <Input
                       autoFocus
                       endContent={
-                        <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                        <PiUserPlusLight className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                       }
                       label="First Name"
                       placeholder="Enter name..."
@@ -72,7 +73,7 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
                   <div style={{ marginBottom: "20px" }}>
                     <Input
                       endContent={
-                        <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                        <PiUserPlusLight className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                       }
                       label="Last Name"
                       placeholder="Enter Lastname"
@@ -100,6 +101,14 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
                     >
                       <Radio value="male">Man</Radio>
                       <Radio value="female">Female</Radio>
+                      <BsGenderAmbiguous
+                        size={25}
+                        style={{
+                          justifyContent: "flex-end",
+                          marginLeft: 230,
+                          marginBottom: 20,
+                        }}
+                      />
                     </RadioGroup>
                   </div>
                   <div style={{ marginBottom: "20px" }}>
@@ -119,6 +128,15 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
                         onChange={(date) =>
                           setFormData({ ...formData, birthday: date })
                         }
+                      />
+                      <LiaBirthdayCakeSolid
+                        size={25}
+                        style={{
+                          justifyContent: "flex-end",
+                          marginLeft: 90,
+                          marginTop: 20,
+                          bottom:10,
+                        }}
                       />
                     </div>
                   </div>

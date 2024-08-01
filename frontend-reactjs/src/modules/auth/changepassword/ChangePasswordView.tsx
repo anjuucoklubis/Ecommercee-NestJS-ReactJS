@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import ChangePasswordViewModel from "./ChangePasswordViewModel.ts";
 import { ToastContainer } from "react-toastify";
+import { MdPassword } from "react-icons/md";
 
 interface AddUserProfileViewProps {
   isOpenChangePassword: boolean;
@@ -45,10 +46,12 @@ const ChangePasswordView: React.FC<AddUserProfileViewProps> = ({
                   <div style={{ marginBottom: "20px" }}>
                     <Input
                       autoFocus
-                      //   endContent={
-                      //     <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      //   }
-
+                      endContent={
+                        <MdPassword
+                          className="text-2xl text-default-400 pointer-events-none flex-shrink-0"
+                          size={30}
+                        />
+                      }
                       label="Old Password"
                       placeholder="Enter Old Password..."
                       variant="bordered"
@@ -60,10 +63,13 @@ const ChangePasswordView: React.FC<AddUserProfileViewProps> = ({
                   </div>
                   <div style={{ marginBottom: "20px" }}>
                     <Input
-                      //   endContent={
-                      //     <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                      //   }
-
+                      autoFocus
+                      endContent={
+                        <MdPassword
+                          className="text-2xl text-default-400 pointer-events-none flex-shrink-0"
+                          size={30}
+                        />
+                      }
                       label="New Password"
                       placeholder="Enter New Password..."
                       type="password"
