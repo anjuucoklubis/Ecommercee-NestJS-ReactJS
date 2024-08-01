@@ -19,12 +19,15 @@ const API_FRONTEND = () => {
   const API_URL_PRODUCT_REMOVE_PRODUCTDISCOUNT = "http://localhost:3000/product/remove-discount";
   const API_URL_PRODUCT_GET_ALL_BY_USERAUTH = "http://localhost:3000/product/getAllProductByUserAuth";
 
-  /*MANAGEMENT CATEGORY PRODUCT API (6) */
+  /*MANAGEMENT CATEGORY PRODUCT API (7) */
   const API_URL_CATEGORYPRODUCT_CREATE = "http://localhost:3000/categoryproduct/create";
   const API_URL_CATEGORYPRODUCT_GET = "http://localhost:3000/categoryproduct/get";
   const API_URL_CATEGORYPRODUCT_DELETE = "http://localhost:3000/categoryproduct/delete";
   const API_URL_CATEGORYPRODUCT_UPDATE = "http://localhost:3000/categoryproduct/update";
   const API_URL_CATEGORYPRODUCT_IMAGE = "http://localhost:3000/categoryproduct/categoryproduct-image";
+  const API_URL_CATEGORYPRODUCT_GET_ALL_HOME = "http://localhost:3000/categoryproduct/getallcategory-home";
+  const API_URL_CATEGORYPRODUCT_IMAGE_HOME = "http://localhost:3000/categoryproduct/categoryproduct-image-home";
+
 
   /*MANAGEMENT DISCOUNT PRODUCT API (5) */
   const API_URL_DISCOUNTPRODUCT_GET = "http://localhost:3000/discountproduct/get";
@@ -113,7 +116,9 @@ const API_FRONTEND = () => {
     API_URL_USER_DATA_RESET_PASSWORD,
     API_URL_USER_DATA_DELETE_USER_ACCOUNT,
     API_URL_PRODUCT_GET_ALL_BY_USERAUTH,
-    API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH
+    API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH,
+    API_URL_CATEGORYPRODUCT_GET_ALL_HOME,
+    API_URL_CATEGORYPRODUCT_IMAGE_HOME
   };
 };
 

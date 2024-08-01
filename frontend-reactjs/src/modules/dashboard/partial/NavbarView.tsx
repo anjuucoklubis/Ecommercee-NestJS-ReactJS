@@ -17,6 +17,9 @@ import { unauthenticateUser } from "../../../redux/slices/authSlice";
 import useAuth from "../../../hooks/useAuth.ts";
 import { GetDataMyAccount } from "../manage-user/my-account/ViewModel/GetDataMyAccount.ts";
 import { User } from "../manage-user/my-account/MyAccountInterface.ts";
+import { IoPowerOutline } from "react-icons/io5";
+import { HiOutlineHome } from "react-icons/hi2";
+import { FiUser } from "react-icons/fi";
 
 const NavbarView = () => {
   const dispatch = useDispatch();
@@ -158,18 +161,40 @@ const NavbarView = () => {
               </p>
             </DropdownItem>
             <DropdownItem key="settings">
-              <Link href="/admin/manageuser-myaccount">
-                <h6 style={{ color: "black", fontSize: 14 }}>My Account</h6>
-              </Link>
+              <div
+                className="d-flex align-items-center shadow-lg transform hover:scale-105 transition duration-500"
+                style={{ flexDirection: "row", gap: 10 }}
+              >
+                <FiUser />
+                <Link href="/admin/manageuser-myaccount">
+                  <h6 style={{ color: "black", fontSize: 14 }}>My Account</h6>
+                </Link>
+              </div>
             </DropdownItem>
-
+            <DropdownItem key="landing">
+              <div
+                className="d-flex align-items-center shadow-lg transform hover:scale-105 transition duration-500"
+                style={{ flexDirection: "row", gap: 10 }}
+              >
+                <HiOutlineHome />
+                <Link href="/landing">
+                  <h6 style={{ color: "black", fontSize: 14 }}>Landing</h6>
+                </Link>
+              </div>
+            </DropdownItem>
             {/* <DropdownItem key="team_settings">Team Settings</DropdownItem>
-            <DropdownItem key="analytics">Analytics</DropdownItem>
+           
             <DropdownItem key="system">System</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem> */}
             <DropdownItem onClick={() => logout()} color="danger">
-              Log Out
+              <div
+                className="d-flex align-items-center shadow-lg transform hover:scale-105 transition duration-500"
+                style={{ flexDirection: "row", gap: 10 }}
+              >
+                <IoPowerOutline />
+                Log Out
+              </div>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

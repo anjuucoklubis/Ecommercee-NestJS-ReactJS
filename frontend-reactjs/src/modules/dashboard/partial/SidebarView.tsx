@@ -3,6 +3,8 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { RxDashboard } from "react-icons/rx";
+
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import Category from "@mui/icons-material/Category";
 import Inventory from "@mui/icons-material/Inventory";
@@ -35,7 +37,8 @@ const SidebarView = () => {
         </SubMenu> */}
         {isAdmin && (
           <MenuItem
-            icon={<PeopleOutlinedIcon />}
+            icon={<RxDashboard />}
+            className="shadow-lg transform hover:scale-105 transition duration-500"
             component={<Link to="/admin/dashboardhome-admin" />}
           >
             Dashboard
@@ -43,7 +46,8 @@ const SidebarView = () => {
         )}
         {!isAdmin && (
           <MenuItem
-            icon={<PeopleOutlinedIcon />}
+            icon={<RxDashboard />}
+            className="shadow-lg transform hover:scale-105 transition duration-500"
             component={<Link to="/admin/dashboardhome-penjual" />}
           >
             Dashboard
@@ -54,6 +58,7 @@ const SidebarView = () => {
           title="Manage User"
           label="Manage User"
           icon={<PeopleOutlinedIcon />}
+          className="shadow-lg transform hover:scale-105 transition duration-500"
         >
           {isAdmin && (
             <MenuItem icon={<AccountCircleIcon />}>
@@ -73,21 +78,31 @@ const SidebarView = () => {
           title="Manage Product"
           label="Manage Product"
           icon={<Inventory />}
+          className="shadow-lg transform hover:scale-105 transition duration-500"
         >
           {isAdmin && (
-            <MenuItem icon={<Category />}>
+            <MenuItem
+              icon={<Category />}
+              className="shadow-lg transform hover:scale-90 transition duration-500"
+            >
               <Link to="/admin/manageproduct-categoryproduct">
                 Category Product
               </Link>
             </MenuItem>
           )}
           {isAdmin && (
-            <MenuItem icon={<Category />}>
+            <MenuItem
+              icon={<Category />}
+              className="shadow-lg transform hover:scale-90 transition duration-500"
+            >
               <Link to="/admin/manageproduct-product-admin">Product</Link>
             </MenuItem>
           )}
           {isAdmin && (
-            <MenuItem icon={<Category />}>
+            <MenuItem
+              icon={<Category />}
+              className="shadow-lg transform hover:scale-90 transition duration-500"
+            >
               <Link to="/admin/manageproduct-discountproduct-admin">
                 {" "}
                 Discount
@@ -95,17 +110,26 @@ const SidebarView = () => {
             </MenuItem>
           )}
           {!isAdmin && (
-            <MenuItem icon={<Inventory />}>
+            <MenuItem
+              icon={<Inventory />}
+              className="shadow-lg transform hover:scale-90 transition duration-500"
+            >
               <Link to="/admin/manageproduct-product">My Product</Link>
             </MenuItem>
           )}
           {!isAdmin && (
-            <MenuItem icon={<Discount />}>
+            <MenuItem
+              icon={<Discount />}
+              className="shadow-lg transform hover:scale-90 transition duration-500"
+            >
               <Link to="/admin/manageproduct-discountproduct">My Discount</Link>
             </MenuItem>
           )}
           {!isAdmin && (
-            <MenuItem icon={<Discount />}>
+            <MenuItem
+              icon={<Discount />}
+              className="shadow-lg transform hover:scale-90 transition duration-500"
+            >
               <Link to="/admin/manageproduct-assigndiscount">
                 Assign Discount
               </Link>

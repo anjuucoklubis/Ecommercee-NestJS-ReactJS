@@ -22,6 +22,7 @@ import DiscountProductAdminView from "./modules/dashboard/produk/discountAdmin/D
 import NotFoundView from "./modules/dashboard/not-found/NotFoundView.tsx";
 import DashboardPenjualView from "./modules/dashboard/homeDashboard/homeDashboardPenjual/DashboardPenjualView.tsx";
 import DashboardAdminView from "./modules/dashboard/homeDashboard/homeDashboardAdmin/DashboardAdminView.tsx";
+import LandingView from "./modules/home/Landing/LandingView.tsx";
 
 const PrivateRoutes = () => {
   // const authState = useSelector((state) => state.auth);
@@ -53,7 +54,7 @@ const RestrictedRoutes = () => {
       {!isAuth ? (
         <Outlet />
       ) : (
-        <Navigate to="/admin/manageproduct-discountproduct" />
+        <Navigate to="/landing" />
       )}
     </>
   );
@@ -139,11 +140,14 @@ const App = () => {
             element={<MyAccountView />}
           />
         </Route>
+        <Route path="/landing" element={<LandingView />} />
 
         <Route element={<RestrictedRoutes />}>
           {/* MANAGEMENT AUTH */}
           <Route path="/auth/register" element={<RegisterView />} />
           <Route path="/auth/login" element={<LoginView />} />
+
+
         </Route>
       </Routes>
     </Router>

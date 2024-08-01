@@ -36,13 +36,13 @@ const MAX_IMAGE_UPLOAD = 5 * 1024 * 1024;
 
 @ApiTags('Category Product')
 @Controller('categoryproduct')
-@UseGuards(JwtAuthGuard)
 export class CategoryproductController {
   constructor(
     private readonly categoryproductService: CategoryproductService,
   ) {}
 
   @Post('/create')
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image', StorageUploadCategory))
   @ApiOkResponse({
     description: 'OK',
@@ -78,16 +78,24 @@ export class CategoryproductController {
   }
 
   @Get('get')
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.categoryproductService.findAll();
   }
 
+  @Get('getallcategory-home')
+  findAllForHome() {
+    return this.categoryproductService.findAll();
+  }
+
   @Get('/get/:id')
+  @UseGuards(JwtAuthGuard)
   findOne(@Param('id') id: number) {
     return this.categoryproductService.findOne(+id);
   }
 
   @Patch('/update/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({
     description: 'OK',
     type: CategoryProductResponse,
@@ -158,6 +166,7 @@ export class CategoryproductController {
   }
 
   @Delete('/delete/:id')
+  @UseGuards(JwtAuthGuard)
   async remove(@Param('id') id: number, @Res() response: Response) {
     const deletedRecord = await this.categoryproductService.remove(+id);
 
@@ -195,7 +204,20 @@ export class CategoryproductController {
   @ApiOkResponse({
     description: 'Get category product image',
   })
-  getProfileImage(
+  getCategoriesImage(
+    @Param('imageName') imageName,
+    @Res() res,
+  ): Observable<string> {
+    return of(
+      res.sendFile(join(process.cwd(), 'public/img/category/' + imageName)),
+    );
+  }
+
+  @Get('categoryproduct-image-home/:imageName')
+  @ApiOkResponse({
+    description: 'Get category product image for homepage',
+  })
+  getCategoriesImageforHome(
     @Param('imageName') imageName,
     @Res() res,
   ): Observable<string> {
