@@ -30,6 +30,9 @@ import AssignProductDiscountViewModel from "./ViewModel/AssignProductDiscountVie
 import DetailAssignProductDiscountView from "./DetailAssignProductDiscountView.tsx";
 import AddAssignProductDiscountView from "./AddAssignProductDiscountView.tsx";
 import DeleteAssignProductDiscountView from "./DeleteAssignProductDiscountView.tsx";
+import { AiOutlineDelete } from "react-icons/ai";
+import { CiRead } from "react-icons/ci";
+import { IoIosGitMerge } from "react-icons/io";
 
 const INITIAL_VISIBLE_COLUMNS = [
   "id",
@@ -128,7 +131,7 @@ export default function AssignProductDiscountView() {
   const closeModal = () => {
     setIsOpenDetailAssignProductDiscount(false);
     setIsOpenAssignProductDiscount(false);
-    setIsOpenDeleteAssignProductDiscount(false)
+    setIsOpenDeleteAssignProductDiscount(false);
   };
 
   const [isOpenAssignProductDiscount, setIsOpenAssignProductDiscount] =
@@ -195,19 +198,37 @@ export default function AssignProductDiscountView() {
                     handleAssignProductDiscount(discount.id);
                   } else if (key === "view") {
                     handleView(discount.id);
-                  } else if (key === "delete"){
+                  } else if (key === "delete") {
                     handleDeleteAssignProductDiscount(discount.id);
                   }
                 }}
               >
                 <DropdownItem key="assignproduct" color="warning">
-                  Assign Product
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ flexDirection: "row", gap: 5 }}
+                  >
+                    <IoIosGitMerge size={20} />
+                    <p>Assign Product</p>
+                  </div>
                 </DropdownItem>
                 <DropdownItem key="view" color="danger">
-                  View
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ flexDirection: "row", gap: 5 }}
+                  >
+                    <CiRead size={20} />
+                    <p>View</p>
+                  </div>
                 </DropdownItem>
                 <DropdownItem key="delete" color="danger">
-                  Delete
+                  <div
+                    className="d-flex align-items-center"
+                    style={{ flexDirection: "row", gap: 5 }}
+                  >
+                    <AiOutlineDelete size={20} />
+                    <p>Delete</p>
+                  </div>
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -253,8 +274,8 @@ export default function AssignProductDiscountView() {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-2">
-        <h1>Category Product</h1>
+      <div className="flex flex-col gap-4">
+        <h1>Assign Product Discount</h1>
         <div className="flex justify-between gap-1 items-end">
           <Input
             isClearable

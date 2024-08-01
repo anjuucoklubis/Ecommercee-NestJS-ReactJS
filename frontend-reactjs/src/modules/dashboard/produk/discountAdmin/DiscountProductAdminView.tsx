@@ -30,6 +30,7 @@ import { ToastContainer } from "react-toastify";
 import DateComponenttt from "../../../../components/date/date.ts";
 import DiscountProductViewModelGet from "./ViewModel/DiscountProductViewModelGet.ts";
 import DiscountProductViewModelDelete from "./ViewModel/DiscountProductViewModelDelete.ts";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -181,7 +182,13 @@ export default function DiscountProductAdminView() {
                     color="danger"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    Delete
+                     <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <AiOutlineDelete size={20} />
+                      <p>Delete</p>
+                    </div>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

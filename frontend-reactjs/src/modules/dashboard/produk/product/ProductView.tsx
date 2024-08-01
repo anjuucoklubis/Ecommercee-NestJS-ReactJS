@@ -35,6 +35,10 @@ import UpdateProductView from "./UpdateProductView.tsx";
 import ProductViewModelDelete from "./ViewModel/ProductViewModelDelete.ts";
 import GaleriesView from "./GaleriesView.tsx";
 import DateComponenttt from "../../../../components/date/date.ts";
+import { AiOutlineDelete } from "react-icons/ai";
+import { CiRead } from "react-icons/ci";
+import { FiEdit } from "react-icons/fi";
+import { IoImagesOutline } from "react-icons/io5";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -233,16 +237,41 @@ export default function ProductView() {
                   }}
                 >
                   <DropdownItem key="Galeries" color="primary">
-                    Galery
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <IoImagesOutline size={20} />
+                      <p>Galery</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem key="View" color="success">
-                    View
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <CiRead size={20} />
+                      <p>View</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem key="Edit" color="warning">
-                    Edit
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <FiEdit size={20} />
+
+                      <p>Edit</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem key="Delete" color="danger">
-                    Delete
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <AiOutlineDelete size={20} />
+                      <p>Delete</p>
+                    </div>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -292,6 +321,7 @@ export default function ProductView() {
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
+        <h1>My Product</h1>
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable

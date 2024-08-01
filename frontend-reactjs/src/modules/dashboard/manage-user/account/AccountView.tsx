@@ -32,6 +32,8 @@ import DateComponenttt from "../../../../components/date/date.ts";
 import GetAccountViewModel from "./ViewModel/GetAccountViewModel.ts";
 import DetailUserAccountAddressView from "./DetailUserAccountAddressView.tsx";
 import DeleteAccountViewModel from "./ViewModel/DeleteAccountViewMode.ts";
+import { AiOutlineDelete } from "react-icons/ai";
+import { CiRead } from "react-icons/ci";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -218,14 +220,28 @@ export default function AccountView() {
                     color="success"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    View
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <CiRead size={20} />
+
+                      <p>View</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem
                     key="Delete"
                     color="danger"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    Delete
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <AiOutlineDelete size={20} />
+
+                      <p>Delete</p>
+                    </div>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

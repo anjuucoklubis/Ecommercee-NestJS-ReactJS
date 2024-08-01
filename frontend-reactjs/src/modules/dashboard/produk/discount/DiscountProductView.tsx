@@ -32,6 +32,8 @@ import DiscountProductViewModelDelete from "./ViewModel/DiscountProductViewModel
 import AddDiscountProductView from "./AddDiscountProductView.tsx";
 import UpdateDiscountProductView from "./UpdateCategoryProductView.tsx";
 import DateComponenttt from "../../../../components/date/date.ts";
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -190,10 +192,23 @@ export default function DiscountProductView() {
                   }}
                 >
                   <DropdownItem key="Edit" color="warning">
-                    Edit
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <FiEdit size={20} />
+
+                      <p>Edit</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem key="Delete" color="danger">
-                    Delete
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <AiOutlineDelete size={20} />
+                      <p>Delete</p>
+                    </div>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -241,8 +256,8 @@ export default function DiscountProductView() {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex flex-col gap-2">
-        <h1>Category Product</h1>
+      <div className="flex flex-col gap-4">
+        <h1>My Discount Product</h1>
         <div className="flex justify-between gap-1 items-end">
           <Input
             isClearable

@@ -34,6 +34,9 @@ import DetailRoleView from "./DetailRoleView.tsx";
 import UpdateRoleView from "./UpdateRoleView.tsx";
 import RoleViewModelDelete from "./ViewModel/RoleViewModelDelete.ts";
 import AddRoleView from "./AddRoleView.tsx";
+import { AiOutlineDelete } from "react-icons/ai";
+import { CiRead } from "react-icons/ci";
+import { FiEdit } from "react-icons/fi";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -218,21 +221,40 @@ export default function RoleView() {
                     color="success"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    View
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <CiRead size={20} />
+                      <p>View</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem
                     key="Edit"
                     color="warning"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    Edit
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <FiEdit size={20} />
+
+                      <p>Edit</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem
                     key="Delete"
                     color="danger"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    Delete
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <AiOutlineDelete size={20} />
+                      <p>Delete</p>
+                    </div>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>

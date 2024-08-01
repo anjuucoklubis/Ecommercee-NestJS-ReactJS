@@ -32,6 +32,8 @@ import DateComponenttt from "../../../../components/date/date.ts";
 import DetailProductView from "../product/DetailProductView.tsx";
 import ProductViewModelDelete from "../product/ViewModel/ProductViewModelDelete.ts";
 import ProductAdminViewModelGet from "./ViewModel/ProductAdminViewModelGet.ts";
+import { AiOutlineDelete } from "react-icons/ai";
+import { CiRead } from "react-icons/ci";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
   active: "success",
@@ -216,14 +218,26 @@ export default function ProductAdminView() {
                     color="success"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    View
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <CiRead size={20} />
+                      <p>View</p>
+                    </div>
                   </DropdownItem>
                   <DropdownItem
                     key="Delete"
                     color="danger"
                     className="shadow-lg transform hover:scale-105 transition duration-500"
                   >
-                    Delete
+                    <div
+                      className="d-flex align-items-center"
+                      style={{ flexDirection: "row", gap: 5 }}
+                    >
+                      <AiOutlineDelete size={20} />
+                      <p>Delete</p>
+                    </div>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -456,15 +470,15 @@ export default function ProductAdminView() {
           <div className="bg-white p-4 rounded-lg">
             <h3 className="text-lg font-medium mb-4">Konfirmasi Hapus</h3>
             <p className="mb-6">Apakah Anda yakin ingin menghapus item ini?</p>
-            <div className="flex" style={{justifyContent:"space-between"}}>
+            <div className="flex" style={{ justifyContent: "space-between" }}>
               <button
-                className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md mr-2 shadow-lg transform hover:scale-y-150 transition duration-500" 
+                className="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md mr-2 shadow-lg transform hover:scale-y-150 transition duration-500"
                 onClick={handleConfirmDelete}
               >
                 Ya, saya yakin
               </button>
               <button
-                className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md shadow-lg transform hover:scale-y-150 transition duration-500" 
+                className="text-gray-800 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-md shadow-lg transform hover:scale-y-150 transition duration-500"
                 onClick={handleCancelDelete}
               >
                 Tidak, batalkan
