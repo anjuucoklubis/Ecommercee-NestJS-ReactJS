@@ -141,6 +141,8 @@ const App = () => {
           />
         </Route>
         <Route path="/landing" element={<LandingView />} />
+        <Route path="/" element={<Navigate to="/landing" />} />
+
 
         <Route element={<RestrictedRoutes />}>
           {/* MANAGEMENT AUTH */}
