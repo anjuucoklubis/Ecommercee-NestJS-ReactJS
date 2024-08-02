@@ -21,6 +21,7 @@ import { DataAccountIcon } from "../../../../components/icons/DataAccountIcon.js
 import { DataPersonalIcon } from "../../../../components/icons/DataPersonalIcon.jsx";
 import { DataAddressIcon } from "../../../../components/icons/DataAddressIcon.jsx";
 import ResetPasswordViewModel from "./ViewModel/ResetPasswordViewModel.ts";
+import { MdOutlineLockReset } from "react-icons/md";
 
 interface DetailUserAccountAddressViewProps {
   userId: string;
@@ -92,7 +93,7 @@ const DetailUserAccountAddressView: React.FC<
                     <Tab
                       key="photos"
                       title={
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 shadow-lg transform hover:scale-105 transition duration-500">
                           <DataAccountIcon />
                           <span>Data Account</span>
                         </div>
@@ -134,6 +135,7 @@ const DetailUserAccountAddressView: React.FC<
                               </table>
                             </div>
                             <Button onClick={openResetPasswordModal}>
+                              <MdOutlineLockReset size={25} />
                               Reset Password
                             </Button>
                           </div>
@@ -143,7 +145,7 @@ const DetailUserAccountAddressView: React.FC<
                     <Tab
                       key="Data Profile"
                       title={
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 shadow-lg transform hover:scale-105 transition duration-500">
                           <DataPersonalIcon />
                           <span>Data Profile</span>
                         </div>
@@ -244,7 +246,7 @@ const DetailUserAccountAddressView: React.FC<
                     <Tab
                       key="Data Address"
                       title={
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 shadow-lg transform hover:scale-105 transition duration-500">
                           <DataAddressIcon />
                           <span>Data Address</span>
                         </div>
