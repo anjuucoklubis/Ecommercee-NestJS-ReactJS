@@ -8,8 +8,8 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
+import { MdOutlineDiscount } from "react-icons/md";
+import { LiaPercentageSolid } from "react-icons/lia";
 import DiscountProductViewModelUpdate from "./ViewModel/DiscountProductViewModelUpdate.ts";
 
 interface UpdateDiscountProductViewProps {
@@ -29,8 +29,6 @@ const UpdateDiscountProductView: React.FC<UpdateDiscountProductViewProps> = ({
     formDataUpdate,
     handleInputChangeUpdateDiscount,
   } = DiscountProductViewModelUpdate({ onClose });
-
- 
 
   useEffect(() => {
     if (discountId) {
@@ -57,7 +55,7 @@ const UpdateDiscountProductView: React.FC<UpdateDiscountProductViewProps> = ({
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineDiscount className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Name Discount"
                 placeholder="Enter name..."
@@ -70,7 +68,7 @@ const UpdateDiscountProductView: React.FC<UpdateDiscountProductViewProps> = ({
               />
               <Input
                 endContent={
-                  <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineDiscount className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Description Discount"
                 placeholder="Enter description"
@@ -82,7 +80,7 @@ const UpdateDiscountProductView: React.FC<UpdateDiscountProductViewProps> = ({
               />
               <Input
                 endContent={
-                  <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <LiaPercentageSolid className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Description Discount"
                 placeholder="Enter Percent"

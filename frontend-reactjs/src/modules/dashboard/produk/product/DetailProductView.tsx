@@ -10,8 +10,17 @@ import {
   Card,
   CardBody,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
+import { IoPricetagsOutline } from "react-icons/io5";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { GiWeight } from "react-icons/gi";
+import { MdOutlineDescription } from "react-icons/md";
+import { RiProductHuntLine } from "react-icons/ri";
+import { MdOutlineCategory } from "react-icons/md";
+import { BsCalendar2Date } from "react-icons/bs";
+import { AiOutlineMail } from "react-icons/ai";
+import { MdOutlineDiscount } from "react-icons/md";
+import { IoImagesOutline } from "react-icons/io5";
+
 import ProductViewModelGet from "./ViewModel/ProductViewModelGet.ts";
 import API_FRONTEND from "../../../../api/api.ts";
 import DateComponenttt from "../../../../components/date/date.ts";
@@ -58,7 +67,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <RiProductHuntLine className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="SKU Product"
                   placeholder="Enter SKU..."
@@ -74,7 +83,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <RiProductHuntLine className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Name Product"
                   placeholder="Enter name..."
@@ -90,7 +99,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <MdOutlineDescription className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Description Product"
                   placeholder="Enter Description..."
@@ -106,7 +115,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <MdOutlineDescription className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Desc Short Product"
                   placeholder="Enter Desc Short..."
@@ -122,7 +131,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <IoPricetagsOutline className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Price Origin Product"
                   placeholder="Enter Price Origin..."
@@ -142,7 +151,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <MdOutlineDiscount className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Discount Origin Product"
                   placeholder="Enter Price Discount..."
@@ -158,7 +167,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                 <Input
                   autoFocus
                   endContent={
-                    <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <MdOutlineProductionQuantityLimits className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Quantity Product"
                   placeholder="Enter Quantity..."
@@ -173,7 +182,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
               <div style={{ marginBottom: "10px" }}>
                 <Input
                   endContent={
-                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <GiWeight className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Weight Product"
                   placeholder="Enter Weight"
@@ -188,7 +197,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
               <div style={{ marginBottom: "10px" }}>
                 <Input
                   endContent={
-                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <MdOutlineCategory className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Category Product"
                   placeholder="Enter Weight"
@@ -205,7 +214,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
               <div style={{ marginBottom: "10px" }}>
                 <Input
                   endContent={
-                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <BsCalendar2Date className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Created At"
                   placeholder="Enter Weight"
@@ -220,7 +229,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
               <div style={{ marginBottom: "10px" }}>
                 <Input
                   endContent={
-                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <BsCalendar2Date className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Updated At"
                   placeholder="Enter Weight"
@@ -239,7 +248,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
               <div style={{ marginBottom: "10px" }}>
                 <Input
                   endContent={
-                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                    <AiOutlineMail className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                   }
                   label="Email User Author"
                   placeholder="Enter Weight"
@@ -259,7 +268,14 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                   padding: "10px",
                 }}
               >
-                <p>Image Product</p>
+                <div className="flex">
+                  <p>Image Product</p>
+                  <IoImagesOutline
+                    size={23}
+                    style={{ marginLeft: 310 }}
+                    color="gray"
+                  />
+                </div>
                 {getproductDetail?.productGalleries.length === 0 ? (
                   <div>
                     <Card

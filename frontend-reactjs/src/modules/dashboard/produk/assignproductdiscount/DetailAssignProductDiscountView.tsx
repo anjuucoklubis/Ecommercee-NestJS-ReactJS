@@ -14,8 +14,10 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
+import { MdOutlineDiscount } from "react-icons/md";
+import { LiaPercentageSolid } from "react-icons/lia";
 import AssignProductDiscountViewModel from "./ViewModel/AssignProductDiscountViewModel.ts";
+import { TbDiscountOff } from "react-icons/tb";
 
 interface DetailAssignProductDiscountProps {
   discountId: string;
@@ -37,7 +39,7 @@ const DetailAssignProductDiscountView: React.FC<
 
   useEffect(() => {
     if (discountId && discountId.trim() !== "") {
-      getDiscountByID(discountId); 
+      getDiscountByID(discountId);
     } else {
       console.error("Invalid discountId:", discountId);
     }
@@ -61,39 +63,39 @@ const DetailAssignProductDiscountView: React.FC<
 
               <Input
                 autoFocus
-                // endContent={
-                //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                // }
+                endContent={
+                  <MdOutlineDiscount className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
                 label="Discount Name"
-                placeholder="Enter SKU..."
+                placeholder="Discount Name"
                 variant="bordered"
                 type="text"
-                name="product_sku"
                 value={getdiscountDetail?.product_discount_name || ""}
                 isReadOnly
                 disabled={true}
               />
               <Input
                 autoFocus
-                // endContent={
-                //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                // }
+                endContent={
+                  <LiaPercentageSolid className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
                 label="Discount Percent"
-                placeholder="Enter SKU..."
+                placeholder="Discount Percent..."
                 variant="bordered"
                 type="text"
-                name="product_sku"
-                value={`${getdiscountDetail?.product_discount_percent || ""} %`} 
+                value={`${getdiscountDetail?.product_discount_percent || ""} %`}
                 isReadOnly
                 disabled={true}
               />
               <Input
                 autoFocus
+                endContent={
+                  <TbDiscountOff className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
                 label="Discount Active"
-                placeholder="Enter SKU..."
+                placeholder="Discount Active..."
                 variant="bordered"
                 type="text"
-                name="product_sku"
                 value={
                   getdiscountDetail?.product_discount_active === true
                     ? "Active"

@@ -8,9 +8,9 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
 import DiscountProductViewModelCreate from "./ViewModel/DiscountProductViewModelCreate.ts";
+import { MdOutlineDiscount } from "react-icons/md";
+import { LiaPercentageSolid } from "react-icons/lia";
 
 interface AddDiscountProductViewProps {
   isOpen: boolean;
@@ -39,7 +39,7 @@ const AddDiscountProductView: React.FC<AddDiscountProductViewProps> = ({
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineDiscount className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Name Discount"
                 placeholder="Enter name..."
@@ -51,7 +51,7 @@ const AddDiscountProductView: React.FC<AddDiscountProductViewProps> = ({
               />
               <Input
                 endContent={
-                  <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineDiscount className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Description Discount"
                 placeholder="Enter description"
@@ -63,7 +63,7 @@ const AddDiscountProductView: React.FC<AddDiscountProductViewProps> = ({
               />
               <Input
                 endContent={
-                  <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <LiaPercentageSolid className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Percent Discount"
                 placeholder="Enter Percent"

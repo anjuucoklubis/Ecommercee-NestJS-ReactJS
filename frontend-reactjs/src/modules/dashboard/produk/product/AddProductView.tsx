@@ -8,9 +8,14 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
+
 import ProductViewModelCreate from "./ViewModel/ProductViewModelCreate.ts";
+import { IoPricetagsOutline } from "react-icons/io5";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { GiWeight } from "react-icons/gi";
+import { MdOutlineDescription } from "react-icons/md";
+import { RiProductHuntLine } from "react-icons/ri";
+import { MdOutlineCategory } from "react-icons/md";
 
 interface AddProductViewProps {
   isOpen: boolean;
@@ -39,7 +44,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <RiProductHuntLine className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="SKU Product"
                 placeholder="Enter SKU..."
@@ -52,7 +57,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <RiProductHuntLine className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Name Product"
                 placeholder="Enter name..."
@@ -65,7 +70,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineDescription className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Description Product"
                 placeholder="Enter Description..."
@@ -78,7 +83,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineDescription className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Desc Short Product"
                 placeholder="Enter Desc Short..."
@@ -91,7 +96,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <IoPricetagsOutline className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Price Origin Product"
                 placeholder="Enter Price Origin..."
@@ -104,7 +109,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineProductionQuantityLimits className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Quantity Product"
                 placeholder="Enter Quantity..."
@@ -117,7 +122,7 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
 
               <Input
                 endContent={
-                  <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <GiWeight className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Weight Product"
                 placeholder="Enter Weight"
@@ -128,12 +133,19 @@ const AddProductView: React.FC<AddProductViewProps> = ({ isOpen, onClose }) => {
                 onChange={handleInputChange}
               />
               <div className="col-span-2">
-                <label
-                  htmlFor="categoryId"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Kategori Produk{" "}
-                </label>
+                <div className="flex" style={{ alignItems: "center" }}>
+                  <label
+                    htmlFor="categoryId"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Kategori Produk{" "}
+                  </label>
+                  <MdOutlineCategory
+                    size={25}
+                    style={{ marginLeft: 250 }}
+                    color="gray"
+                  />
+                </div>
                 <select
                   className="text-whit bg-gray-50 border border-gray-300 w-full p-2.5 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   value={selectedCategory}
