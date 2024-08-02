@@ -8,9 +8,9 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
+import { MdOutlineCategory } from "react-icons/md";
 import CategoryProductViewModelCreate from "./ViewModel/CategoryProductViewModelCreate.ts";
+import { IoImagesOutline } from "react-icons/io5";
 
 interface AddCategoryProductViewProps {
   isOpen: boolean;
@@ -43,7 +43,7 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineCategory className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Name Category"
                 placeholder="Enter name..."
@@ -55,7 +55,7 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
               />
               <Input
                 endContent={
-                  <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <MdOutlineCategory className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Description Category"
                 placeholder="Enter description"
@@ -73,12 +73,19 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
                   padding: "10px",
                 }}
               >
-                <label
-                  htmlFor="name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Gambar Kategori
-                </label>
+                <div className="flex">
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Gambar Kategori
+                  </label>
+                  <IoImagesOutline
+                    size={23}
+                    style={{ marginLeft: 227 }}
+                    color="gray"
+                  />
+                </div>
                 <div className="flex items-center justify-center w-full">
                   <label
                     htmlFor="dropzone-file"

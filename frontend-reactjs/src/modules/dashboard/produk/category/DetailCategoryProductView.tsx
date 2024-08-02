@@ -8,8 +8,10 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
-import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
+import { MdOutlineCategory } from "react-icons/md";
+import { BsCalendar2Date } from "react-icons/bs";
+
+import { IoImagesOutline } from "react-icons/io5";
 import CategoryProductViewModelGet from "./ViewModel/CategoryProductViewModelGet.ts";
 import API_FRONTEND from "../../../../api/api.ts";
 import DateComponenttt from "../../../../components/date/date.ts";
@@ -51,7 +53,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
             <Input
               autoFocus
               endContent={
-                <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                <MdOutlineCategory className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
               label="Name Category"
               placeholder="Enter name..."
@@ -63,7 +65,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
             />
             <Input
               endContent={
-                <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                <MdOutlineCategory className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
               label="Description Category"
               placeholder="Enter description"
@@ -75,7 +77,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
             />
             <Input
               endContent={
-                <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                <BsCalendar2Date className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
               label="Created Category"
               placeholder="Enter Created"
@@ -91,7 +93,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
             />
             <Input
               endContent={
-                <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                <BsCalendar2Date className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
               }
               label="Updated Category"
               placeholder="Enter Updated"
@@ -107,10 +109,24 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
             />
 
             {getcategoryDetail?.image && (
-              <div className="col-span-2">
-                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Image Category Product
-                </label>
+              <div
+                className="col-span-2"
+                style={{
+                  border: "2px solid #ccc",
+                  borderRadius: "10px",
+                  padding: "10px",
+                }}
+              >
+                <div className="flex">
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Image Category Product
+                  </label>
+                  <IoImagesOutline
+                    size={23}
+                    style={{ marginLeft: 175 }}
+                    color="gray"
+                  />
+                </div>
                 <img
                   src={`${API_URL_CATEGORYPRODUCT_IMAGE}/${getcategoryDetail?.image}`}
                   alt="Preview"
