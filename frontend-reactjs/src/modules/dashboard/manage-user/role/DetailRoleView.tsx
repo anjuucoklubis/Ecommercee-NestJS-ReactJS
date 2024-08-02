@@ -14,7 +14,8 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
+import { FiUsers } from "react-icons/fi";
+
 import RoleViewModelGet from "./ViewModel/RoleViewModelGet.ts";
 
 interface DetailRoleProps {
@@ -64,9 +65,9 @@ const DetailRoleView: React.FC<DetailRoleProps> = ({
 
               <Input
                 autoFocus
-                // endContent={
-                //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                // }
+                endContent={
+                  <FiUsers className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
                 label="Role Name"
                 variant="bordered"
                 type="text"
@@ -76,9 +77,9 @@ const DetailRoleView: React.FC<DetailRoleProps> = ({
               />
               <Input
                 autoFocus
-                // endContent={
-                //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                // }
+                endContent={
+                  <FiUsers className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
                 label="Role Description"
                 variant="bordered"
                 type="text"
@@ -88,9 +89,9 @@ const DetailRoleView: React.FC<DetailRoleProps> = ({
               />
               <Input
                 autoFocus
-                // endContent={
-                //   <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                // }
+                endContent={
+                  <FiUsers className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                }
                 label="Count Users"
                 variant="bordered"
                 type="text"

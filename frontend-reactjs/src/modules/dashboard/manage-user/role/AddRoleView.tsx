@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Modal,
   Input,
@@ -8,8 +8,7 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import { MailIcon } from "../../../../components/icons/MailIcon.tsx";
-// import { LockIcon } from "../../../../components/icons/LockIcon.tsx";
+import { FiUsers } from "react-icons/fi";
 import RoleViewModelCreate from "./ViewModel/RoleViewModelCreate.ts";
 
 interface AddRoleViewProps {
@@ -34,7 +33,7 @@ const AddRoleView: React.FC<AddRoleViewProps> = ({ onClose, isOpen }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <FiUsers className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Role Name"
                 placeholder="Enter Role Name..."
@@ -47,7 +46,7 @@ const AddRoleView: React.FC<AddRoleViewProps> = ({ onClose, isOpen }) => {
               <Input
                 autoFocus
                 endContent={
-                  <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+                  <FiUsers className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 }
                 label="Role Description"
                 placeholder="Enter Role Description..."
