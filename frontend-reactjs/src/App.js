@@ -23,6 +23,7 @@ import NotFoundView from "./modules/dashboard/not-found/NotFoundView.tsx";
 import DashboardPenjualView from "./modules/dashboard/homeDashboard/homeDashboardPenjual/DashboardPenjualView.tsx";
 import DashboardAdminView from "./modules/dashboard/homeDashboard/homeDashboardAdmin/DashboardAdminView.tsx";
 import LandingView from "./modules/home/Landing/LandingView.tsx";
+import ManageCarouselView from "./modules/dashboard/manage-landing/manage-carousel/ManageCarouselView.tsx";
 
 const PrivateRoutes = () => {
   // const authState = useSelector((state) => state.auth);
@@ -49,15 +50,7 @@ const RestrictedRoutes = () => {
   const { isAuth } = useSelector((state) => state.auth);
   console.log("Auth state", isAuth);
 
-  return (
-    <>
-      {!isAuth ? (
-        <Outlet />
-      ) : (
-        <Navigate to="/landing" />
-      )}
-    </>
-  );
+  return <>{!isAuth ? <Outlet /> : <Navigate to="/landing" />}</>;
 };
 
 const App = () => {
@@ -67,6 +60,15 @@ const App = () => {
         <Route element={<PrivateRoutes />}>
           {/* MANAGEMENT NOT FOUND */}
           <Route path="/not-found" element={<NotFoundView />} />
+
+          {/* MANAGEMENT CAROUSEL - HOME */}
+          <Route element={<CheckRoleRouteAdmin />}>
+            <Route
+              path="/admin/carousel-admin"
+              s
+              element={<ManageCarouselView />}
+            />
+          </Route>
 
           {/* MANAGEMENT DASHBOARD - HOME */}
           <Route element={<CheckRoleRoutePenjual />}>
@@ -82,7 +84,6 @@ const App = () => {
               element={<DashboardAdminView />}
             />
           </Route>
-
           {/* MANAGEMENT DASHBOARD - MANAGEMENT PRODUCT */}
           {/* ADMIN */}
           <Route element={<CheckRoleRouteAdmin />}>
@@ -104,7 +105,6 @@ const App = () => {
             />
           </Route>
           {/* END ADMIN */}
-
           {/* PENJUAL */}
           <Route element={<CheckRoleRoutePenjual />}>
             <Route
@@ -125,7 +125,6 @@ const App = () => {
             />
           </Route>
           {/* END PENJUAL */}
-
           {/* MANAGEMENT DASHBOARD - MANAGEMENT USER */}
           <Route element={<CheckRoleRouteAdmin />}>
             <Route path="/admin/manageuser-account" element={<AccountView />} />
@@ -133,7 +132,6 @@ const App = () => {
           <Route element={<CheckRoleRouteAdmin />}>
             <Route path="/admin/manageuser-role" element={<RoleView />} />
           </Route>
-
           {/* MANAGEMENT DASHBOARD - MANAGEMENT ACOUND */}
           <Route
             path="/admin/manageuser-myaccount"
@@ -143,13 +141,10 @@ const App = () => {
         <Route path="/landing" element={<LandingView />} />
         <Route path="/" element={<Navigate to="/landing" />} />
 
-
         <Route element={<RestrictedRoutes />}>
           {/* MANAGEMENT AUTH */}
           <Route path="/auth/register" element={<RegisterView />} />
           <Route path="/auth/login" element={<LoginView />} />
-
-
         </Route>
       </Routes>
     </Router>

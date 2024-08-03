@@ -19,6 +19,7 @@ import { MasterlocationModule } from './masterlocation/masterlocation.module';
 import { UserprofileModule } from './userprofile/userprofile.module';
 import { UseraddressModule } from './useraddress/useraddress.module';
 import { RoleModule } from './role/role.module';
+import { CarauselModule } from './carousel/carousel.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { RoleModule } from './role/role.module';
     UserprofileModule,
     UseraddressModule,
     RoleModule,
+    CarauselModule,
   ],
   controllers: [
     AppController,

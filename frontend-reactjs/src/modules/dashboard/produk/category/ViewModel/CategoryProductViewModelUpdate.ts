@@ -22,6 +22,15 @@ function CategoryProductViewModelUpdate({ onClose }) {
       originalImage: "",
     });
 
+  // const handleInputChangeUpdateCategory = (event) => {
+  //   const { name, value } = event.target;
+  //   console.log(name, value);
+  //   setFormDataUpdate({
+  //     ...formDataUpdate,
+  //     [name]: value,
+  //   });
+  // };
+
   const handleInputChangeUpdateCategory = (event) => {
     const { name, value } = event.target;
     console.log(name, value);

@@ -88,9 +88,8 @@ model User {
   userprofile Userprofile?
   useraddress Useraddress[]
 
-  products Product[]
+  products         Product[]
   productDiscounts ProductDiscount[]
-
 }
 
 model UserRole {
@@ -156,4 +155,13 @@ model masterprovince {
   createdAt DateTime     @default(now())
   updateAt  DateTime
   cities    mastercity[]
+}
+
+model Carousel {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  image     String    @db.VarChar(255)
+  isActive  String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  updateAt  DateTime? @updatedAt()
 }

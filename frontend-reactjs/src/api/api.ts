@@ -70,6 +70,14 @@ const API_FRONTEND = () => {
   const API_URL_USER_DATA_RESET_PASSWORD = "http://localhost:3000/users/reset-password"
   const API_URL_USER_DATA_DELETE_USER_ACCOUNT = "http://localhost:3000/users/delete-user"
 
+   /* Carousel (6) */
+   const API_URL_CAROUSEL_GET = "http://localhost:3000/carousel/get"; 
+   const API_URL_CAROUSEL_CREATE = "http://localhost:3000/carousel/create"; 
+   const API_URL_CAROUSEL_UPDATE = "http://localhost:3000/carousel/update"; 
+   const API_URL_CAROUSEL_DELETE = "http://localhost:3000/carousel/delete";  
+   const API_URL_CAROUSEl_IMAGE = "http://localhost:3000/carousel/carousel-image";
+
+
 
   return {
     API_URL,
@@ -118,7 +126,13 @@ const API_FRONTEND = () => {
     API_URL_PRODUCT_GET_ALL_BY_USERAUTH,
     API_URL_DISCOUNTPRODUCT_GET_ALL_BY_USERAUTH,
     API_URL_CATEGORYPRODUCT_GET_ALL_HOME,
-    API_URL_CATEGORYPRODUCT_IMAGE_HOME
+    API_URL_CATEGORYPRODUCT_IMAGE_HOME,
+    API_URL_CAROUSEL_GET,
+    API_URL_CAROUSEL_CREATE,
+    API_URL_CAROUSEL_UPDATE,
+    API_URL_CAROUSEL_DELETE,
+    API_URL_CAROUSEl_IMAGE
+    
   };
 };
 
