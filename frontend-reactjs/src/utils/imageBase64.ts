@@ -10,6 +10,25 @@ const ImageBase64 = () => {
     return "";
   };
 
-  return { DisplayBase64 };
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        if (fileReader.result) {
+          const base64String = fileReader.result as string;
+          const base64Data = base64String.split(",")[1];
+          resolve(base64Data);
+        } else {
+          reject(new Error("FileReader result is null"));
+        }
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  return { DisplayBase64, convertToBase64 };
 };
 export default ImageBase64;

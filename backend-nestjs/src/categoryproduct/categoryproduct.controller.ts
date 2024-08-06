@@ -10,7 +10,6 @@ import {
   UseGuards,
   HttpStatus,
   Controller,
-  UploadedFile,
   HttpException,
   UseInterceptors,
 } from '@nestjs/common';
@@ -23,7 +22,7 @@ import {
   CreateCategoryProductRequest,
   UpdateCategoryProductRequest,
 } from 'src/model/categoryproduct.model';
-import { existsSync, unlinkSync } from 'fs';
+import { unlinkSync } from 'fs';
 import { WebResponse } from 'src/model/web.model';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -91,10 +90,8 @@ export class CategoryproductController {
     type: UnauthorizedResponse,
   })
   @HttpCode(200)
-  @UseInterceptors(FileInterceptor('image', StorageUploadCategory))
   async update(
     @Param('id') id: number,
-    @UploadedFile() file: Express.Multer.File,
     @Body() body: UpdateCategoryProductRequest,
   ) {
     try {
@@ -109,18 +106,7 @@ export class CategoryproductController {
         );
       }
 
-      if (file && file.filename) {
-        const oldImagePath = `./public/img/category/${categoryProduct.image}`;
-        if (existsSync(oldImagePath)) {
-          unlinkSync(oldImagePath);
-          console.log(`Deleted old image file: ${oldImagePath}`);
-        } else {
-          console.log(`File not found: ${oldImagePath}`);
-        }
-
-        body.image = file.filename;
-      }
-      if (body.name || body.image) {
+      if (body.name || body.description || body.image) {
         const updatedProduct = await this.categoryproductService.update(
           categoryId,
           body,
@@ -183,20 +169,6 @@ export class CategoryproductController {
     } else {
       return response;
     }
-  }
-
-  @Get('categoryproduct-image/:imageName')
-  @UseGuards(JwtAuthGuard)
-  @ApiOkResponse({
-    description: 'Get category product image',
-  })
-  getCategoriesImage(
-    @Param('imageName') imageName,
-    @Res() res,
-  ): Observable<string> {
-    return of(
-      res.sendFile(join(process.cwd(), 'public/img/category/' + imageName)),
-    );
   }
 
   @Get('categoryproduct-image-home/:imageName')

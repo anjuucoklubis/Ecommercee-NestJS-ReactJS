@@ -24,6 +24,6 @@ export interface GetCategoryProductAllInterface {
   export interface FormDataUpdateCategoryProductInterface {
     name: string;
     description: string;
-    image: File | null;
+    image: string;
     originalImage: string;
   }

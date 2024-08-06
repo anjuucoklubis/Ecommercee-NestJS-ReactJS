@@ -39,7 +39,7 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
     if (categoryId) {
       handleShowDetailCategory(parseInt(categoryId, 10));
     }
-  }, [categoryId, handleShowDetailCategory]);
+  }, [categoryId]);
 
   return (
     <div>
@@ -168,7 +168,7 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
                       Preview
                     </label>
                     <img
-                      src={URL.createObjectURL(formDataUpdate.image)}
+                      src={DisplayBase64(formDataUpdate.image)}
                       alt="Preview"
                       className="max-w-full h-auto max-h-24 rounded-lg"
                     />

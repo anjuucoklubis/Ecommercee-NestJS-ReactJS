@@ -7,10 +7,12 @@ import {
 import API_FRONTEND from "../../../../../api/api.ts";
 import axios from "axios";
 import Cookies from "js-cookie";
+import ImageBase64 from "../../../../../utils/imageBase64.ts";
 
 function CategoryProductViewModelUpdate({ onClose }) {
   const { API_URL_CATEGORYPRODUCT_GET, API_URL_CATEGORYPRODUCT_UPDATE } =
     API_FRONTEND();
+  const { convertToBase64 } = ImageBase64();
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [categoryDetail, setCategoryDetail] =
     useState<ShowModalCategoryProductDetailInterface | null>(null);
@@ -18,18 +20,9 @@ function CategoryProductViewModelUpdate({ onClose }) {
     useState<FormDataUpdateCategoryProductInterface>({
       name: "",
       description: "",
-      image: null,
+      image: "",
       originalImage: "",
     });
-
-  // const handleInputChangeUpdateCategory = (event) => {
-  //   const { name, value } = event.target;
-  //   console.log(name, value);
-  //   setFormDataUpdate({
-  //     ...formDataUpdate,
-  //     [name]: value,
-  //   });
-  // };
 
   const handleInputChangeUpdateCategory = (event) => {
     const { name, value } = event.target;
@@ -40,13 +33,15 @@ function CategoryProductViewModelUpdate({ onClose }) {
     });
   };
 
-  const handleImageChangeUpdateCategoryProduct = (event) => {
-    const file = event.target.files[0];
-    console.log(file);
-    setFormDataUpdate({
-      ...formDataUpdate,
-      image: file,
-    });
+  const handleImageChangeUpdateCategoryProduct = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log(file)
+    if (file) {
+      const base64 = await convertToBase64(file);
+      setFormDataUpdate({ ...formDataUpdate, image: base64 });
+    }
   };
 
   const handleShowDetailCategory = async (categoryId: number) => {
@@ -74,7 +69,7 @@ function CategoryProductViewModelUpdate({ onClose }) {
         setFormDataUpdate({
           name: data.name,
           description: data.description,
-          image: null,
+          image: data.image,
           originalImage: data.image,
         });
       } else {
@@ -88,19 +83,13 @@ function CategoryProductViewModelUpdate({ onClose }) {
   const handleSubmitUpdateCategoryProduct = async (event) => {
     event.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("name", formDataUpdate.name);
-      formData.append("description", formDataUpdate.description);
-      if (formDataUpdate.image instanceof File) {
-        formData.append("image", formDataUpdate.image);
-      }
-
       const response = await axios.patch(
         `${API_URL_CATEGORYPRODUCT_UPDATE}/${categoryId}`,
-        formData,
+        formDataUpdate,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
+            "Content-Type": "application/json",
           },
         }
       );
