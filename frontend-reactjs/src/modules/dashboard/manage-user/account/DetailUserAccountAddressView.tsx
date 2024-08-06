@@ -258,105 +258,118 @@ const DetailUserAccountAddressView: React.FC<
                         <CardBody>
                           <div className="tab-content">
                             <div className="tab-pane active" id="data_address">
-                              <table className="table table-condensed detail-view">
-                                <tbody>
-                                  {getuserDetail?.useraddress?.map(
-                                    (address) => (
-                                      <tr key={address.id}>
-                                        <td>
-                                          <table>
-                                            <tbody>
-                                              <tr>
-                                                <th
-                                                  style={{
-                                                    paddingRight: "300px",
-                                                  }}
-                                                >
-                                                  Full Name
-                                                </th>
-                                                <td>
-                                                  {address.full_name || "-"}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <th
-                                                  style={{
-                                                    paddingRight: "300px",
-                                                  }}
-                                                >
-                                                  Number Phone
-                                                </th>
-                                                <td>
-                                                  {address.number_phone || "-"}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <th
-                                                  style={{
-                                                    paddingRight: "300px",
-                                                  }}
-                                                >
-                                                  Province
-                                                </th>
-                                                <td>
-                                                  {address.province || "-"}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <th
-                                                  style={{
-                                                    paddingRight: "300px",
-                                                  }}
-                                                >
-                                                  City
-                                                </th>
-                                                <td>{address.city || "-"}</td>
-                                              </tr>
-                                              <tr>
-                                                <th
-                                                  style={{
-                                                    paddingRight: "300px",
-                                                  }}
-                                                >
-                                                  Postal Code
-                                                </th>
-                                                <td>
-                                                  {address.postal_code || "-"}
-                                                </td>
-                                              </tr>
+                              {getuserDetail?.useraddress.length === 0 ? (
+                                <table className="table table-condensed detail-view">
+                                  <tbody>
+                                    <div className="flex" style={{justifyContent:"center"}}>
+                                      <p>Not have Address</p>
+                                    </div>
+                                  </tbody>
+                                </table>
+                              ) : (
+                                <table className="table table-condensed detail-view">
+                                  <tbody>
+                                    {getuserDetail?.useraddress?.map(
+                                      (address) => (
+                                        <tr key={address.id}>
+                                          <td>
+                                            <table>
+                                              <tbody>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      paddingRight: "300px",
+                                                    }}
+                                                  >
+                                                    Full Name
+                                                  </th>
+                                                  <td>
+                                                    {address.full_name || "-"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      paddingRight: "300px",
+                                                    }}
+                                                  >
+                                                    Number Phone
+                                                  </th>
+                                                  <td>
+                                                    {address.number_phone ||
+                                                      "-"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      paddingRight: "300px",
+                                                    }}
+                                                  >
+                                                    Province
+                                                  </th>
+                                                  <td>
+                                                    {address.province || "-"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      paddingRight: "300px",
+                                                    }}
+                                                  >
+                                                    City
+                                                  </th>
+                                                  <td>{address.city || "-"}</td>
+                                                </tr>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      paddingRight: "300px",
+                                                    }}
+                                                  >
+                                                    Postal Code
+                                                  </th>
+                                                  <td>
+                                                    {address.postal_code || "-"}
+                                                  </td>
+                                                </tr>
 
-                                              <tr>
-                                                <th
-                                                  style={{
-                                                    paddingRight: "300px",
-                                                  }}
-                                                >
-                                                  Address Line
-                                                </th>
-                                                <td>
-                                                  {address.address_line || "-"}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <th
-                                                  style={{
-                                                    paddingRight: "300px",
-                                                  }}
-                                                >
-                                                  House / Office
-                                                </th>
-                                                <td>
-                                                  {address.houseOroffice || "-"}
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </td>
-                                      </tr>
-                                    )
-                                  )}
-                                </tbody>
-                              </table>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      paddingRight: "300px",
+                                                    }}
+                                                  >
+                                                    Address Line
+                                                  </th>
+                                                  <td>
+                                                    {address.address_line ||
+                                                      "-"}
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      paddingRight: "300px",
+                                                    }}
+                                                  >
+                                                    House / Office
+                                                  </th>
+                                                  <td>
+                                                    {address.houseOroffice ||
+                                                      "-"}
+                                                  </td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      )
+                                    )}
+                                  </tbody>
+                                </table>
+                              )}
                             </div>
                           </div>
                         </CardBody>

@@ -274,85 +274,105 @@ const MyAccountView = () => {
                   <CardBody>
                     <div className="tab-content">
                       <div className="tab-pane active" id="data_address">
-                        <table className="table table-condensed detail-view">
-                          <tbody>
-                            {profile?.useraddress?.map((address) => (
-                              <tr key={address.id}>
-                                <td>
-                                  <table>
-                                    <tbody>
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          Full Name
-                                        </th>
-                                        <td>{address.full_name || "-"}</td>
-                                      </tr>
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          Number Phone
-                                        </th>
-                                        <td>{address.number_phone || "-"}</td>
-                                      </tr>
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          Province
-                                        </th>
-                                        <td>{address.province || "-"}</td>
-                                      </tr>
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          City
-                                        </th>
-                                        <td>{address.city || "-"}</td>
-                                      </tr>
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          Postal Code
-                                        </th>
-                                        <td>{address.postal_code || "-"}</td>
-                                      </tr>
+                        {profile?.useraddress.length === 0 ? (
+                          <table className="table table-condensed detail-view">
+                            <div
+                              className="flex"
+                              style={{
+                                justifyContent: "center",
+                                flexDirection: "column",
+                                alignItems: "center",
+                              }}
+                            >
+                              <p>You not have Address 🥲</p>
+                              <p>Please Add Address</p>
+                            </div>
+                          </table>
+                        ) : (
+                          <table className="table table-condensed detail-view">
+                            <tbody>
+                              {profile?.useraddress?.map((address) => (
+                                <tr key={address.id}>
+                                  <td>
+                                    <table>
+                                      <tbody>
+                                        <tr>
+                                          <th style={{ paddingRight: "300px" }}>
+                                            Full Name
+                                          </th>
+                                          <td>{address.full_name || "-"}</td>
+                                        </tr>
+                                        <tr>
+                                          <th style={{ paddingRight: "300px" }}>
+                                            Number Phone
+                                          </th>
+                                          <td>{address.number_phone || "-"}</td>
+                                        </tr>
+                                        <tr>
+                                          <th style={{ paddingRight: "300px" }}>
+                                            Province
+                                          </th>
+                                          <td>{address.province || "-"}</td>
+                                        </tr>
+                                        <tr>
+                                          <th style={{ paddingRight: "300px" }}>
+                                            City
+                                          </th>
+                                          <td>{address.city || "-"}</td>
+                                        </tr>
+                                        <tr>
+                                          <th style={{ paddingRight: "300px" }}>
+                                            Postal Code
+                                          </th>
+                                          <td>{address.postal_code || "-"}</td>
+                                        </tr>
 
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          Address Line
-                                        </th>
-                                        <td>{address.address_line || "-"}</td>
-                                      </tr>
-                                      <tr>
-                                        <th style={{ paddingRight: "300px" }}>
-                                          House / Office
-                                        </th>
-                                        <td>{address.houseOroffice || "-"}</td>
-                                      </tr>
-                                      <tr>
-                                        <td style={{ paddingTop: "10px" }}>
-                                          <div>
-                                            <Button
-                                              color="warning"
-                                              onPress={() =>
-                                                handleEditAddress(address)
-                                              }
-                                            >
-                                              Edit Address
-                                            </Button>{" "}
-                                            <Button
-                                              color="danger"
-                                              onClick={() =>
-                                                handleDeleteAddress(address.id)
-                                              }
-                                            >
-                                              Delete Address
-                                            </Button>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                                        <tr>
+                                          <th style={{ paddingRight: "300px" }}>
+                                            Address Line
+                                          </th>
+                                          <td>{address.address_line || "-"}</td>
+                                        </tr>
+                                        <tr>
+                                          <th style={{ paddingRight: "300px" }}>
+                                            House / Office
+                                          </th>
+                                          <td>
+                                            {address.houseOroffice || "-"}
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td style={{ paddingTop: "10px" }}>
+                                            <div>
+                                              <Button
+                                                color="warning"
+                                                onPress={() =>
+                                                  handleEditAddress(address)
+                                                }
+                                              >
+                                                Edit Address
+                                              </Button>{" "}
+                                              <Button
+                                                color="danger"
+                                                onClick={() =>
+                                                  handleDeleteAddress(
+                                                    address.id
+                                                  )
+                                                }
+                                              >
+                                                Delete Address
+                                              </Button>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        )}
                       </div>
                       <Button onPress={handleAddress} color="success">
                         Add Address
