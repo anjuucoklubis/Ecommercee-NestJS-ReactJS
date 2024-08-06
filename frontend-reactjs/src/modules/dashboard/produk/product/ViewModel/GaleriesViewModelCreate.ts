@@ -4,15 +4,17 @@ import { toast } from "react-toastify";
 import API_FRONTEND from "../../../../../api/api.ts";
 import axios from "axios";
 import Cookies from "js-cookie";
+import ImageBase64 from "../../../../../utils/imageBase64.ts";
 function GaleriesViewModelCreate({ onClose }) {
+  const { convertToBase64 } = ImageBase64();
   const { API_URL_GALERIESPRODUCT_CREATE } = API_FRONTEND();
   const [formData, setFormData] = useState<{
     id: number;
-    product_galeries_image: File | null;
+    product_galeries_image: string;
     productId: string;
   }>({
     id: 1,
-    product_galeries_image: null,
+    product_galeries_image: "",
     productId: "",
   });
 
@@ -24,20 +26,14 @@ function GaleriesViewModelCreate({ onClose }) {
       return;
     }
 
-    const formDataToSend = new FormData();
-    formDataToSend.append(
-      "product_galeries_image",
-      formData.product_galeries_image
-    );
-    formDataToSend.append("productId", formData.productId);
-
     try {
       const response = await axios.post(
         `${API_URL_GALERIESPRODUCT_CREATE}/${formData.productId}`,
-        formDataToSend,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -46,7 +42,7 @@ function GaleriesViewModelCreate({ onClose }) {
       if (response.status === 201) {
         setFormData({
           id: 1,
-          product_galeries_image: null,
+          product_galeries_image: "",
           productId: "",
         });
         onClose();
@@ -73,13 +69,13 @@ function GaleriesViewModelCreate({ onClose }) {
     }
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
     if (file) {
-      setFormData((prevData) => ({
-        ...prevData,
-        product_galeries_image: file,
-      }));
+      const base64 = await convertToBase64(file);
+      setFormData({ ...formData, product_galeries_image: base64 });
     }
   };
 

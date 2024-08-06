@@ -4,27 +4,22 @@ import {
   Post,
   Param,
   Delete,
+  UseGuards,
   Controller,
   HttpStatus,
-  UploadedFile,
   HttpException,
   UseInterceptors,
   NotFoundException,
-  ParseFilePipeBuilder,
-  UseGuards,
 } from '@nestjs/common';
-import { unlinkSync } from 'fs';
 import { Response } from 'express';
 import { Prisma } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageUploadProduct } from 'src/utils/storage-upload';
 import { GaleriesproductService } from './galeriesproduct.service';
 import { GaleryProductResponse } from 'src/model/galeriproduct.model';
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UnauthorizedResponse } from 'src/model/categoryproduct.model';
-import { JwtAuthGuard } from 'src/auth/jwt.guard';
-
-const MAX_SIZE_IMAGE_UPLOAD = 5 * 1024 * 1024;
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Galeries Product')
 @Controller('galeriesproduct')
@@ -46,13 +41,6 @@ export class GaleriesproductController {
   })
   async create(
     @Res() res: Response,
-    @UploadedFile(
-      new ParseFilePipeBuilder()
-        .addFileTypeValidator({ fileType: /image\/(jpeg|png)/ })
-        .addMaxSizeValidator({ maxSize: MAX_SIZE_IMAGE_UPLOAD })
-        .build({ errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY }),
-    )
-    file: Express.Multer.File,
     @Body() body: Prisma.ProductGalleriesCreateInput,
     @Param('id') id: number,
   ): Promise<any> {
@@ -65,7 +53,7 @@ export class GaleriesproductController {
 
       const createdGalleryData = await this.galeriproductservice.createMany([
         {
-          product_galeries_image: file.filename,
+          product_galeries_image: body.product_galeries_image,
           product_galeries_thumbnail: false,
           Product: { connect: { id: String(id) } },
         },
@@ -100,39 +88,7 @@ export class GaleriesproductController {
   }
 
   @Delete('/delete/:id')
-  async remove(@Param('id') id: number, @Res() response: Response) {
-    try {
-      const deletedRecord = await this.galeriproductservice.remove(+id);
-
-      if (deletedRecord) {
-        const filePath = `./public/img/product/${deletedRecord.product_galeries_image}`;
-        try {
-          unlinkSync(filePath);
-          console.log(`Deleted image file: ${filePath}`);
-        } catch (error) {
-          console.error(`Error deleting image file: ${error}`);
-        }
-
-        const responseBody = {
-          'INFORMATION-RESPONSE': {
-            REQUESTNAME: 'DELETE GALERI PRODUCT',
-            METHOD: 'DELETE',
-            'STATUS-RESPONSE': HttpStatus.OK,
-            url: `http://127.0.0.1:3000/galeriesproduct/delete/${id}`,
-          },
-          'RESPONSE MESSAGE': 'SUCCESS DELETE',
-        };
-
-        return response.status(HttpStatus.OK).json(responseBody);
-      } else {
-        throw new NotFoundException(`Record with ID ${id} not found`);
-      }
-    } catch (error) {
-      console.error('Error while deleting gallery:', error);
-      throw new HttpException(
-        'Internal Server Error',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+  async remove(@Param('id') id: number) {
+    return await this.galeriproductservice.remove(+id);
   }
 }

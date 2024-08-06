@@ -11,10 +11,10 @@ import {
   Checkbox,
 } from "@nextui-org/react";
 import GaleriesViewModelGet from "./ViewModel/GaleriesViewModelGet.ts";
-import API_FRONTEND from "../../../../api/api.ts";
 import GaleriesViewModelCreate from "./ViewModel/GaleriesViewModelCreate.ts";
 import GaleriesViewModelDelete from "./ViewModel/GaleriesViewModelDelete.ts";
 import { ToastContainer } from "react-toastify";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface GaleryProductViewProps {
   productId: string;
@@ -45,7 +45,7 @@ const GaleriesView: React.FC<GaleryProductViewProps> = ({
     setItemToDelete,
   } = GaleriesViewModelDelete();
 
-  const { API_URL_PRODUCT_IMAGE } = API_FRONTEND();
+  const { DisplayBase64 } = ImageBase64();
 
   useEffect(() => {
     if (productId) {
@@ -138,7 +138,7 @@ const GaleriesView: React.FC<GaleryProductViewProps> = ({
                       Preview
                     </label>
                     <img
-                      src={URL.createObjectURL(formData.product_galeries_image)}
+                      src={DisplayBase64(formData.product_galeries_image)}
                       alt="Preview"
                       className="max-w-full h-auto max-h-24 rounded-lg"
                     />
@@ -169,7 +169,7 @@ const GaleriesView: React.FC<GaleryProductViewProps> = ({
                         width="100%"
                         alt={`Gallery ${index}`}
                         className="w-full object-cover h-[140px]"
-                        src={`${API_URL_PRODUCT_IMAGE}/${gallery.product_galeries_image}`}
+                        src={DisplayBase64(gallery.product_galeries_image)}
                       />
                       <button
                         onClick={() => setItemToDelete(gallery.id)}

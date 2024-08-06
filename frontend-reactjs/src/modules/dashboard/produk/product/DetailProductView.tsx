@@ -10,20 +10,19 @@ import {
   Card,
   CardBody,
 } from "@nextui-org/react";
-import { IoPricetagsOutline } from "react-icons/io5";
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { GiWeight } from "react-icons/gi";
-import { MdOutlineDescription } from "react-icons/md";
-import { RiProductHuntLine } from "react-icons/ri";
-import { MdOutlineCategory } from "react-icons/md";
-import { BsCalendar2Date } from "react-icons/bs";
 import { AiOutlineMail } from "react-icons/ai";
-import { MdOutlineDiscount } from "react-icons/md";
+import { BsCalendar2Date } from "react-icons/bs";
 import { IoImagesOutline } from "react-icons/io5";
-
-import ProductViewModelGet from "./ViewModel/ProductViewModelGet.ts";
-import API_FRONTEND from "../../../../api/api.ts";
+import { RiProductHuntLine } from "react-icons/ri";
+import { MdOutlineDiscount } from "react-icons/md";
+import { MdOutlineCategory } from "react-icons/md";
+import { IoPricetagsOutline } from "react-icons/io5";
+import { MdOutlineDescription } from "react-icons/md";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 import DateComponenttt from "../../../../components/date/date.ts";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import ProductViewModelGet from "./ViewModel/ProductViewModelGet.ts";
 import { FormatRupiah } from "../../../../components/rupiah/rupiahFormat.ts";
 
 interface DetailProductViewProps {
@@ -40,7 +39,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
   size = "5xl",
 }) => {
   const { getProductByID, getproductDetail } = ProductViewModelGet();
-  const { API_URL_PRODUCT_IMAGE } = API_FRONTEND();
+  const { DisplayBase64 } = ImageBase64();
   const { formatDate } = DateComponenttt();
 
   useEffect(() => {
@@ -311,7 +310,7 @@ const DetailProductView: React.FC<DetailProductViewProps> = ({
                           width="100%"
                           alt={`Gallery ${index}`}
                           className="w-full object-cover h-[140px]"
-                          src={`${API_URL_PRODUCT_IMAGE}/${gallery.product_galeries_image}`}
+                          src={DisplayBase64(gallery.product_galeries_image)}
                         />
                       </CardBody>
                     </Card>

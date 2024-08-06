@@ -14,7 +14,6 @@ const API_FRONTEND = () => {
   const API_URL_PRODUCT_CREATE = "http://localhost:3000/product/create";
   const API_URL_PRODUCT_DELETE = "http://localhost:3000/product/delete";
   const API_URL_PRODUCT_UPDATE = "http://localhost:3000/product/update";
-  const API_URL_PRODUCT_IMAGE = "http://localhost:3000/product/product-image";
   const API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT = "http://localhost:3000/product/assign-to-discount";
   const API_URL_PRODUCT_REMOVE_PRODUCTDISCOUNT = "http://localhost:3000/product/remove-discount";
   const API_URL_PRODUCT_GET_ALL_BY_USERAUTH = "http://localhost:3000/product/getAllProductByUserAuth";
@@ -106,7 +105,6 @@ const API_FRONTEND = () => {
     API_URL_CATEGORYPRODUCT_CREATE,
     API_URL_CATEGORYPRODUCT_DELETE,
     API_URL_CATEGORYPRODUCT_UPDATE,
-    API_URL_PRODUCT_IMAGE,
     API_URL_PRODUCT_ASSIGN_PRODUCTDISCOUNT,
     API_URL_USEROLE_GET,
     API_URL_USEROLE_CREATE,
