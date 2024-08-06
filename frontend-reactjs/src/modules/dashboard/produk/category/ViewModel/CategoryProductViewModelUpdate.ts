@@ -1,3 +1,5 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import {
@@ -5,14 +7,12 @@ import {
   ShowModalCategoryProductDetailInterface,
 } from "../Interface/InterfaceCategoryProduct";
 import API_FRONTEND from "../../../../../api/api.ts";
-import axios from "axios";
-import Cookies from "js-cookie";
 import ImageBase64 from "../../../../../utils/imageBase64.ts";
 
 function CategoryProductViewModelUpdate({ onClose }) {
+  const { convertToBase64 } = ImageBase64();
   const { API_URL_CATEGORYPRODUCT_GET, API_URL_CATEGORYPRODUCT_UPDATE } =
     API_FRONTEND();
-  const { convertToBase64 } = ImageBase64();
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [categoryDetail, setCategoryDetail] =
     useState<ShowModalCategoryProductDetailInterface | null>(null);
@@ -37,7 +37,7 @@ function CategoryProductViewModelUpdate({ onClose }) {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0];
-    console.log(file)
+    console.log(file);
     if (file) {
       const base64 = await convertToBase64(file);
       setFormDataUpdate({ ...formDataUpdate, image: base64 });

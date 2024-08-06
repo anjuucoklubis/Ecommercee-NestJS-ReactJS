@@ -1,9 +1,10 @@
-import { useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
-import API_FRONTEND from "../../../../../api/api.ts";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import API_FRONTEND from "../../../../../api/api.ts";
+
 function CategoryProductViewModelDelete() {
   const { API_URL_CATEGORYPRODUCT_DELETE } = API_FRONTEND();
   const [itemToDelete, setItemToDelete] = useState<number | null>(null);

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
-import API_FRONTEND from "../../../../../api/api.ts";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import React, { useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import API_FRONTEND from "../../../../../api/api.ts";
+import ImageBase64 from "../../../../../utils/imageBase64.ts";
 
 function CategoryProductViewModelCreate({ onClose }) {
+  const { convertToBase64 } = ImageBase64();
   const { API_URL_CATEGORYPRODUCT_CREATE } = API_FRONTEND();
   const [showModalCreateCategory, setShowModalCreateCateogry] =
     React.useState(false);
@@ -96,25 +98,6 @@ function CategoryProductViewModelCreate({ onClose }) {
       const base64 = await convertToBase64(file);
       setFormData({ ...formData, image: base64 });
     }
-  };
-
-  const convertToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        if (fileReader.result) {
-          const base64String = fileReader.result as string;
-          const base64Data = base64String.split(",")[1];
-          resolve(base64Data);
-        } else {
-          reject(new Error("FileReader result is null"));
-        }
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
-    });
   };
 
   return {

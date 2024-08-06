@@ -1,11 +1,11 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import {
   GetCategoryProductAllInterface,
   GetCategoryProductDetailInterface,
 } from "../Interface/InterfaceCategoryProduct.js";
 import API_FRONTEND from "../../../../../api/api.ts";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 function CategoryProductViewModelGet() {
   const { API_URL_CATEGORYPRODUCT_GET } = API_FRONTEND();
