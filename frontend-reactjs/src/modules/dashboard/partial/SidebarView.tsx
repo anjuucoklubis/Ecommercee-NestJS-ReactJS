@@ -54,24 +54,22 @@ const SidebarView = () => {
           </MenuItem>
         )}
 
-        <SubMenu
-          title="Manage Landing"
-          label="Manage Landing"
-          icon={<Inventory />}
-          className="shadow-lg transform hover:scale-105 transition duration-500"
-        >
-          {isAdmin && (
+        {isAdmin && (
+          <SubMenu
+            title="Manage Landing"
+            label="Manage Landing"
+            icon={<Inventory />}
+            className="shadow-lg transform hover:scale-105 transition duration-500"
+          >
             <MenuItem
               icon={<Category />}
               className="shadow-lg transform hover:scale-90 transition duration-500"
             >
-              <Link to="/admin/carousel-admin">
-               Carousel
-              </Link>
+              <Link to="/admin/carousel-admin">Carousel</Link>
             </MenuItem>
-          )}
-        </SubMenu>
-
+          </SubMenu>
+        )}
+        
         <SubMenu
           title="Manage User"
           label="Manage User"
