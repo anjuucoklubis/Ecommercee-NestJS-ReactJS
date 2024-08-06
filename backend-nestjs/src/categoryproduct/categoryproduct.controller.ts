@@ -22,7 +22,6 @@ import {
   CreateCategoryProductRequest,
   UpdateCategoryProductRequest,
 } from 'src/model/categoryproduct.model';
-import { unlinkSync } from 'fs';
 import { WebResponse } from 'src/model/web.model';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -139,36 +138,8 @@ export class CategoryproductController {
 
   @Delete('/delete/:id')
   @UseGuards(JwtAuthGuard)
-  async remove(@Param('id') id: number, @Res() response: Response) {
-    const deletedRecord = await this.categoryproductService.remove(+id);
-
-    if (deletedRecord) {
-      const filePath = `./public/img/category/${deletedRecord.image}`;
-      try {
-        unlinkSync(filePath);
-        console.log(`Deleted image file: ${filePath}`);
-      } catch (error) {
-        console.error(`Error deleting image file: ${error}`);
-      }
-      const response = {
-        'INFORMATION-RESPONSE': {
-          REQUESTNAME: 'DELETE CATEGORY PRODUCT',
-          METHOD: 'DELETE',
-          'STATUS-RESPONSE': HttpStatus.OK,
-          url: 'http://127.0.0.1:3000/category-product/delete/id',
-        },
-        'RESPONSE-DATA': {
-          id: deletedRecord.id,
-          name: deletedRecord.name,
-          image: deletedRecord.image,
-          createdAt: deletedRecord.createdAt,
-          updatedAt: deletedRecord.updatedAt,
-        },
-      };
-      return response;
-    } else {
-      return response;
-    }
+  async remove(@Param('id') id: number) {
+    return await this.categoryproductService.remove(+id);
   }
 
   @Get('categoryproduct-image-home/:imageName')
