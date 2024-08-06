@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsBase64 } from 'class-validator';
 
 export class CreateCategoryProductRequest {
   @ApiProperty({
@@ -17,6 +18,7 @@ export class CreateCategoryProductRequest {
     example: 'image.jpg',
     description: 'city of the category product created',
   })
+  @IsBase64()
   image: string;
 }
 
@@ -37,6 +39,7 @@ export class UpdateCategoryProductRequest {
     example: 'image.jpg',
     description: 'city of the category product updated',
   })
+  @IsBase64()
   image?: string;
 }
 

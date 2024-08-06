@@ -13,7 +13,6 @@ import {
   UploadedFile,
   HttpException,
   UseInterceptors,
-  ParseFilePipeBuilder,
 } from '@nestjs/common';
 import { join } from 'path';
 import { Observable, of } from 'rxjs';
@@ -31,8 +30,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { StorageUploadCategory } from 'src/utils/storage-upload';
 import { CategoryproductService } from './categoryproduct.service';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-
-const MAX_IMAGE_UPLOAD = 5 * 1024 * 1024;
 
 @ApiTags('Category Product')
 @Controller('categoryproduct')
@@ -54,21 +51,10 @@ export class CategoryproductController {
   })
   @HttpCode(200)
   async create(
-    @UploadedFile(
-      new ParseFilePipeBuilder()
-        .addFileTypeValidator({ fileType: /image\/(jpeg|png)/ })
-        .addMaxSizeValidator({ maxSize: MAX_IMAGE_UPLOAD })
-        .build({ errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY }),
-    )
-    file: Express.Multer.File,
     @Body() request: CreateCategoryProductRequest,
   ): Promise<WebResponse<CategoryProductResponse>> {
     try {
-      if (!file || !file.filename) {
-        throw new Error('No image file uploaded');
-      }
-      request.image = file.filename;
-      const result = await this.categoryproductService.create(file, request);
+      const result = await this.categoryproductService.create(request);
       return {
         data: result,
       };

@@ -11,6 +11,7 @@ import {
 import { MdOutlineCategory } from "react-icons/md";
 import CategoryProductViewModelCreate from "./ViewModel/CategoryProductViewModelCreate.ts";
 import { IoImagesOutline } from "react-icons/io5";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface AddCategoryProductViewProps {
   isOpen: boolean;
@@ -24,9 +25,10 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
   const {
     handleSubmitCreateCategoryProduct,
     handleInputChange,
-    handleImageChange,
+    handleImageFileChange,
     formData,
   } = CategoryProductViewModelCreate({ onClose });
+  const { DisplayBase64 } = ImageBase64();
 
   return (
     <div>
@@ -64,6 +66,7 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
+                accept=".jpeg, .png, .jpg"
               />
               <div
                 className="col-span-2"
@@ -121,7 +124,7 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
                       id="dropzone-file"
                       type="file"
                       className="hidden"
-                      onChange={handleImageChange}
+                      onChange={handleImageFileChange}
                     />
                   </label>
                 </div>
@@ -132,7 +135,7 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
                     Preview
                   </label>
                   <img
-                    src={URL.createObjectURL(formData.image)}
+                    src={DisplayBase64(formData.image)}
                     alt="Preview"
                     className="max-w-full h-auto max-h-24 rounded-lg"
                   />
@@ -140,7 +143,7 @@ const AddCategoryProductView: React.FC<AddCategoryProductViewProps> = ({
               )}
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="flat" onPress={onClose}>
+              <Button color="danger" variant="flat" onClick={onClose}>
                 Close
               </Button>
               <Button type="submit" color="primary">

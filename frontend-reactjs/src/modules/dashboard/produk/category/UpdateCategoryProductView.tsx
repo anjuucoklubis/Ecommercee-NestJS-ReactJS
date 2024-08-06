@@ -8,10 +8,10 @@ import {
   ModalFooter,
   ModalContent,
 } from "@nextui-org/react";
-import API_FRONTEND from "../../../../api/api.ts";
 import { IoImagesOutline } from "react-icons/io5";
 import { MdOutlineCategory } from "react-icons/md";
 import CategoryProductViewModelUpdate from "./ViewModel/CategoryProductViewModelUpdate.ts";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface UpdateCategoryProductViewProps {
   categoryId: string;
@@ -33,7 +33,7 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
     handleImageChangeUpdateCategoryProduct,
   } = CategoryProductViewModelUpdate({ onClose });
 
-  const { API_URL_CATEGORYPRODUCT_IMAGE } = API_FRONTEND();
+  const { DisplayBase64 } = ImageBase64();
 
   useEffect(() => {
     if (categoryId) {
@@ -154,7 +154,7 @@ const UpdateCategoryProductView: React.FC<UpdateCategoryProductViewProps> = ({
                     Gambar saat ini
                   </label>
                   <img
-                    src={`${API_URL_CATEGORYPRODUCT_IMAGE}/${formDataUpdate.originalImage}`}
+                    src={DisplayBase64(formDataUpdate.originalImage)}
                     alt="Current"
                     className="max-w-full h-auto max-h-20 rounded-lg"
                   />

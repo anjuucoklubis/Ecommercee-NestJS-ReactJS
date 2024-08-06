@@ -10,11 +10,10 @@ import {
 } from "@nextui-org/react";
 import { MdOutlineCategory } from "react-icons/md";
 import { BsCalendar2Date } from "react-icons/bs";
-
 import { IoImagesOutline } from "react-icons/io5";
 import CategoryProductViewModelGet from "./ViewModel/CategoryProductViewModelGet.ts";
-import API_FRONTEND from "../../../../api/api.ts";
 import DateComponenttt from "../../../../components/date/date.ts";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface DetailCategoryProductViewProps {
   categoryId: string;
@@ -29,9 +28,8 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
 }) => {
   const { getCategoryByID, getcategoryDetail } = CategoryProductViewModelGet();
 
-  const { API_URL_CATEGORYPRODUCT_IMAGE } = API_FRONTEND();
   const { formatDate } = DateComponenttt();
-
+  const { DisplayBase64 } = ImageBase64();
   useEffect(() => {
     if (categoryId) {
       getCategoryByID(parseInt(categoryId, 10));
@@ -128,7 +126,7 @@ const DetailCategoryProductView: React.FC<DetailCategoryProductViewProps> = ({
                   />
                 </div>
                 <img
-                  src={`${API_URL_CATEGORYPRODUCT_IMAGE}/${getcategoryDetail?.image}`}
+                  src={DisplayBase64(getcategoryDetail?.image)}
                   alt="Preview"
                   className="max-w-full h-auto max-h-24 rounded-lg"
                 />

@@ -23,16 +23,9 @@ export class CategoryproductService {
   ) {}
 
   async create(
-    file: Express.Multer.File,
     request: CreateCategoryProductRequest,
   ): Promise<CategoryProductResponse> {
     try {
-      if (!file || !file.filename) {
-        throw new BadRequestException('No image file uploaded');
-      }
-      if (!file.mimetype.startsWith('image/')) {
-        throw new BadRequestException('Uploaded file is not an image');
-      }
       const createCategoryProductRequest: CreateCategoryProductRequest =
         this.validationService.validate(
           CategoryProductValidation.CREATE,
@@ -42,7 +35,6 @@ export class CategoryproductService {
       const createCategoryProduct = await this.prisma.categoryProduct.create({
         data: {
           ...createCategoryProductRequest,
-          image: file.filename,
           updatedAt: null,
         },
       });

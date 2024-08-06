@@ -12,11 +12,11 @@ function CategoryProductViewModelCreate({ onClose }) {
   const [formData, setFormData] = useState<{
     name: string;
     description: string;
-    image: File | null;
+    image: string;
   }>({
     name: "",
     description: "",
-    image: null,
+    image: "",
   });
 
   const handleSubmitCreateCategoryProduct = async (event) => {
@@ -38,17 +38,13 @@ function CategoryProductViewModelCreate({ onClose }) {
     }
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("image", formData.image);
-
       const response = await axios.post(
         API_URL_CATEGORYPRODUCT_CREATE,
-        formDataToSend,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -58,7 +54,7 @@ function CategoryProductViewModelCreate({ onClose }) {
         setFormData({
           name: "",
           description: "",
-          image: null,
+          image: "",
         });
         onClose();
 
@@ -92,21 +88,39 @@ function CategoryProductViewModelCreate({ onClose }) {
     });
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    console.log("Input file", file);
+  const handleImageFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
     if (file) {
-      setFormData((prevData) => ({
-        ...prevData,
-        image: file,
-      }));
+      const base64 = await convertToBase64(file);
+      setFormData({ ...formData, image: base64 });
     }
+  };
+
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        if (fileReader.result) {
+          const base64String = fileReader.result as string;
+          const base64Data = base64String.split(",")[1];
+          resolve(base64Data);
+        } else {
+          reject(new Error("FileReader result is null"));
+        }
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
   };
 
   return {
     handleSubmitCreateCategoryProduct,
     handleInputChange,
-    handleImageChange,
+    handleImageFileChange,
     formData,
     showModalCreateCategory,
     setShowModalCreateCateogry,
