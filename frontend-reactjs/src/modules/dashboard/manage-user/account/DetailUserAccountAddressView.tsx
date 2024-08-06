@@ -14,7 +14,6 @@ import {
   Badge,
   useDisclosure,
 } from "@nextui-org/react";
-import API_FRONTEND from "../../../../api/api.ts";
 import DateComponenttt from "../../../../components/date/date.ts";
 import GetAccountViewModel from "./ViewModel/GetAccountViewModel.ts";
 import { DataAccountIcon } from "../../../../components/icons/DataAccountIcon.jsx";
@@ -22,6 +21,7 @@ import { DataPersonalIcon } from "../../../../components/icons/DataPersonalIcon.
 import { DataAddressIcon } from "../../../../components/icons/DataAddressIcon.jsx";
 import ResetPasswordViewModel from "./ViewModel/ResetPasswordViewModel.ts";
 import { MdOutlineLockReset } from "react-icons/md";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface DetailUserAccountAddressViewProps {
   userId: string;
@@ -36,8 +36,8 @@ const DetailUserAccountAddressView: React.FC<
   const { getUserByID, getuserDetail } = GetAccountViewModel();
   const { handleConfirmResetPassword, handleCancelResetPassword, setUserId } =
     ResetPasswordViewModel();
-  const { API_URL_USER_PROFILE_IMAGE } = API_FRONTEND();
   const { formatDate } = DateComponenttt();
+  const { DisplayBase64 } = ImageBase64();
   const [isVertical, setIsVertical] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -215,7 +215,9 @@ const DetailUserAccountAddressView: React.FC<
                                     >
                                       {getuserDetail?.userprofile ? (
                                         <img
-                                          src={`${API_URL_USER_PROFILE_IMAGE}/${getuserDetail.userprofile.image}`}
+                                          src={DisplayBase64(
+                                            getuserDetail.userprofile.image
+                                          )}
                                           className="img-thumbnail"
                                           width="200"
                                           alt="Profile"

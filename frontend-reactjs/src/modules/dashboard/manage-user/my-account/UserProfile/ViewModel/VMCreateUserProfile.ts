@@ -5,8 +5,10 @@ import API_FRONTEND from "../../../../../../api/api.ts";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { DateValue } from "@nextui-org/react";
+import ImageBase64 from "../../../../../../utils/imageBase64.ts";
 
 function VMCreateUserProfile({ onClose }) {
+  const { convertToBase64 } = ImageBase64();
   const { API_URL_USER_PROFILE_CREATE } = API_FRONTEND();
   const [formData, setFormData] = useState<{
     firstname: string;
@@ -14,14 +16,14 @@ function VMCreateUserProfile({ onClose }) {
     gender: string;
     birthday: DateValue | null;
     telephone: string;
-    image: File | null;
+    image: string;
   }>({
     firstname: "",
     lastname: "",
     gender: "",
     birthday: null,
     telephone: "",
-    image: null,
+    image: "",
   });
 
   const handleSubmitCreateUserProfile = async (event) => {
@@ -86,7 +88,7 @@ function VMCreateUserProfile({ onClose }) {
           gender: "",
           birthday: null,
           telephone: "",
-          image: null,
+          image: "",
         });
         onClose();
 
@@ -136,10 +138,13 @@ function VMCreateUserProfile({ onClose }) {
     });
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     console.log("Image Changed:", file);
-    setFormData({ ...formData, image: file ?? null });
+    if (file) {
+      const base64 = await convertToBase64(file);
+      setFormData({ ...formData, image: base64 });
+    }
   };
 
   const handleGenderChange = (value: string) => {

@@ -5,8 +5,10 @@ import API_FRONTEND from "../../../../../../api/api.ts";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { DateValue } from "@nextui-org/react";
+import ImageBase64 from "../../../../../../utils/imageBase64.ts";
 
 function VMUpdateUserProfile({ onClose }) {
+  const { convertToBase64 } = ImageBase64();
   const { API_URL_USER_PROFILE_UPDATE } = API_FRONTEND();
   const [formData, setFormData] = useState<{
     firstname: string;
@@ -14,7 +16,7 @@ function VMUpdateUserProfile({ onClose }) {
     gender: string;
     birthday: DateValue | null;
     telephone: string;
-    image: File | string;
+    image: string;
   }>({
     firstname: "",
     lastname: "",
@@ -41,26 +43,23 @@ function VMUpdateUserProfile({ onClose }) {
     }
 
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("firstname", formData.firstname);
-      formDataToSend.append("lastname", formData.lastname);
-      formDataToSend.append("gender", formData.gender);
-      formDataToSend.append(
-        "birthday",
-        formData.birthday ? formData.birthday.toString() : ""
-      );
+      // formDataToSend.append("telephone", formData.telephone.replace(/\D/g, ""));
 
-      formDataToSend.append("telephone", formData.telephone.replace(/\D/g, ""));
-      if (formData.image) {
-        formDataToSend.append("image", formData.image);
-      }
+      const formattedBirthday = formData.birthday
+        ? formData.birthday.toString()
+        : "";
+
+      const formDataToSend = {
+        ...formData,
+        birthday: formattedBirthday,
+      };
 
       const response = await axios.patch(
         API_URL_USER_PROFILE_UPDATE,
         formDataToSend,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         }
@@ -124,12 +123,13 @@ function VMUpdateUserProfile({ onClose }) {
     });
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setFormData({
-      ...formData,
-      image: file,
-    });
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    console.log("Image Changed:", file);
+    if (file) {
+      const base64 = await convertToBase64(file);
+      setFormData({ ...formData, image: base64 });
+    }
   };
 
   const handleGenderChange = (event) => {

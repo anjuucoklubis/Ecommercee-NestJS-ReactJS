@@ -20,11 +20,12 @@ import { User } from "../manage-user/my-account/MyAccountInterface.ts";
 import { IoPowerOutline } from "react-icons/io5";
 import { HiOutlineHome } from "react-icons/hi2";
 import { FiUser } from "react-icons/fi";
+import ImageBase64 from "../../../utils/imageBase64.ts";
 
 const NavbarView = () => {
   const dispatch = useDispatch();
-  const { fetchUserProfile, API_URL_USER_PROFILE_IMAGE } = GetDataMyAccount();
-
+  const { fetchUserProfile } = GetDataMyAccount();
+  const { DisplayBase64 } = ImageBase64();
   const [protectedData, setProtectedData] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<User | null>(null);
@@ -46,7 +47,7 @@ const NavbarView = () => {
   }, []);
 
   const avatarUrl = profile?.userprofile
-    ? `${API_URL_USER_PROFILE_IMAGE}/${profile.userprofile.image}`
+    ? DisplayBase64(profile.userprofile.image)
     : "";
 
   const logout = async () => {

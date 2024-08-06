@@ -40,10 +40,9 @@ const API_FRONTEND = () => {
 
   const API_URL_IMAGESRC = `${API_URL}/category`;
 
-  /*MANAGEMENT URL USER PROFILE (3) */
+  /*MANAGEMENT URL USER PROFILE (2) */
   const API_URL_USER_PROFILE_CREATE = "http://localhost:3000/userprofile/profile-create";
   const API_URL_USER_PROFILE_UPDATE = "http://localhost:3000/userprofile/profile-update";
-  const API_URL_USER_PROFILE_IMAGE = "http://localhost:3000/userprofile/profile-image";
 
   /*MANAGEMENT URL USER ADDRESS (3) */
   const API_URL_USER_ADDRESS_CREATE = "http://localhost:3000/useraddress/address-create";
@@ -95,7 +94,6 @@ const API_FRONTEND = () => {
     API_URL_USER_ADDRESS_DELETE,
     API_URL_LOC_CITY,
     API_URL_LOC_PROVINCE,
-    API_URL_USER_PROFILE_IMAGE,
     API_URL_AUTH_CHANGEPASSWORD,
     API_URL_PRODUCT_GET,
     API_URL_PRODUCT_CREATE,

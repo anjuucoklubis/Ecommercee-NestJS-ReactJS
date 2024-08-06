@@ -18,6 +18,7 @@ import PhoneInput from "react-phone-number-input";
 import { PiUserPlusLight } from "react-icons/pi";
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
+import ImageBase64 from "../../../../../utils/imageBase64.ts";
 
 interface AddUserProfileViewProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
     handleImageChange,
     setFormData,
   } = VMCreateUserProfile({ onClose });
+  const { DisplayBase64 } = ImageBase64();
 
   return (
     <div>
@@ -211,7 +213,7 @@ const UserProfileCreateView: React.FC<AddUserProfileViewProps> = ({
                         Preview
                       </label>
                       <img
-                        src={URL.createObjectURL(formData.image)}
+                        src={DisplayBase64(formData.image)}
                         alt="Preview"
                         className="max-w-full h-auto max-h-24 rounded-lg"
                       />

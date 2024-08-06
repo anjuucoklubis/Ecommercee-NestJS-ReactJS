@@ -15,8 +15,6 @@ export const GetDataMyAccount = () => {
     return response.data.user;
   };
 
-  const { API_URL_USER_PROFILE_IMAGE } = API_FRONTEND();
-
   const [profile, setProfile] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,7 +35,6 @@ export const GetDataMyAccount = () => {
 
   return {
     fetchUserProfile,
-    API_URL_USER_PROFILE_IMAGE,
     profile,
     loading,
   };

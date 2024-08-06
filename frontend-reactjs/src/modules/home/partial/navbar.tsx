@@ -12,16 +12,15 @@ import { unauthenticateUser } from "../../../redux/slices/authSlice";
 import { IoPowerOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { GetDataMyAccount } from "../../dashboard/manage-user/my-account/ViewModel/GetDataMyAccount.ts";
-import API_FRONTEND from "../../../api/api.ts";
+import ImageBase64 from "../../../utils/imageBase64.ts";
 function Navbar() {
   const dispatch = useDispatch();
-  const { API_URL_USER_PROFILE_IMAGE } = API_FRONTEND();
-
+  const { DisplayBase64 } = ImageBase64();
   const { isAuth } = useIsAuth();
   const { profile } = GetDataMyAccount();
 
   const avatarUrl = profile?.userprofile
-    ? `${API_URL_USER_PROFILE_IMAGE}/${profile.userprofile.image}`
+    ? DisplayBase64(profile.userprofile.image)
     : "";
 
   const logout = async () => {
@@ -193,9 +192,7 @@ function Navbar() {
                               </div>
                               <div>
                                 <a href="/admin/dashboardhome-admin">
-                                  <p className="">
-                                    Dashboard
-                                  </p>
+                                  <p className="">Dashboard</p>
                                 </a>
                               </div>
                             </div>

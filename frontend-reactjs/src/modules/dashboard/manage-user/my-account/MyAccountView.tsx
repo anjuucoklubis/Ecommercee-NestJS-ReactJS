@@ -24,9 +24,10 @@ import VMDeleteUserAddress from "./UserAddress/ViewModel/VMDeleteUserAddress.ts"
 import ChangePasswordView from "../../../auth/changepassword/ChangePasswordView.tsx";
 import DateComponenttt from "../../../../../src/components/date/date.ts";
 import { MdOutlineChangeCircle } from "react-icons/md";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 const MyAccountView = () => {
-  const { fetchUserProfile, API_URL_USER_PROFILE_IMAGE } = GetDataMyAccount();
+  const { fetchUserProfile } = GetDataMyAccount();
   const {
     handleConfirmDelete,
     handleDeleteAddress,
@@ -43,6 +44,7 @@ const MyAccountView = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isOpenChangePassword, setIsOpenChangePassword] = useState(false);
   const { formatDate } = DateComponenttt();
+  const { DisplayBase64 } = ImageBase64();
 
   const handleEditProfile = (id) => {
     setIsOpenUpdateUserProfile(true);
@@ -149,7 +151,7 @@ const MyAccountView = () => {
                         </table>
                       </div>
                       <Button color="warning" onPress={handleChangePassword}>
-                        <MdOutlineChangeCircle size={25}/>
+                        <MdOutlineChangeCircle size={25} />
                         Change Password
                       </Button>
                     </div>
@@ -218,7 +220,9 @@ const MyAccountView = () => {
                               <div id="grid-system2-body" className="box-body">
                                 {profile?.userprofile ? (
                                   <img
-                                    src={`${API_URL_USER_PROFILE_IMAGE}/${profile.userprofile.image}`}
+                                    src={DisplayBase64(
+                                      profile.userprofile.image
+                                    )}
                                     className="img-thumbnail"
                                     width="200"
                                     alt="Profile"

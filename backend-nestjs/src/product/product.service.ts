@@ -102,7 +102,6 @@ export class ProductService {
         },
       })
       .then((product) => {
-        console.log('Product found:', product);
         return product;
       })
       .catch((error) => {

@@ -22,7 +22,7 @@ export interface userprofile {
   gender: string;
   birthday: string;
   telephone: string;
-  image: File | null;
+  image: string;
 }
 
 export interface Useraddress {

@@ -7,7 +7,7 @@ export class UserProfileValidation {
     gender: z.string().min(1).max(225),
     birthday: z.string().min(1).max(225),
     telephone: z.string().min(1).max(225),
-    image: z.string().min(1).max(225),
+    image: z.string().min(1),
   });
 
   static readonly UPDATE: ZodType = z.object({
@@ -16,6 +16,6 @@ export class UserProfileValidation {
     gender: z.string().min(1).max(225).optional(),
     birthday: z.string().min(1).max(225).optional(),
     telephone: z.string().min(1).max(225).optional(),
-    image: z.string().min(1).max(225).optional(),
+    image: z.string().min(1).optional(),
   });
 }

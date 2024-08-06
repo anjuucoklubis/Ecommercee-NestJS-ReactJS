@@ -17,24 +17,15 @@ export class UserprofileService {
   ) {}
   async createProfile(
     userId: string,
-    file: Express.Multer.File,
     request: CreateUserProfileRequest,
   ): Promise<UserProfileResponse> {
     try {
-      if (!file || !file.filename) {
-        throw new BadRequestException('No image file uploaded');
-      }
-      if (!file.mimetype.startsWith('image/')) {
-        throw new BadRequestException('Uploaded file is not an image');
-      }
-
       const createUserPersonalRequest: CreateUserProfileRequest =
         this.validationService.validate(UserProfileValidation.CREATE, request);
 
       const createUserProfile = await this.prisma.userprofile.create({
         data: {
           ...createUserPersonalRequest,
-          image: file.filename,
           user: {
             connect: { id: userId },
           },
@@ -55,12 +46,6 @@ export class UserprofileService {
     } catch (error) {
       throw new Error('Failed to create profile: ' + error.message);
     }
-  }
-
-  async getProfileByIdForUpdate(userId: string) {
-    return this.prisma.userprofile.findUnique({
-      where: { userId },
-    });
   }
 
   async updateProfile(

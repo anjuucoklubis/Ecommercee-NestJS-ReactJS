@@ -129,7 +129,7 @@ model Userprofile {
   gender    String? @db.VarChar(255)
   birthday  String? @db.VarChar(255)
   telephone String? @db.VarChar(255)
-  image     String? @db.VarChar(255)
+  image     String? @db.LongText
 
   updateAt DateTime @updatedAt()
 
