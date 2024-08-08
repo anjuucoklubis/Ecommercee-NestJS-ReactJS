@@ -69,7 +69,18 @@ export class CarouselController {
     return this.carouselService.findAll();
   }
 
+  @Get('/getforLanding')
+  @ApiOkResponse({
+    description: 'OK',
+    type: CarouselResponse,
+  })
+  @HttpCode(200)
+  findAllforLanding() {
+    return this.carouselService.findAll();
+  }
+
   @Get('/get/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({
     description: 'OK',
     type: CarouselResponse,
@@ -80,6 +91,7 @@ export class CarouselController {
   }
 
   @Patch('update/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({
     description: 'OK',
     type: CarouselResponse,
@@ -127,6 +139,7 @@ export class CarouselController {
   }
 
   @Delete('/delete/:id')
+  @UseGuards(JwtAuthGuard)
   @ApiOkResponse({
     description: 'OK',
     type: CarouselResponse,

@@ -43,8 +43,8 @@ function UpdateCarouselViewModel({ onClose }) {
 
       img.onload = () => {
         const { width, height } = img;
-        const isValidWidth = width >= 900 && width <= 1200;
-        const isValidHeight = height >= 180 && height <= 300;
+        const isValidWidth = width >= 900 && width <= 5000;
+        const isValidHeight = height >= 180 && height <= 2600;
         resolve(isValidWidth && isValidHeight);
       };
 
