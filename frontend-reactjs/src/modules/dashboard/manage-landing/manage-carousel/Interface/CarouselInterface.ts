@@ -18,7 +18,7 @@ export interface GetCarouselDetailInterface {
 export interface FormDataUpdateCarouselProductInterface{
   name: string;
   isActive: string;
-  image: File | null;
+  image: string;
   originalImage: string;
 }
 

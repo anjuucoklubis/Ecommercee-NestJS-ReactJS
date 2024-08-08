@@ -72,7 +72,6 @@ const API_FRONTEND = () => {
    const API_URL_CAROUSEL_CREATE = "http://localhost:3000/carousel/create"; 
    const API_URL_CAROUSEL_UPDATE = "http://localhost:3000/carousel/update"; 
    const API_URL_CAROUSEL_DELETE = "http://localhost:3000/carousel/delete";  
-   const API_URL_CAROUSEl_IMAGE = "http://localhost:3000/carousel/carousel-image";
 
 
 
@@ -125,8 +124,6 @@ const API_FRONTEND = () => {
     API_URL_CAROUSEL_CREATE,
     API_URL_CAROUSEL_UPDATE,
     API_URL_CAROUSEL_DELETE,
-    API_URL_CAROUSEl_IMAGE
-    
   };
 };
 

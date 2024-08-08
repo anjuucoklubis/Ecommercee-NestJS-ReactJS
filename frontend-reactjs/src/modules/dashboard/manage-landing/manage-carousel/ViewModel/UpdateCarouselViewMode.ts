@@ -7,8 +7,10 @@ import {
 import API_FRONTEND from "../../../../../api/api.ts";
 import axios from "axios";
 import Cookies from "js-cookie";
+import ImageBase64 from "../../../../../utils/imageBase64.ts";
 
 function UpdateCarouselViewModel({ onClose }) {
+  const { convertToBase64 } = ImageBase64();
   const { API_URL_CAROUSEL_GET, API_URL_CAROUSEL_UPDATE } = API_FRONTEND();
   const [carouselId, setCarouselId] = useState<number | null>(null);
   const [carouselDetail, setCarouselDetail] =
@@ -17,7 +19,7 @@ function UpdateCarouselViewModel({ onClose }) {
     useState<FormDataUpdateCarouselProductInterface>({
       name: "",
       isActive: "",
-      image: null,
+      image: "",
       originalImage: "",
     });
 
@@ -30,13 +32,43 @@ function UpdateCarouselViewModel({ onClose }) {
     });
   };
 
-  const handleImageChangeUpdateCarouselProduct = (event) => {
-    const file = event.target.files[0];
-    console.log(file);
-    setFormDataUpdate({
-      ...formDataUpdate,
-      image: file,
+  const isValidImageSize = (file: File): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        img.src = reader.result as string;
+      };
+
+      img.onload = () => {
+        const { width, height } = img;
+        const isValidWidth = width >= 900 && width <= 1200;
+        const isValidHeight = height >= 180 && height <= 300;
+        resolve(isValidWidth && isValidHeight);
+      };
+
+      img.onerror = () => reject(false);
+      reader.readAsDataURL(file);
     });
+  };
+
+  const handleImageChangeUpdateCarouselProduct = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
+    console.log("Input file", file);
+    if (file) {
+      const isValidSize = await isValidImageSize(file);
+      if (isValidSize) {
+        const base64 = await convertToBase64(file);
+        setFormDataUpdate({ ...formDataUpdate, image: base64 });
+      } else {
+        toast.error(
+          "Gambar harus memiliki ukuran lebar antara 1100 hingga 1200 dan tinggi antara 180 hingga 200."
+        );
+      }
+    }
   };
 
   const handleShowDetailCarousel = async (carouselId: number) => {
@@ -64,7 +96,7 @@ function UpdateCarouselViewModel({ onClose }) {
         setFormDataUpdate({
           name: data.name,
           isActive: data.isActive,
-          image: null,
+          image: data.image,
           originalImage: data.image,
         });
       } else {
@@ -81,15 +113,14 @@ function UpdateCarouselViewModel({ onClose }) {
       const formData = new FormData();
       formData.append("name", formDataUpdate.name);
       formData.append("isActive", formDataUpdate.isActive);
-      if (formDataUpdate.image instanceof File) {
-        formData.append("image", formDataUpdate.image);
-      }
+      formData.append("image", formDataUpdate.image);
 
       const response = await axios.patch(
         `${API_URL_CAROUSEL_UPDATE}/${carouselId}`,
         formData,
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${Cookies.get("token")}`,
           },
         }

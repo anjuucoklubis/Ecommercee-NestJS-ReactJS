@@ -1,22 +1,29 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCarouselRequest {
   @ApiProperty({
     example: 'Carousel 1',
     description: 'name of the carousel created',
   })
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({
     example: 'carousel.png',
     description: 'image of the carousel created',
   })
+  @IsString()
+  @IsNotEmpty()
   image: string;
 
   @ApiProperty({
     example: 'true',
     description: 'isActive of the carousel created',
   })
+  @IsString()
+  @IsNotEmpty()
   isActive: string;
 }
 

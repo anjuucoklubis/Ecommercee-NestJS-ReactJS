@@ -11,9 +11,9 @@ import {
 import { BiCarousel } from "react-icons/bi";
 import { BsCalendar2Date } from "react-icons/bs";
 import { IoImagesOutline } from "react-icons/io5";
-import API_FRONTEND from "../../../../api/api.ts";
 import DateComponenttt from "../../../../components/date/date.ts";
 import GetCarouselViewMode from "./ViewModel/GetCarouselViewMode.ts";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface DetailCarouselViewProps {
   carouselId: string;
@@ -28,7 +28,7 @@ const DetailCarouselView: React.FC<DetailCarouselViewProps> = ({
 }) => {
   const { getCarouselByID, getCarouselDetail } = GetCarouselViewMode();
 
-  const { API_URL_CAROUSEl_IMAGE } = API_FRONTEND();
+  const { DisplayBase64 } = ImageBase64();
   const { formatDate } = DateComponenttt();
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const DetailCarouselView: React.FC<DetailCarouselViewProps> = ({
                   />
                 </div>
                 <img
-                  src={`${API_URL_CAROUSEl_IMAGE}/${getCarouselDetail?.image}`}
+                  src={DisplayBase64(getCarouselDetail?.image)}
                   alt="Preview"
                   className="max-w-full h-auto max-h-24 rounded-lg"
                 />

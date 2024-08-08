@@ -11,6 +11,7 @@ import {
 import { BiCarousel } from "react-icons/bi";
 import { IoImagesOutline } from "react-icons/io5";
 import CreateCarouselViewModel from "./ViewModel/CreateCarouselViewMode.ts";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface CreateCarouselViewProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ const CreateCarouselView: React.FC<CreateCarouselViewProps> = ({
     handleImageChange,
     formData,
   } = CreateCarouselViewModel({ onClose });
+  const { DisplayBase64 } = ImageBase64();
 
   return (
     <div>
@@ -58,8 +60,7 @@ const CreateCarouselView: React.FC<CreateCarouselViewProps> = ({
                   border: "2px solid #ccc",
                   borderRadius: "10px",
                   padding: "13px",
-                  color:
-                    formData.isActive === "1" ? "green" : "red",
+                  color: formData.isActive === "1" ? "green" : "red",
                 }}
               >
                 <option value="1" style={{ color: "black" }}>
@@ -136,7 +137,7 @@ const CreateCarouselView: React.FC<CreateCarouselViewProps> = ({
                     Preview
                   </label>
                   <img
-                    src={URL.createObjectURL(formData.image)}
+                    src={DisplayBase64(formData.image)}
                     alt="Preview"
                     className="max-w-full h-auto max-h-24 rounded-lg"
                   />

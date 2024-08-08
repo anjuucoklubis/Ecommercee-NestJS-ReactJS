@@ -15,23 +15,13 @@ export class CarouselService {
     private prisma: PrismaService,
     private validationService: ValidationService,
   ) {}
-  async create(
-    file: Express.Multer.File,
-    request: CreateCarouselRequest,
-  ): Promise<CarouselResponse> {
+  async create(request: CreateCarouselRequest): Promise<CarouselResponse> {
     try {
-      if (!file || !file.filename) {
-        throw new BadRequestException('No image file uploaded');
-      }
-      if (!file.mimetype.startsWith('image/')) {
-        throw new BadRequestException('Uploaded file is not an image');
-      }
       const createCarouselRequest: CreateCarouselRequest =
         this.validationService.validate(CarouselValidation.CREATE, request);
       const createCarousel = await this.prisma.carousel.create({
         data: {
           ...createCarouselRequest,
-          image: file.filename,
           updateAt: null,
         },
       });

@@ -10,8 +10,8 @@ import {
 } from "@nextui-org/react";
 import { BiCarousel } from "react-icons/bi";
 import { IoImagesOutline } from "react-icons/io5";
-import API_FRONTEND from "../../../../api/api.ts";
 import UpdateCarouselViewModel from "./ViewModel/UpdateCarouselViewMode.ts";
+import ImageBase64 from "../../../../utils/imageBase64.ts";
 
 interface UpdateCarouselViewProps {
   carouselId: number;
@@ -32,13 +32,13 @@ const UpdateCarouselView: React.FC<UpdateCarouselViewProps> = ({
     handleImageChangeUpdateCarouselProduct,
   } = UpdateCarouselViewModel({ onClose });
 
-  const { API_URL_CAROUSEl_IMAGE } = API_FRONTEND();
+  const { DisplayBase64 } = ImageBase64();
 
   useEffect(() => {
     if (carouselId) {
       handleShowDetailCarousel(carouselId);
     }
-  }, [carouselId, ]);
+  }, [carouselId]);
 
   return (
     <div>
@@ -157,7 +157,7 @@ const UpdateCarouselView: React.FC<UpdateCarouselViewProps> = ({
                     Gambar saat ini
                   </label>
                   <img
-                    src={`${API_URL_CAROUSEl_IMAGE}/${formDataUpdate.originalImage}`}
+                    src={DisplayBase64(formDataUpdate.originalImage)}
                     alt="Current"
                     className="max-w-full h-auto max-h-20 rounded-lg"
                   />
@@ -168,7 +168,7 @@ const UpdateCarouselView: React.FC<UpdateCarouselViewProps> = ({
                       Preview
                     </label>
                     <img
-                      src={URL.createObjectURL(formDataUpdate.image)}
+                      src={DisplayBase64(formDataUpdate.image)}
                       alt="Preview"
                       className="max-w-full h-auto max-h-24 rounded-lg"
                     />

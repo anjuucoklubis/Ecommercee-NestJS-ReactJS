@@ -3,16 +3,18 @@ import API_FRONTEND from "../../../../../api/api.ts";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Cookies from "js-cookie";
+import ImageBase64 from "../../../../../utils/imageBase64.ts";
 
 function CreateCarouselViewModel({ onClose }) {
+  const { convertToBase64 } = ImageBase64();
   const { API_URL_CAROUSEL_CREATE } = API_FRONTEND();
   const [formData, setFormData] = useState<{
     name: string;
-    image: File | null;
+    image: string;
     isActive: string;
   }>({
     name: "",
-    image: null,
+    image: "",
     isActive: "0",
   });
 
@@ -42,10 +44,6 @@ function CreateCarouselViewModel({ onClose }) {
         "isActive",
         formData.isActive === "1" ? "true" : "false"
       );
-      // const parsedFormData = {
-      //   ...formDataToSend,
-      //   isActive: formData.isActive === "1",
-      // };
 
       const response = await axios.post(
         API_URL_CAROUSEL_CREATE,
@@ -53,6 +51,7 @@ function CreateCarouselViewModel({ onClose }) {
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -61,7 +60,7 @@ function CreateCarouselViewModel({ onClose }) {
       if (response.status === 200) {
         setFormData({
           name: "",
-          image: null,
+          image: "",
           isActive: "0",
         });
         onClose();
@@ -96,14 +95,40 @@ function CreateCarouselViewModel({ onClose }) {
     }
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
+  const isValidImageSize = (file: File): Promise<boolean> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        img.src = reader.result as string;
+      };
+
+      img.onload = () => {
+        const { width, height } = img;
+        const isValidWidth = width >= 900 && width <= 1200;
+        const isValidHeight = height >= 180 && height <= 300;
+        resolve(isValidWidth && isValidHeight);
+      };
+
+      img.onerror = () => reject(false);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     console.log("Input file", file);
     if (file) {
-      setFormData((prevData) => ({
-        ...prevData,
-        image: file,
-      }));
+      const isValidSize = await isValidImageSize(file);
+      if (isValidSize) {
+        const base64 = await convertToBase64(file);
+        setFormData({ ...formData, image: base64 });
+      } else {
+        toast.error(
+          "Gambar harus memiliki ukuran lebar antara 1100 hingga 1200 dan tinggi antara 180 hingga 200."
+        );
+      }
     }
   };
 
